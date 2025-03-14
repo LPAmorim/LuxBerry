@@ -4,4 +4,4 @@
 
 # protótipo home
 
-![home](https://user-images.githubusercontent.com/104055513/165919771-7123263e-227a-4181-84c1-21536101a524.png)
+![home](https://github.com/Lukascomka/luxberry/blob/main/Documentacao_Projeto/Prototipo_site/imagens%20prototipo%20projeto/HomePage.png)
