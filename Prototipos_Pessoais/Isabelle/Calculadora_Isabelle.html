@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira - Morangos e Sensores</title>
+</head>
+<body>
+    <h2>Calculadora Financeira - Morangos e Sensores</h2>
+
+    <p>Área cultivada (m²):</p>
+    <input id="ipt_area" type="number"><br><br>
+
+    <p>Intensidade de luz (lux):</p>
+    <input id="ipt_luz" type="number"><br><br>
+
+    <p>Cobertura do sensor (m² por sensor):</p>
+    <input id="ipt_sensor" type="number"><br><br>
+
+    <button onclick="calcular()">Calcular</button>
+
+    <script>
+        function calcular() {
+            var area = Number(ipt_area.value);
+            var luz = Number(ipt_luz.value);
+            var sensor = Number (ipt_sensor.value);
+            
+            if (area > 0 && luz > 0 && sensor > 0) {
+                var sensores_necessarios = (area / sensor);
+                alert("Você precisará de " + sensores_necessarios + " sensores para cobrir a área.");
+            } else {
+                alert("Por favor, insira valores válidos.");
+            }
+        }
+    </script>
+</body>
+</html>
