@@ -27,19 +27,20 @@
         var prejuizo = colheita * perda * 0.01; // o quanto ele perde em kg
         var valor_prejuizo = prejuizo * preco; // o qnt ele perde em reais
         var solucao = prejuizo * 0.5; // o quanto ele evita de perder
+        
         var valorlucro = (prejuizo - solucao) * preco; // o quanto ele evita de perder em reais
-        var valorfinal = valor + valorlucro; // o quanto que ele vai receber na venda de tudo
+        var valorfinal =(colheita - prejuizo + solucao) * valor; // o quanto que ele vai receber na venda de tudo
 
 
         if (colheita < 0) {
-            alert('Por favor, insira uma porcentagem de perda válida');
-            div_resultador.innerHTML = ``;
+            alert('Por favor, insira um valor de colheita válida');
+            div_resultado.innerHTML = ``;
             } else if (perda < 0 || perda > 100) {
                 alert('Por favor, insira uma porcentagem de perda válida');
-            div_resultador.innerHTML = ``;
+            div_resultado.innerHTML = ``;
             } else if (preco < 0 || preco > 1000) {
                 alert('Por favor, insira um preço válido');
-            div_resultador.innerHTML = ``;
+            div_resultado.innerHTML = ``;
             } else {
                 div_resultado.innerHTML = 
                 `De acordo com os valores fornecidos, o produtor tem uma perda de cerca de ${prejuizo}Kg do total de ${colheita}Kg de morangos produzidos.<br>Ou seja, o produtor perde anualmente em torno de R$${valor_prejuizo.toFixed(2)}.<br>Ao aplicar o nosso projeto, o produtor poderá evitar a perda de em média 50% das frutas perdidas, que aqui representam ${solucao}Kg, ou seja o produtor no final terá um lucro total de R$${valorfinal.toFixed(2)} com a venda dos morangos e terá evitado perder R$${valorlucro.toFixed(2)} ao longo do ano.
