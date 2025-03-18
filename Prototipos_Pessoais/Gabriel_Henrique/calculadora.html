@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora financeira (Gabriel)</title>
+</head>
+<body>
+    <h1>Calculadora financeira</h1>
+
+    <p>Insira a quantidade de Micromoles* por m2 recebida:</p>
+    <input type="number" id="ipt_quant_micromoles_rebecida">
+    
+    <p>Insira o tempo (em horas) que a estufa recebe Micromoles*: </p>
+    <input type="number" id="ipt_tempo_micromoles_rebecida"> 
+    
+    <p>(Micromoles: unidade de medida usada em fotossíntese para quantificar a quantidade de fótons (partículas de luz) disponíveis para as plantas.)</p>
+
+    <button onclick="verificar()">Verificação sobre sua estufa</button> 
+   
+    <div id="div_exibir"></div>
+
+</body>
+</html>
+
+<script>
+    function verificar(){
+        // Variáveis dos inputs  
+        var quantMicromoles  = Number(ipt_quant_micromoles_rebecida.value);
+        var tempoMicromoles  = Number(ipt_tempo_micromoles_rebecida.value);
+
+        // Uma variável ternária, ou seja, é como se fosse um "if", "else if" e "else".
+        // No caso abaixo, é para ver se o tempo inserido é satisfatório, está acima ou abaixo do
+        // recomendado.       
+        var respostaParaTempo = (tempoMicromoles >= 12 && tempoMicromoles <= 16) 
+            ? `O tempo inserido é satisfatório.` 
+            : (tempoMicromoles < 12) 
+                ? `O tempo inserido está abaixo do tempo necessário, podendo interferir na qualidade
+                dos morangos.` 
+                : `O tempo inserido está acima do tempo necessário, podendo interferir na qualidade dos morangos.`;
+
+        // Outra variável ternária.
+        // No caso abaixo, é para ver se a quantidade de Micromoles inserido é satisfatória, está acima
+        // ou abaixo do recomendado.  
+        var respostaParaQuant = (quantMicromoles >= 200 && quantMicromoles <= 400)
+          ? `A quantidade é satisfatória.`
+          : (quantMicromoles < 200)
+                ? `A quantidade inserida está abaixo do aconselhável, podendo resultar na redução da 
+                fotossíntese em até 40%.`
+                : `A quantidade inserida está acima do aconselhável, podendo resultar na queimaduras dos
+                morangos, os tornando impróprios para a venda`;
+
+
+        // A resposta sobre a quantidade de micromoles colocados.
+        div_exibir.innerHTML = ` <br> Os morangos que são de estufas, precisam receber uma quantidade certa de Micromoles, cerca de 200 a 400 por metro quadrado por segundo. Logo, ${respostaParaQuant}<br> <br>`;
+
+        // A resposta sobre o tempo de micromoles colocados.
+        div_exibir.innerHTML += `A média de tempo para iluminação em estufas de morangos variam de
+        12 a 16 horas, então, ${respostaParaTempo}`;
+
+    }
+</script>
