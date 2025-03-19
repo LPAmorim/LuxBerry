@@ -3,7 +3,7 @@
 ### Projeto de desenvolvimento realizado na faculdade SPTECH, na disciplina de Pesquisa e Inovação. A equipe de desenvolvimento é formada por:
 - GABRIEL HENRIQUE
 - ISABELLE CONSTANTINO
-- JOÃO VICTO
+- JOÃO VICTOR
 - LUCAS HIDEAKI
 - LUKAS DA MOTA
 - MARIA EDUARDA
