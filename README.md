@@ -14,6 +14,3 @@ sensores de luz, capaz de monitorar em tempo real a luminosidade em estufas de a
 >           Resultado.
 </center>
 
-## Protótipo home
-
-![home](https://github.com/Lukascomka/luxberry/blob/main/Documentacao_Projeto/Prototipo_site/imagens%20prototipo%20projeto/HomePage.png)
