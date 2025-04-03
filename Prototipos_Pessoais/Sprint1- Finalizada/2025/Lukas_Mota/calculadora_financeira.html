@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcuadora Financeira PI</title>
+</head>
+
+<body>
+    <h1>Calculadora</h1>
+
+    <p>
+        Escolha o tipo de Luz da sua estufa:
+    </p> <input type="text" placeholder="Luz natural ou luz artificial" id="ipt_tipo_de_luz"><br><br>
+
+    <p>
+        Digite o m² de sua estufa:
+    </p> <input type="number" placeholder="M² da sua estufa" id="ipt_metros_da_estufa"><br><br>
+
+    <p>
+        Digite o quanto de perca por safra na sua colheita:
+    </p>
+    <input type="number" id="ipt_perda_por_safra" placeholder="Perca por safra"><br><br>
+
+    <p>
+        Atualmente você controla a Luminosidade da sua estufa:
+    </p>
+    <input type="text" id="ipt_controlaLuminosidade" placeholder="sim ou não"><br><br>
+
+    <button onclick="Calcular()">Calcular</button><br><br>
+    <div id="output"></div>
+</body>
+
+</html>
+
+
+<script>
+    function Calcular() {
+
+
+
+
+
+        var tempoDeColheiaAnual = 365;
+        var TempoDeColheitaComLuzNatural = 140;
+        var tempodDeColheitaComLed = 90;
+
+
+        var ComparacaoTempoDeColheitaNatural = 0;
+        var ComparacaoTempoDeColheitaLed = 0;
+        var comparcaoEntreLedeNatural = 0;
+
+
+
+        var tipodeLuz = (ipt_tipo_de_luz.value).trim().toUpperCase();
+
+        var metragemEstufa = Number(ipt_metros_da_estufa.value);
+
+
+        var PercaPorSafra = Number(ipt_perda_por_safra.value);
+
+        var controlaLuminosidade = (ipt_controlaLuminosidade.value).toLowerCase();
+
+
+
+        if (tipodeLuz === "LUZ DO SOL" || tipodeLuz === "LUZ NATURAL" || tipodeLuz === "LUZ SOLAR") {
+
+
+            ComparacaoTempoDeColheitaNatural = TempoDeColheitaComLuzNatural / tempoDeColheiaAnual;
+
+            ComparacaoTempoDeColheitaLed = tempodDeColheitaComLed / tempoDeColheiaAnual;
+            comparcaoEntreLedeNatural = TempoDeColheitaComLuzNatural;
+
+
+
+
+        }
+
+        else if (tipodeLuz === "LUZ DE LED" || tipodeLuz === `LUZ ARTIFICIAL` || tipodeLuz === `LUZ VERMELHA` || tipodeLuz === `LED`) {
+
+            ComparacaoTempoDeColheitaNatural = TempoDeColheitaComLuzNatural / tempoDeColheiaAnual;
+
+            ComparacaoTempoDeColheitaLed = tempodDeColheitaComLed / tempoDeColheiaAnual;
+            comparcaoEntreLedeNatural = tempodDeColheitaComLed;
+
+
+
+        }
+
+        else {
+            alert(`Tipo de Luz invalido, escolha outro tipo de luz como "Luz solar" ou "Luz artificial"`);
+
+        }
+
+
+        // -----------------------------------------------------------------------------------------------------------------------------------
+
+        var qtdDeArduino = metragemEstufa / 4;
+
+        if (metragemEstufa >= 1 && metragemEstufa <= 10) {
+            qtdDeArduino *= 1.1
+
+        }
+        else if (metragemEstufa >= 11 && metragemEstufa <= 20) {
+            qtdDeArduino *= 1.2;
+
+        }
+        else {
+            qtdDeArduino *= 1.3;
+        }
+
+        // -----------------------------------------------------------------------------------------------------------------------------------
+
+
+        if (controlaLuminosidade === 'sim') {
+
+            PercaPorSafra *= 0.95;
+            output.innerHTML = `
+        Atualmente o tipo de luz que você utiliza é ${tipodeLuz}, atualmente o tempo de colheita é de ${comparcaoEntreLedeNatural} dias.
+        <br>
+        A metragem da sua estufa é de ${metragemEstufa.toFixed(2)} metros quadrados,<br> e atualmente você controla a luminosidade da sua estufa, <br>reduzindo as percas em ${PercaPorSafra.toFixed(2)}%.
+        `;
+        };
+
+        if (controlaLuminosidade === 'não' || controlaLuminosidade === "nao") {
+
+            PercaPorSafra *= 1.0;
+
+            output.innerHTML = `
+
+        Atualmente o tipo de luz que você utiliza é ${tipodeLuz}, atualmente o tempo de colheita é de ${comparcaoEntreLedeNatural} dias.
+        <br>
+        A metragem da sua estufa é de ${metragemEstufa.toFixed(2)} metros quadrados, <br>e atualmente você não controla a luminosidade da sua estufa,<br> oque gera uma perda de ${PercaPorSafra.toFixed(2)}% da sua safra. <br>
+      Quantidade de sensores recomendada para sua estufa é de ${qtdDeArduino.toFixed(3)}.
+
+            `;
+
+        }
+
+        else {
+            alert(`Informe se você controla a luminosidade da sua estufa`);
+        }
+
+
+
+        output.innerHTML += `<br><br><br>
+        Entre em contato conosco para uma avaliação de nossos serviços. 
+        
+        `;
+
+
+    }
+
+
+</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador Financeiro - Lucas Hideaki</title>
+  </head>
+  <body>
+    <p>Simulador Financeiro</p>
+    <p>
+      Utilize esse simulador financeiro para estimar as perdas por iluminação
+      inadequada em uma estufa de morango.
+    </p>
+    <p>Qual a quantidade de morangos produzidos em média por mês (em Kg)?</p>
+    <input type="number" id="ipt_mediaMensalMorangos" />
+    <p>Qual a média mensal de perdas de morangos (em Kg)?</p>
+    <input type="number" id="ipt_mediaPerdaMensalMorangos" />
+    <p>Por quanto você vende o quilo do morango (R$/Kg)?</p>
+    <input type="number" id="ipt_precoMorangosPorQuilo" />
+    <button onclick="calcularPerdas()">Calcular</button>
+    <div id="div_mensagemCalculadora"></div>
+  </body>
+</html>
+<script>
+  function calcularPerdas() {
+    var mediaMensalMorangos = Number(ipt_mediaMensalMorangos.value);
+    var mediaPerdaMensalMorangos = Number(ipt_mediaPerdaMensalMorangos.value);
+    var precoMorangosPorQuilo = Number(ipt_precoMorangosPorQuilo.value);
+
+    console.log("Média mensal de produção de morangos: " + mediaMensalMorangos);
+    console.log(
+      "Média mensal de perda de morangos: " + mediaPerdaMensalMorangos
+    );
+    console.log("Preço do morango o quilo: R$" + precoMorangosPorQuilo);
+
+    div_mensagemCalculadora.innerHTML = `
+    
+<b style = 'color: red'></b>
+
+    <br>Com base nos valores fornecidos, <b style = 'color: red'>${mediaPerdaMensalMorangos} Kg</b> de morangos perdidos representam <b style = 'color: red'>${
+      (mediaPerdaMensalMorangos.toFixed(2) / mediaMensalMorangos.toFixed(2)) *
+      100
+    }%</b> da média produzida mensalmente, ou seja, <b style = 'color: red'>R$${(
+      mediaPerdaMensalMorangos * precoMorangosPorQuilo
+    ).toFixed(
+      2
+    )}</b> de morangos são perdidos mensalmente, ou <b style = 'color: red'>R$${(
+      mediaPerdaMensalMorangos *
+      precoMorangosPorQuilo *
+      12
+    ).toFixed(2)}</b> em média anual.<br>
+    <br>O controle adequado da luminosidade pode reduzir as perdas de morangos em até 15%, diminuindo para <b style = 'color: red'>
+${mediaPerdaMensalMorangos * 0.85} Kg</b>, ou <b style = 'color: red'>R$${(
+      mediaPerdaMensalMorangos *
+      0.85 *
+      precoMorangosPorQuilo
+    ).toFixed(2)}</b>, uma diferença mensal de <b style = 'color: green'>R$${
+      (mediaPerdaMensalMorangos * precoMorangosPorQuilo).toFixed(2) -
+      (mediaPerdaMensalMorangos * 0.85 * precoMorangosPorQuilo).toFixed(2)
+    }</b> ou <b style = 'color: green'>R$${
+      (mediaPerdaMensalMorangos * precoMorangosPorQuilo * 12).toFixed(2) -
+      (mediaPerdaMensalMorangos * 0.85 * precoMorangosPorQuilo * 12).toFixed(2)
+    }</b> de diferença anual !
+
+    `;
+  }
+</script>
