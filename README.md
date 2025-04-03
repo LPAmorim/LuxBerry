@@ -14,7 +14,7 @@
 >         Aprimoramento
 >           Resultado.
 </center>
-
+<br><br>
 <div>
 <img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Home.png">
 
