@@ -16,12 +16,12 @@
 </center>
 
 <div>
-<img src="/Pr.WebSite/Home.png">
+<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Home.png">
 
 <div>
-<img src="/Pr.WebSite/Cadastro.png">
+<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Cadastro.png">
 <div>
-<img src="/Pr.WebSite/Tela_Dashboard.png">
+<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Tela_Dashboard.png">
 </div>
 </div>
 </div>
