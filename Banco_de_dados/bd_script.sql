@@ -1,5 +1,5 @@
-create database luxBerry;
-use luxBerry;
+create database luxberry;
+use luxberry;
 
 create table empresas (
 	idEmpresas int primary key auto_increment,
@@ -63,7 +63,6 @@ create table alertaSensor (
 );
 
 -- Inserindo empresas
--- Corrigido:
 INSERT INTO empresas (nomeEmpresa, telefone, email, cnpj, nomeRepresentante, sobrenomeRepresentante) VALUES 
 ('AgroTech Ltda', '11987654321', 'contato@agrotech.com', '12.345.678/0001-99', 'João', 'Silva'),
 ('GreenHouse Brasil', '11923456789', 'contato@greenhouse.com', '98.765.432/0001-11', 'Maria', 'Souza');
@@ -114,18 +113,16 @@ inner join sensorLum sen on dad.fkSensor = sen.idSensor
 inner join estufa est on sen.fkEstufa = est.idEstufa
 inner join empresas emp on est.fkEmpresa = emp.idEmpresas;
 
-CREATE USER 'luxberry_api'@'localhost' IDENTIFIED BY 'morangoapi';
-CREATE USER 'luxberry_admin'@'localhost' IDENTIFIED BY 'morangoadmin';
-CREATE USER 'luxberry_user'@'localhost' IDENTIFIED BY 'morangouser';
+CREATE USER 'luxberry_api'@'%' IDENTIFIED BY 'Morango@123';
+CREATE USER 'luxberry_admin'@'%' IDENTIFIED BY 'Morango@123';
+CREATE USER 'luxberry_user'@'%' IDENTIFIED BY 'Morango@123';
 
 
-GRANT INSERT ON luxBerry.dadosSensor TO 'luxberry_api'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE ON luxBerry.* TO 'luxberry_admin'@'localhost';
-GRANT SELECT ON luxBerry.* TO 'luxberry_user'@'localhost';
+GRANT INSERT ON luxberry.dadosSensor TO 'luxberry_api'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON luxBerry.* TO 'luxberry_admin'@'%';
+GRANT SELECT ON luxBerry.* TO 'luxberry_user'@'%';
 
 
-SHOW GRANTS FOR 'luxberry_api'@'localhost';
+SHOW GRANTS FOR 'luxberry_api'@'%';
 flush privileges;
-
-select * from dadossensor;
 
