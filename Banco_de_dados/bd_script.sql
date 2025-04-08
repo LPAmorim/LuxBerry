@@ -119,8 +119,8 @@ CREATE USER 'luxberry_user'@'%' IDENTIFIED BY 'Morango@123';
 
 
 GRANT INSERT ON luxberry.dadosSensor TO 'luxberry_api'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON luxBerry.* TO 'luxberry_admin'@'%';
-GRANT SELECT ON luxBerry.* TO 'luxberry_user'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON luxberry.* TO 'luxberry_admin'@'%';
+GRANT SELECT ON luxberry.* TO 'luxberry_user'@'%';
 
 
 SHOW GRANTS FOR 'luxberry_api'@'%';
