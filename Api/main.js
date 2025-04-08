@@ -23,9 +23,9 @@ const serial = async (
         {
             host: 'localhost',
             user: 'luxberry_api',
-            password: 'morangoapi',
+            password: 'Morango@123',
             database: 'luxberry',
-            port: 3306
+            port: 3307
         }
     ).promise();
 
@@ -73,7 +73,7 @@ const serial = async (
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'INSERT INTO dadossensor (luzRegistrada, statusRegistro, fkSensor) VALUES (?, ?, 1)',
+                'INSERT INTO dadosSensor (luzRegistrada, statusRegistro, fkSensor) VALUES (?, ?, 1)',
                 [sensorAnalogico, limites]
             );
             console.log("valores inseridos no banco: ", sensorAnalogico);
