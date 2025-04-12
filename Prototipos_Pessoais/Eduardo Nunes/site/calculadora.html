@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora LuxBerry</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header" class="header container">
+        <a href="index.html"><img src="assets/Lux Berry 1.png" alt=""></a>
+        <div>
+            <a href="#sobre_div">Sobre nós</a>
+            <a href="">Calculadora</a>
+            <a href="">Login</a>
+        </div>
+    </div>
+    <!--Titulo-->
+    <div class="calculadora container">
+        <div class="calculadora-conteudo">
+            <!--Os resultados da calculadora-->
+            <div class="calculadora-conteudo-inserts">
+                <h2>LuxBerry - Calculadora de Redução de Perdas por Luminosidade Inadequada</h1>
+                <!--Sobre a calculadora-->
+                <p>Esta calculadora permite simular os benefícios econômicos de um sistema de monitoramento de luminosidade para uma plantação de morangos em estufa.</p>
+                <!-- <p><b>Resultado:</b><br>
+                A redução nas perdas após a implementação do sistema.<br>
+                O valor de economia gerado ao reduzir as perdas.
+                </p> -->
+                <!--Inputs do usuário-->
+                <p class="p-insert">Produção atual anual (Kg/ano):</p>
+                <input type="number" id="ipt_producaoAnualKg">
+                <p class="p-insert">Percentual de perdas atuais (%):</p>
+                <input type="number" id="ipt_percentualPerdas">
+                <p class="p-insert">Preco do morango (Kg):</p>
+                <input type="number" id="ipt_precoPorKg">
+                <!--Botão para realizar o calculo-->
+                <button onclick="calculareconomia()">Calcular</button>
+            </div>
+            <!--Como funciona a calculadora-->
+            <div class="calculadora-conteudo-how" id="div_calculoeconomia">
+                <p><span>Como funciona:</span></p>
+                    <p>O valor da economia será calculado em etapas:</p>
+                    <p>Primeiro, calculando as perdas atuais, levando em conta a produção e o percentual de perdas informado.</p>
+                    <p>Depois, calculando a perda que pode ser evitada, considerando uma redução de 50% nas perdas.</p>
+                    <p>Por fim, somar o valor das perdas evitadas, usando o preço do morango, para encontrar o valor total da economia gerada.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function calculareconomia () {
+        // Captura os valores informados pelo usuário
+        var producaoAnualKg = Number(ipt_producaoAnualKg.value);
+        var percentualPerdas = Number(ipt_percentualPerdas.value);
+        var precoPorKg = Number(ipt_precoPorKg.value);
+
+        // Cálculo da quantidade perdida em kg
+        var quantidadePerdidaKg = producaoAnualKg * (percentualPerdas / 100);
+        
+        // Cálculo da produção após perdas
+        var producaoAposPerdasKg = producaoAnualKg - quantidadePerdidaKg;
+
+        // Cálculo da quantidade de perdas evitadas com o sistema (15% de redução)
+        var perdasReduzidasKg = quantidadePerdidaKg * 0.5;
+
+        // Cálculo da nova quantidade de perdas após a implementação do sistema
+        var novaQuantidadePerdidaKg = quantidadePerdidaKg - perdasReduzidasKg;
+
+        // Cálculo do valor economizado ao evitar as perdas
+        var valorEconomizado = perdasReduzidasKg * precoPorKg; 
+
+        // Exibição do resultado da simulação
+        div_calculoeconomia.innerHTML = `
+        <h2>Resultado da Simulação</h2>
+        <p>Perdas evitadas anualmente: <b>${perdasReduzidasKg.toFixed(2)} kg</b> de morangos salvos!</p>
+        <p>Antes do monitoramento de luminosidade: <b>${quantidadePerdidaKg.toFixed(2)} kg</b> perdidos/ano</p>
+        <p>Depois do monitoramento de luminosidade: <b>${novaQuantidadePerdidaKg.toFixed(2)} kg</b> perdidos/ano</p>
+        <p>Deixou de perder: <b>R$${valorEconomizado.toFixed(2)}</b></p>
+        <p>Redução de <b>50%</b> nas perdas!</p>
+        `;
+    }
+</script>
