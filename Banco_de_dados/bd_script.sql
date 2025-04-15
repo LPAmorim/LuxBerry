@@ -5,14 +5,14 @@ use luxBerry;
 create table empresas (
 	idEmpresas int primary key auto_increment,
     nomeEmpresa varchar(50) not null,
-    fktelefone varchar(20) not null,
+    fktelefone int not null,
     email varchar(45) not null,
     cnpj varchar(25) not null,
     nomeRepresentante varchar(50) not null,
     sobrenomeRepresentante varchar(50) not null,
-	constraint fktelefone foreign key(fktelefone) references telefone(idTelefone)
-
+	constraint fktelefone foreign key(fktelefone) references telefone(idtelefone)
 );
+
 
 create table telefone(
 idtelefone int primary key auto_increment,
@@ -38,7 +38,7 @@ create table funcionarios (
 	idFuncionarios int primary key auto_increment,
     nome varchar(50) not null,
     sobrenome varchar(50) not null,
-    fktelefone varchar(20) not null,
+    fktelefone int not null,
     email varchar(45) not null,
     senha varchar(255) not null,
     cargo varchar(45) not null,
@@ -46,7 +46,7 @@ create table funcionarios (
     fkEmpresa int not null,
     fkendereco int,
     constraint fkEmpresa foreign key (fkEmpresa) references empresas(idEmpresas),
-    constraint fktelefone foreign key(fktelefone) references telefone(idTelefone),
+    constraint fktelefone_funcionario foreign key(fktelefone) references telefone(idTelefone),
     constraint fkendereco foreign key (fkendereco) references endereco(idendereco)
 );
 
@@ -155,9 +155,9 @@ inner join sensorLum sen on dad.fkSensor = sen.idSensor
 inner join estufa est on sen.fkEstufa = est.idEstufa
 inner join empresas emp on est.fkEmpresa = emp.idEmpresas;
 
-CREATE USER 'luxberry_api'@'%' IDENTIFIED BY 'morangoapi';
-CREATE USER 'luxberry_admin'@'%' IDENTIFIED BY 'morangoadmin';
-CREATE USER 'luxberry_user'@'%' IDENTIFIED BY 'morangouser';
+CREATE USER 'luxberry_api'@'%' IDENTIFIED BY 'Morango@123';
+CREATE USER 'luxberry_admin'@'%' IDENTIFIED BY 'Morango@123';
+CREATE USER 'luxberry_user'@'%' IDENTIFIED BY 'Morango@123';
 
 
 
@@ -169,5 +169,5 @@ GRANT SELECT ON luxBerry.* TO 'luxberry_user'@'%';
 SHOW GRANTS FOR 'luxberry_api'@'%';
 flush privileges;
 
-select * from dadossensor;
+select * from dadosSensor;
 
