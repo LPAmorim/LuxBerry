@@ -24,7 +24,7 @@ const serial = async (
             host: 'localhost',
             user: 'luxberry_api',
             password: 'Morango@123',
-            database: 'luxberry',
+            database: 'luxBerry',
             port: 3307
         }
     ).promise();
