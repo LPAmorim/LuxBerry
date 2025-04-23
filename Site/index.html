@@ -37,7 +37,7 @@
             <div class="hero-section-conteudo-botao">
                 <button onclick="requirir()">Comece agora</button>
             </div>
-            <div id="div_cadastro"></div>
+            <div id="div_cadastro" class="hero-section-conteudo-texto"></div>
         </div>
     </div>
     <div class="info-section container">
@@ -138,9 +138,34 @@
         div_cadastro.innerHTML = `<p>Nome do representante:</p>
                                     <input type="text" id="ipt_nomeEmp">
                                     <p>Email da empresa:</p>
-                                    <input type="text" id="ipt_nomeEmp">
+                                    <input type="text" id="ipt_emailEmp">
+                                    <button onclick="mensagemEnvi()">Enviar</button>
+                                    <div id="div_resp" class="div-sumida" style="color:white;"></div>`
 
-`
+    }
+
+    function mensagemEnvi() {
+        let nome = ipt_nomeEmp.value
+        let email = ipt_emailEmp.value
+        var erro = false
+        var mensagem = "";
+
+        if (email.indexOf("@") < 0 ||
+            email.indexOf(" ") >= 0) {
+            mensagem += "Email inválido. Ex válido: XXX@XXX <br>"
+            erro = true
+        }
+
+        div_resp.classList.remove("div-sumida", "erro", "validado")
+
+        if (erro) {
+            div_resp.classList.add("erro")
+            div_resp.innerHTML = mensagem
+        } else {
+            div_resp.classList.add("validado")
+            div_resp.innerHTML = `<p>Ficamos felizes em receber o seu contato!</p>
+            <p>Em breve, um membro da nossa equipe entrará em contato com você para dar prosseguimento ao chamado.</p>`
+        }
     }
 
 </script>

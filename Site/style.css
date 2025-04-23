@@ -124,6 +124,16 @@
     gap: 16px;
 }
 
+.hero-section-conteudo-texto input {
+    border-radius: 10px;
+}
+.hero-section-conteudo-texto button {
+    background-color: #FF7043;
+    color: white;
+    padding: 5px;
+    border-radius: 15px;
+}
+
 .hero-section-conteudo-botao {
     height: 32px;
 }
@@ -311,6 +321,12 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login-conteudo-insert-1 {
+    width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
