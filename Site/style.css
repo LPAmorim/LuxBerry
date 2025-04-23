@@ -306,6 +306,7 @@
     width: 40%;
     border-radius: 20px;
     min-height: 70%;
+    padding: 10px;
 }
 .login-conteudo-1 {
     width: 40%;
@@ -327,8 +328,12 @@
 .login-conteudo-insert-1 {
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+    align-items: start;
+}
+
+.cadastro-input-div {
+    width: max-content;
 }
 
 .login-conteudo-inputs p {
@@ -338,8 +343,17 @@
 .login-conteudo-inputs {
     width: 80%;
 }
+.login-conteudo-inputs-1 {
+    width: 100%;
+}
 
 .login-conteudo-inputs input{
+    width: 100%;
+    padding: 5px;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.login-conteudo-inputs-1 input{
     width: 100%;
     padding: 5px;
     border-radius: 20px;
