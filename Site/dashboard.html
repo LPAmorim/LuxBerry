@@ -1,133 +1,138 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=], initial-scale=1.0">
-  <title>Document</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
 </head>
 
 <body>
-  <div class="flex-dash"> <!--div que toma conta de todo html-->
-    <div id="header" class="header-dash"><!--div que faz a coluna ao lado para mostrar a logo e caminhos-->
+  <div class="flex-dash">
+    <div id="header" class="header-dash">
       <a href="index.html"><img src="assets/Lux Berry 1.png" alt=""></a>
       <div>
         <a href="index.html#sobre_div">Sobre nós</a>
         <a href="calculadora.html">Calculadora</a>
         <a href="cadastro.html">Cadastre um funcionário</a>
         <a href="index.html" style="color: red;">Sair</a>
-        <!--botões para  levar para outras paginas-->
       </div>
     </div>
-    <div class="dashboard container"><!--div que vai montar todo a pagina do dashboard-->
+
+    <div class="dashboard container">
       <p class="bem-vindo">Olá XXXXX, bem vindo de volta!</p>
-      <div class="div-canvas"><!--primeira div que vai conter o primeiro grafico-->
-        <p>Captura de Luminosidade em intervalo de 20min - Estufa 1</p>
-        <canvas id="grafico1" style="width: 100vh; height: 200px;"></canvas><!--elemento que desenha o nosso grafico-->
+
+      <div class="div-canvas">
+        <p>Captura de Luminosidade em intervalo de 20min - Estufa</p>
+        <select id="estufaSelect">
+          <option value="#">Escolha uma estufa</option>
+          <option value="1">Estufa 1</option>
+          <option value="2">Estufa 2</option>
+        </select>
+        <canvas id="grafico1" style="width: 100vh; height: 200px;"></canvas>
       </div>
-      <div class="div-grafico-canvas2"><!--segunda div que vai conter o primeiro grafico-->
+
+      <div class="div-grafico-canvas2">
         <div class="div-grafico-canvas2-lum">
           <p>Luminosidade média</p>
           <div class="div-canvas2">
-            <canvas id="grafico2"></canvas><!--elemento que irá desenhar o grafico-->
+            <canvas id="grafico2"></canvas>
           </div>
         </div>
-        <!--div que vai mostrar as nossas kpis mostrando mais informações ao user-->
+
         <div class="div-kpi">
           <div class="div-kpi1">
             <div class="card-kpi">
               <p class="title-kpi">Tempo na luminosidade ideal</p>
-              <p>55</p>
+              <p id="tempoIdeal">--</p>
             </div>
             <div class="card-kpi">
               <p class="title-kpi">Alertas de luminosidade</p>
-              <p>1</p>
+              <p id="alertas">--</p>
             </div>
           </div>
           <div class="div-kpi1">
             <div class="card-kpi">
               <p class="title-kpi">Picos de luminosidade<br>(maior / menor)</p>
-              <p>1237 / 820</p>
+              <p id="picos">--</p>
             </div>
             <div class="card-kpi">
               <p class="title-kpi">Dias monitorados</p>
-              <p>7</p>
+              <p id="dias">--</p>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   </div>
-</body>
+
 <script>
-  //variaveis que vão armazenar os ids dos canvas para podermos desenharmos
-  const ctx = document.getElementById('grafico1');
-  const ctx2 = document.getElementById('grafico2');
+  const ctx = document.getElementById('grafico1').getContext('2d');
+  const ctx2 = document.getElementById('grafico2').getContext('2d');
 
-//novo grafico passando como parametro o primeiro id do primeiro canvas
-  new Chart(ctx, {
-    //definindo o tipo do grafico
+  const estufaSelect = document.getElementById('estufaSelect');
+// faço um array para chumbar os valores das estufas(simulando duas estufas)
+  const dadosEstufas = {
+    "1": {
+      linha: [1014.50, 1368.00, 1058.25, 1237.4, 1200, 993, 1100.2, 1050.52],
+      barras: [1014.5, 1368, 1058.25, 1326.5, 1372.25, 954.25, 1014.5],
+      desvios: [176.29, 138.27, 141.08, 55.01, 260.27, 105.20, 176.29],
+      tempoIdeal: 55,
+      alertas: 1,
+      picos: '1237 / 820',
+      dias: 7
+    },
+    "2": {
+      linha: [900, 1100, 980, 1150, 1175, 1020, 1080, 950],
+      barras: [950, 1100, 980, 1150, 1175, 1020, 1080],
+      desvios: [100, 90, 85, 110, 95, 105, 100],
+      tempoIdeal: 48,
+      alertas: 3,
+      picos: '1175 / 900',
+      dias: 5
+    }
+  };
+//crio meu grafico sem dados
+  const grafico1 = new Chart(ctx, {
     type: 'line',
-
     data: {
-      //passando os valores que iram embaixo do nosso grafico para informar o user em qual horario é o dado nosso grafico
-      labels: ['8:00:00 - 8:20:00', '8:20:00 - 8:40:00', '8:40:00 - 9:00:00',
-        '9:00:00 - 9:20:00', '9:20:00 - 9:40:00', '9:40:00 - 10:00:00', '10:00:00 - 10:20:00', '10:20:00 - 10:40:00'],
+      labels: ['8:00:00 - 8:20:00', '8:20:00 - 8:40:00', '8:40:00 - 9:00:00', '9:00:00 - 9:20:00', '9:20:00 - 9:40:00', '9:40:00 - 10:00:00', '10:00:00 - 10:20:00', '10:20:00 - 10:40:00'],
       datasets: [{
-        //titulo do nosso grafico
         label: 'Lux detectado',
-        //dados que vão fazer a linha subir ou descer para chumbar dados e simular
-        data: [1014.50, 1368.00, 1058.25, 1237.4, 1200, 993, 1100.2, 1050.52],
-        //não deixa o contorno transparente pela linha do grafico
+        data: [],
         fill: false,
-        //cor da borda de linha
         borderColor: 'rgb(75, 192, 192)',
-        // ondulação da linha
         tension: 0.1
       }]
     },
     options: {
-      responsive: true, 
-      maintainAspectRatio: false, // deixa altura fixa e largura fluida
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
-          //faz com que o grafico comece em 0 e não no primeiro valor que tenha no grafico
-          beginAtZero: true,
-          
+          beginAtZero: true
         }
       },
       plugins: {
         annotation: {
           annotations: {
-            //labels de minimo e maximo do grafico
             maxLine: {
-              //define o tipo que vai ser em linha para limitar o maximo 
               type: 'line',
-              //valores que vão garantir que seja uma linha reta em 1500
               yMin: 1500,
               yMax: 1500,
-              //cor da label
               borderColor: 'red',
-              //grossura da label
               borderWidth: 2,
-              //o nome para a label e poder indentificar o que significa
               label: {
                 content: 'Lux Máximo',
                 enabled: true,
                 position: 'end'
               }
             },
-
             minLine: {
-       //define o tipo que vai ser em linha para limitar o minimo 
               type: 'line',
-              //garante que do inicio ate o fim sera 800 uma linha reta
               yMin: 800,
               yMax: 800,
               borderColor: 'red',
@@ -143,56 +148,69 @@
       }
     }
   });
-
-  //inicio do segundo grafico com a variavel do id do segundo canvas
-  new Chart(ctx2, {
-    //tipo do nosso grafico em barra
+//grafico sem dados
+  const grafico2 = new Chart(ctx2, {
     type: 'bar',
     data: {
-      //labels que vão ficar embaixo mostrando de quando são aqueles dados
       labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-      datasets: [{
-        //titulo do nosso grafico
-        label: 'Luminosidade média',
-        //dados da primeira barra
-        data: [1014.5, 1368, 1058.25, 1326.5, 1372.25, 954.25, 1014.5],
-        fill: false,
-        //cor da barra verde
-        backgroundColor: 'green',
-        //define a curva em cima da barra
-        borderRadius: 100,
-        //grossura da barra
-        barThickness: 30
-      },
-      {// define as barras marrom
-        //nome da segunda barra
-        label: 'Desvio Padrão',
-        //dados da barra marrom
-        data: [176.29, 138.27, 141.08, 55.01, 260.27, 105.20, 176.29],
-        fill: false,
-        backgroundColor: 'rgb(188, 71, 73)',
-        borderRadius: 100,
-        barThickness: 30
-      }]
+      datasets: [
+        {
+          label: 'Luminosidade média',
+          data: [],
+          backgroundColor: 'green',
+          borderRadius: 100,
+          barThickness: 30
+        },
+        {
+          label: 'Desvio Padrão',
+          data: [],
+          backgroundColor: 'rgb(188, 71, 73)',
+          borderRadius: 100,
+          barThickness: 30
+        }
+      ]
     },
     options: {
       responsive: true,
       scales: {
-        y: {
-          beginAtZero: true,
-          //tira a grade que fica no fundo do grafico
-          grid: {
-            display: true
-          }
-        },
-        x: {
-          grid: {
-            display: true
-          }
-        }
+        y: { beginAtZero: true, grid: { display: true } },
+        x: { grid: { display: true } }
       }
     }
   });
-</script>
 
+
+  //coloca uma função para "escutar" quando houver mudança, passando o change como parametro para verificar o qunado o valor do select muda
+  estufaSelect.addEventListener('change', () => {
+    //pego o valor do select
+    const valor = estufaSelect.value;
+    if (valor === "#" || !dadosEstufas[valor]) return;
+
+    //crio uma variavel para chamar os valores que ele esta setadao segundo o select q esta no meu valor
+    const dados = dadosEstufas[valor];
+    
+    //chamando o grafico e os dados para setar os dados da minha array
+    //chamo os dados da linha para o meu grafico
+    //uso o 0 por ser o primeiro dado a entrar no meu grafico1
+    //data.datasets[0].data é apenas o caminho que tem dentro do grafico para setar os dados no grafico igual no grafico quando se seta na mão
+    grafico1.data.datasets[0].data = dados.linha;
+    //chamo os dados da barra para o meu grafico
+    //uso 0 por ser o primeiro dado a entrar no meu grafico 2
+    grafico2.data.datasets[0].data = dados.barras;
+        //chamo os dados da desvios para o meu grafico
+        //uso 1 por ser o segundo dado no meu grafico 2 de barras
+    grafico2.data.datasets[1].data = dados.desvios;
+
+    //substituo os valores das minhas kpis reescrevendo com os dados do meu sensor 1 setado no array dadosEstufas->dados
+    document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
+    document.getElementById('alertas').innerText = dados.alertas;
+    document.getElementById('picos').innerText = dados.picos;
+    document.getElementById('dias').innerText = dados.dias;
+
+    //atualizo na pagina
+    grafico1.update();
+    grafico2.update();
+  });
+</script>
+</body>
 </html>
