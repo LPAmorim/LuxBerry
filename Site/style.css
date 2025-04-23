@@ -327,8 +327,11 @@
 .login-conteudo-insert-1 {
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+}
+
+.cadastro-input-div {
+    width: max-content;
 }
 
 .login-conteudo-inputs p {
@@ -338,8 +341,17 @@
 .login-conteudo-inputs {
     width: 80%;
 }
+.login-conteudo-inputs-1 {
+    width: 100%;
+}
 
 .login-conteudo-inputs input{
+    width: 100%;
+    padding: 5px;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.login-conteudo-inputs-1 input{
     width: 100%;
     padding: 5px;
     border-radius: 20px;
