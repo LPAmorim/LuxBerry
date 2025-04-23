@@ -267,8 +267,10 @@
 .footer-texto ul {
     list-style: none;
 }
+/* ==== FIM DO CSS USADO NO FOOTER ==== */
 
-/* Login */
+
+/* ==== USADO NO LOGIN E CADASTRO ==== */
 .login {
     display: flex;
     align-items: center;
@@ -373,6 +375,10 @@
     text-align: center;
 }
 
+/* FIM DO CSS DO LOGIN E CADASTRO */
+
+/* USADO NA CALCULADORA */
+
 .calculadora {
     background-image: url(assets/calc-fundo.png);
     width: 100%;
@@ -445,11 +451,16 @@
 .calculadora-conteudo-how span {
     font-weight: bold;
 }
+
+/* ==== FIM DO CSS USADO NA CALCULADORA ==== */
+
+/* USADO NA DASHBOARD */
 .flex-dash {
     display: flex;
     width: 100%;
     margin: 0;
 }
+/* Header dash */
 .header-dash {
     width: max-content;
     height: 100;
@@ -477,6 +488,7 @@
 .header-dash img {
     width: 144px;
 }
+/* Fim Header dash */
 
 .dashboard {
     display: flex;
@@ -547,3 +559,5 @@
     font-weight: bolder;
     color: #77ae2f;
 }
+
+/* ==== FIM DO CSS USADO NA CALCULADORA ==== */
