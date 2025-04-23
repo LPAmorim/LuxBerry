@@ -17,6 +17,9 @@
     margin: 0 auto;
     padding: 0 5%;
 }
+
+/* ==== USADO NO HEADER ==== */
+
 .header {
     position: absolute;
     width: 100%;
@@ -32,7 +35,7 @@
 
 .header div {
     display: flex;
-    gap: 2rem;
+    gap: 32px;
 
 }
 
@@ -42,7 +45,7 @@
 }
 
 .header img {
-    width: 9rem;
+    width: 144px;
 }
 
 .fixo {
@@ -58,6 +61,9 @@
     color: white;
     transition: 0.3s;
 }
+
+/* ==== USADO NO INDEX ==== */
+
 .main-section {
     background-image: url(main.png);
     background-size: cover;
@@ -72,7 +78,7 @@
 }
 
 .main-section-texto {
-    width: 25rem;
+    width: 400px;
     font-size: 25px;
     font-weight: bold;
 }
@@ -81,14 +87,14 @@
     background-color: transparent;
     color: white;
     padding: 25px;
-    width: 10rem;
+    width: 160px;
     border: 1px solid white;
     border-radius: 5px;
 }
 .main-section-button button:hover {
     background-color: #ffffff2c;
     padding: 30px;
-    width: 11rem;
+    width: 176px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.5s;
@@ -97,9 +103,9 @@
 .hero-section {
     background-color: #1F3B2D;
     display: flex;
-    gap: 5rem;
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    gap: 80px;
+    padding-top: 96px;
+    padding-bottom: 96px;
     color: white;
     width: 100%;
 }
@@ -109,17 +115,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4rem;
+    gap: 64px;
 }
 
 .hero-section-conteudo-texto {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .hero-section-conteudo-botao {
-    height: 2rem;
+    height: 32px;
 }
 
 .hero-section-conteudo-botao button {
@@ -138,17 +144,17 @@
 }
 
 .info-section {
-    margin: 8rem auto;
+    margin: 128px auto;
     display: flex;
     justify-content: space-around;
-    gap: 2rem;
+    gap: 32px;
 }
 
 .info-section-texto {
     display: flex;
     flex-direction: column;
     width: 40%;
-    gap: 2rem;
+    gap: 32px;
 }
 
 .linha {    
@@ -167,55 +173,55 @@
 }
 
 .how-section img {
-    margin-top: 3rem;
+    margin-top: 48px;
     width: 100%;
 }
 
 .function-section {
-    margin: 8rem 0rem;
+    margin: 128px  0px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    gap: 2rem;
+    gap: 32px;
     background-color: #F5F5F5;
     width: 100%;
 }
 .function-section h2 {
-    margin: 4rem;
+    margin: 64px;
     color: #1D5100;
 }
 
 .function-section-main { 
     display: flex;
-    gap: 2rem;
+    gap: 32px;
 }
 
 .function-section-cards {
     display: flex;
     flex-direction: column  ;
     justify-content: center;
-    padding: 0rem 2rem;
+    padding: 0px 32px;
     width: 50%;
-    height: 15rem;
+    height: 240px;
     background-color: #9E0209;
     color: white;
-    gap: 2rem;
+    gap: 32px;
     text-align: left;
 }
 
 .function-section-cards:hover {
     width: 51%;
-    height: 15.5rem;
+    height: 248px;
     transition: 0.5s;
 }
 
 .sobre-section {
     background-color: #172217;
     display: flex;
-    gap: 5rem;
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    gap: 80px;
+    padding-top: 96px;
+    padding-bottom: 96px;
     color: white;
     justify-content: space-around;
     align-items: center;
@@ -228,16 +234,19 @@
 .sobre-section-conteudo {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
     width: 50%;
 }
+/* ==== FIM DO CSS USADO NO INDEX ==== */
+/* ==== USADO NO FOOTer ==== */
+
 
 .footer {
     background-color: black;
     color: white;
     display: flex;
     justify-content: space-around;
-    padding: 2rem 0rem;
+    padding: 32px 0px;
     width: 100%;
 }
 
@@ -252,7 +261,7 @@
 }
 
 .footer-texto  {
-    width: 27rem;
+    width: 432px;
 }
 
 .footer-texto ul {
@@ -264,7 +273,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: 48px;
     background-color: #172217;
     width: 100%;
     height: 100vh;
@@ -279,7 +288,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 32px;
     background-color: #fff;
     height: max-content;
     width: 40%;
@@ -376,14 +385,14 @@
 }
 
 .calculadora-conteudo {
-    margin-top: 5rem;
+    margin-top: 80px;
     background-color: #fff;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     height: min-content;
     border-radius: 10px;
-    padding: 5rem 0rem;
+    padding: 80px 0px;
 }
 .calculadora-conteudo-inserts {
     display: flex;
@@ -392,7 +401,7 @@
     align-items: center;
     text-align: center;
     width: 50%;
-    gap: 1rem;
+    gap: 16px;
 }
 .calculadora-conteudo-inserts h2 {
     color: #3B4F3B;
@@ -429,7 +438,7 @@
     border-radius: 10px;
     text-align: center;
     line-height: 1.6;
-    gap: 1rem;
+    gap: 16px;
     transition: 0.5s
 }
 
@@ -456,7 +465,7 @@
 
 .header-dash div {
     display: flex;
-    gap: 2rem;
+    gap: 32px;
     flex-direction: column;
 }
 
@@ -466,14 +475,14 @@
 }
 
 .header-dash img {
-    width: 9rem;
+    width: 144px;
 }
 
 .dashboard {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    margin: 1rem 0;
+    gap: 32px;
+    margin: 16px 0;
 }
 
 .div-canvas canvas {
@@ -493,7 +502,7 @@
 .div-grafico-canvas2-lum {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 .div-grafico-canvas2-lum canvas {
     height: 270px !important;
@@ -503,14 +512,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
 }
 
 .div-kpi1 {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .card-kpi {
@@ -521,7 +530,7 @@
     background-color: #e3f0d2;
     height: 125px;
     width: 125px;
-    padding: 0.5rem;
+    padding: 8px;
     border-radius: 10px;
     text-align: center;
 }
