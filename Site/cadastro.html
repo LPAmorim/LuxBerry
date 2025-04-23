@@ -23,8 +23,12 @@
             <h2>Cadastro</h2>
             <div class="login-conteudo-insert">
                 <div class="login-conteudo-inputs">
-                    <p>Nome completo:</p>
+                    <p>Nome:</p>
                     <input type="text" name="" id="ipt_nome">
+                </div>
+                <div class="login-conteudo-inputs">
+                    <p>Sobrenome:</p>
+                    <input type="text" name="" id="ipt_sobrenome">
                 </div>
                 <div class="login-conteudo-inputs">
                     <p>Email:</p>
@@ -46,6 +50,10 @@
                     <p>Empresa cadastrada:</p>
                     <input type="text" name="" id="ipt_emp">
                 </div>
+                <div class="login-conteudo-inputs">
+                    <p>Cargo:</p>
+                    <input type="text" name="" id="ipt_carg">
+                </div>
             </div>
             <button onclick="autenticar()">Cadastro</button>
             <div id="div_resp" class="div-sumida"></div>
@@ -55,12 +63,14 @@
 </body>
 <script>
     function autenticar() {
-        var usuario = ipt_nome.value
+        var nome = ipt_nome.value
+        var sobreN = ipt_sobrenome.value
         var email = ipt_email.value
         var tel = ipt_tel.value
         var senha = ipt_senha.value
         var ConfirmarSenha = ipt_Csenha.value
         var emp = ipt_emp.value
+        var cargo = ipt_carg.value
 
         var mensagem = ""
         var erro = false

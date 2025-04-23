@@ -35,8 +35,9 @@
                 <p>Acompanhe sua estufa em tempo real e maximize sua produção com tecnologia de ponta.</p>
             </div>
             <div class="hero-section-conteudo-botao">
-                <a href="cadastro.html"><button>Saiba mais</button></a>
+                <button onclick="requirir()">Comece agora</button>
             </div>
+            <div id="div_cadastro"></div>
         </div>
     </div>
     <div class="info-section container">
@@ -132,6 +133,15 @@
         }
     }
     window.addEventListener("scroll", RolarTela)
+
+    function requirir() {
+        div_cadastro.innerHTML = `<p>Nome do representante:</p>
+                                    <input type="text" id="ipt_nomeEmp">
+                                    <p>Email da empresa:</p>
+                                    <input type="text" id="ipt_nomeEmp">
+
+`
+    }
 
 </script>
 
