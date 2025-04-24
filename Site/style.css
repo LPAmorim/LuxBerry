@@ -488,12 +488,13 @@
 .flex-dash {
     display: flex;
     width: 100%;
+    height: 100vh;
     margin: 0;
 }
 /* Header dash */
 .header-dash {
     width: max-content;
-    height: 100;
+    height: 100vh;
     background-color: #3B4F3B;
     display: flex;
     justify-content: space-evenly;
@@ -525,6 +526,7 @@
     flex-direction: column;
     gap: 32px;
     margin: 16px 0;
+    overflow-y: auto;
 }
 
 .div-canvas canvas {
@@ -590,4 +592,54 @@
     color: #77ae2f;
 }
 
-/* ==== FIM DO CSS USADO NA CALCULADORA ==== */
+.cards-alertas {
+    display: flex;
+    justify-content: space-between;
+    background-color: #9E0209;
+    color: white;
+    align-items: center;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.cards-alertas-infos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: fit-content;
+    justify-content: space-evenly;
+}
+
+.card-bloco {
+    width: 80px;
+    text-align: center;
+}
+.card-bloco1 {
+    width: 130px;
+    text-align: center;
+}
+
+.traco {
+    height: 50px;
+    background-color: white;
+    width: 2px;
+    margin: 8px 0;
+}
+
+.div-canvas1 {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.div-canvas3 {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
+/* ==== FIM DO CSS USADO NO DASH ==== */
