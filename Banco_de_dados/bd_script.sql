@@ -1,7 +1,7 @@
 -- conectado na vm pela porta 3307
-create database luxBerry;
-use luxBerry;
-drop database luxBerry;
+create database luxberry;
+use luxberry;
+drop database luxberry;
 
 create table telefone (
   idtelefone int not null auto_increment primary key,
@@ -18,20 +18,23 @@ create table endereco (
   bairro varchar(30),
   cidade varchar(30),
   estado varchar(30),
-  pais varchar(25)
+  pais varchar(25),
+  constraint chk_endereco check(tipo in ('rua','alameda', 'avenida'))
 );
 
-create table empresas (
+create table empresa (
   idempresa int not null auto_increment primary key,
   nomeempresa varchar(50) not null,
   email varchar(45) not null,
   cnpj varchar(25) not null,
   nomerepresentante varchar(50) not null,
   sobrenomerepresentante varchar(50),
-  fktelefone int not null,
-  fkendereco int not null,
+  fktelefone int not null unique,
+  fkendereco int not null unique,
+  subEmpresa int,
   foreign key (fktelefone) references telefone(idtelefone),
-  foreign key (fkendereco) references endereco(idendereco)
+  foreign key (fkendereco) references endereco(idendereco),
+  foreign key (subEmpresa) references empresa(idempresa)
 );
 
 create table estufa (
@@ -42,36 +45,34 @@ create table estufa (
   statusestufa varchar(20),
   tipomorango varchar(45),
   fkempresa int,
-  fkendereco int not null,
-  foreign key (fkempresa) references empresas(idempresa),
-  foreign key (fkendereco) references endereco(idendereco)
+  foreign key (fkempresa) references empresa(idempresa)
 );
 
 create table sensoreslum (
   idsensores int not null auto_increment primary key,
-  estufa_idestufa int,
-  foreign key (estufa_idestufa) references estufa(idestufa)
+  fkEstufa int,
+  foreign key (fkEstufa) references estufa(idestufa)
 );
 
-create table dadossensor (
+create table dadosSensor (
   iddadossensor int not null auto_increment primary key,
-  luzregistrado decimal(10,2),
-  dataregistro timestamp default current_timestamp,
-  status varchar(45),
-  sensores_idsensores int,
-  foreign key (sensores_idsensores) references sensoreslum(idsensores)
+  luzRegistrado decimal(10,2),
+  dataRegistro timestamp default current_timestamp,
+  statusRegistro varchar(150),
+  fkSensor int,
+  foreign key (fkSensor) references sensoreslum(idsensores),
+  constraint chk_statusSen check(statusRegistro in('Abaixo do limite', 'Dentro do limite', 'Acima do limite'))
 );
 
 create table alerta (
   idalerta int not null auto_increment primary key,
-  descricao_alerta varchar(100),
   tipo_alerta varchar(45),
   data_hora datetime default current_timestamp,
   fk_registro int,
   foreign key (fk_registro) references dadossensor(iddadossensor)
 );
 
-create table funcionarios (
+create table funcionario (
   idfuncionarios int not null auto_increment primary key,
   nome varchar(50) not null,
   email varchar(45) not null,
@@ -81,52 +82,45 @@ create table funcionarios (
   sobrenome varchar(50) not null,
   fkempresa int,
   fkendereco int,
-  fktelefone int not null,
-  foreign key (fkempresa) references empresas(idempresa),
+  fktelefone int not null unique,
+  foreign key (fkempresa) references empresa(idempresa),
   foreign key (fkendereco) references endereco(idendereco),
   foreign key (fktelefone) references telefone(idtelefone)
 );
 
+-- Inserindo telefones
+insert into telefone (tipo, numero, prefixo) values
+('celular', 999999999, '11'),
+('fixo', 33445566, '11');
+
+-- Inserindo endereços
+insert into endereco (tipo, nome, numero, bairro, cidade, estado, pais) values
+('rua', 'das Flores', 100, 'Centro', 'São Paulo', 'SP', 'Brasil'),
+('avenida', 'Paulista', 2000, 'Bela Vista', 'São Paulo', 'SP', 'Brasil');
+
 -- Inserindo empresas
--- telefone
-insert into telefone (idtelefone, tipo, numero, prefixo) values
-(1, 'celular', 999999999, '11'),
-(2, 'fixo', 33445566, '11');
+insert into empresa (nomeempresa, email, cnpj, nomerepresentante, sobrenomerepresentante, fktelefone, fkendereco) values
+('morango doce', 'contato@morango.com', '12345678000199', 'ana', 'silva', 1, 1),
+('berry fresh', 'suporte@berry.com', '98765432000111', 'joão', 'oliveira', 2, 2);
 
--- endereco
-insert into endereco (idendereco, tipo, nome, numero, bairro, cidade, estado, pais) values
-(1, 'rua', 'das Flores', 100, 'Centro', 'São Paulo', 'SP', 'Brasil'),
-(2, 'avenida', 'Paulista', 2000, 'Bela Vista', 'São Paulo', 'SP', 'Brasil');
+-- Inserindo funcionários
+insert into funcionario (nome, email, senha, cargo, statusfuncionario, sobrenome, fkempresa, fkendereco, fktelefone) values
+('carlos', 'carlos@morango.com', 'senha123', 'gerente', b'1', 'souza', 1, 1, 1),
+('lucia', 'lucia@berry.com', 'senha456', 'técnica', b'1', 'pereira', 2, 2, 2);
 
--- empresas
-insert into empresas (idempresa, nomeempresa, email, cnpj, nomerepresentante, sobrenomerepresentante, fktelefone, fkendereco) values
-(1, 'morango doce', 'contato@morango.com', '12345678000199', 'ana', 'silva', 1, 1),
-(2, 'berry fresh', 'suporte@berry.com', '98765432000111', 'joão', 'oliveira', 2, 2);
+-- Inserindo estufas
+insert into estufa (nome, luminosidademax, luminosidademin, statusestufa, tipomorango, fkempresa) values
+('estufa 1', 1500.00, 800.00, 'ativa', 'san andreas', 1),
+('estufa 2', 1500.00, 800.00, 'ativa', 'camarosa', 2);
 
--- funcionarios
-insert into funcionarios (idfuncionarios, nome, email, senha, cargo, statusfuncionario, sobrenome, fkempresa, fkendereco, fktelefone) values
-(1, 'carlos', 'carlos@morango.com', 'senha123', 'gerente', b'1', 'souza', 1, 1, 1),
-(2, 'lucia', 'lucia@berry.com', 'senha456', 'técnica', b'1', 'pereira', 2, 2, 2);
+-- Inserindo sensores
+insert into sensoreslum (fkEstufa) values
+(1),
+(2);
 
--- estufa
-insert into estufa (idestufa, nome, luminosidademax, luminosidademin, statusestufa, tipomorango, fkempresa, fkendereco) values
-(1, 'estufa a', 1000.00, 300.00, 'ativa', 'san andreas', 1, 1),
-(2, 'estufa b', 950.00, 280.00, 'manutenção', 'camarosa', 2, 2);
-
--- sensoreslum
-insert into sensoreslum (idsensores, estufa_idestufa) values
-(1, 1),
-(2, 2);
-
--- dadossensor
-insert into dadossensor (iddadossensor, luzregistrado, dataregistro, status, sensores_idsensores) values
-(1, 800.00, '2025-04-22 10:30:00', 'normal', 1),
-(2, 1200.00, '2025-04-22 11:00:00', 'alerta', 1),
-(3, 700.00, '2025-04-22 12:00:00', 'normal', 2);
-
--- alerta
-insert into alerta (idalerta, descricao_alerta, tipo_alerta, data_hora, fk_registro) values
-(1, 'luminosidade acima do limite', 'luminosidade', '2025-04-22 11:00:10', 2);
+-- Inserindo alerta
+insert into alerta (tipo_alerta, data_hora, fk_registro) values
+('luminosidade', '2025-04-22 11:00:10', 2);
 
 select dad.luzRegistrada Luz, dad.dataRegistro "data do registro", dad.statusRegistro "status do registro", 
 		sen.idSensor sensor,
