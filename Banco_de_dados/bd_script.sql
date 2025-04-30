@@ -69,7 +69,7 @@ create table alerta (
   tipo_alerta varchar(45),
   data_hora datetime default current_timestamp,
   fk_registro int,
-  foreign key (fk_registro) references dadossensor(iddadossensor)
+  foreign key (fk_registro) references dadosSensor(iddadossensor)
 );
 
 create table funcionario (
@@ -90,46 +90,69 @@ create table funcionario (
 
 -- Inserindo telefones
 insert into telefone (tipo, numero, prefixo) values
-('celular', 999999999, '11'),
-('fixo', 33445566, '11');
+('celular', 988887777, '51'),
+('fixo', 32334455, '51'),
+('celular', 997776666, '51'),
+('fixo', 33445566, '53'),
+('celular', 989898989, '54'),
+('fixo', 32119876, '55');
 
--- Inserindo endereços
+-- Inserindo endereços no RS
 insert into endereco (tipo, nome, numero, bairro, cidade, estado, pais) values
-('rua', 'das Flores', 100, 'Centro', 'São Paulo', 'SP', 'Brasil'),
-('avenida', 'Paulista', 2000, 'Bela Vista', 'São Paulo', 'SP', 'Brasil');
+('rua', 'dos Andradas', 450, 'Centro Histórico', 'Porto Alegre', 'RS', 'Brasil'),
+('avenida', 'Borges de Medeiros', 1200, 'Menino Deus', 'Porto Alegre', 'RS', 'Brasil'),
+('rua', 'Barão do Triunfo', 234, 'Azenha', 'Porto Alegre', 'RS', 'Brasil'),
+('alameda', 'São José', 89, 'Centro', 'Pelotas', 'RS', 'Brasil'),
+('avenida', 'Sete de Setembro', 1500, 'Centro', 'Caxias do Sul', 'RS', 'Brasil'),
+('rua', 'General Câmara', 101, 'Centro', 'Santa Maria', 'RS', 'Brasil'),
+('avenida', 'Fernando Ferrari', 2450, 'Camobi', 'Santa Maria', 'RS', 'Brasil'),
+('rua', 'Duque de Caxias', 678, 'Centro', 'Uruguaiana', 'RS', 'Brasil');
 
 -- Inserindo empresas
-insert into empresa (nomeempresa, email, cnpj, nomerepresentante, sobrenomerepresentante, fktelefone, fkendereco) values
-('morango doce', 'contato@morango.com', '12345678000199', 'ana', 'silva', 1, 1),
-('berry fresh', 'suporte@berry.com', '98765432000111', 'joão', 'oliveira', 2, 2);
+insert into empresa (nomeempresa, email, cnpj, nomerepresentante, sobrenomerepresentante, fktelefone, fkendereco, subEmpresa) values
+('frutiverso', 'contato@frutiverso.com', '11223344000155', 'marina', 'dias', 2, 1, null),
+('frutiverso - General Salgado', 'vendas@docecampo.com', '99887766000144', 'ricardo', 'mello', 4, 2, 1),
+('campo vivo', 'contato@campovivo.com', '22334455000166', 'bruna', 'cardoso', 6, 8, null);
 
--- Inserindo funcionários
+-- Inserindo funcionários (total 5) — sem repetir telefone ou endereço das empresas
 insert into funcionario (nome, email, senha, cargo, statusfuncionario, sobrenome, fkempresa, fkendereco, fktelefone) values
-('carlos', 'carlos@morango.com', 'senha123', 'gerente', b'1', 'souza', 1, 1, 1),
-('lucia', 'lucia@berry.com', 'senha456', 'técnica', b'1', 'pereira', 2, 2, 2);
+('fernando', 'fernando@frutiverso.com', 'senha789', 'engenheiro', 1, 'lopes', 1, 3, 1),
+('paula', 'paula@docecampo.com', 'senha321', 'assistente', 1, 'gomes', 1, 4, 3),
+('mario', 'mario@solberry.com', 'senha654', 'analista', 1, 'barros', 1, 5, 5);
 
--- Inserindo estufas
+-- Inserindo estufas (total 5)
 insert into estufa (nome, luminosidademax, luminosidademin, statusestufa, tipomorango, fkempresa) values
-('estufa 1', 1500.00, 800.00, 'ativa', 'san andreas', 1),
-('estufa 2', 1500.00, 800.00, 'ativa', 'camarosa', 2);
+('estufa 1', 1600.00, 850.00, 'ativa', 'festival', 1),
+('estufa 2', 1550.00, 820.00, 'ativa', 'monterey', 2),
+('estufa 3', 1580.00, 800.00, 'ativa', 'sabrina', 3),
+('estufa 4', 1520.00, 810.00, 'ativa', 'monterey', 1),
+('estufa 5', 1570.00, 830.00, 'ativa', 'albion', 2);
 
--- Inserindo sensores
+
+-- Inserindo sensores (total 5)
 insert into sensoreslum (fkEstufa) values
 (1),
-(2);
+(2),
+(3),
+(4),
+(5);
 
--- Inserindo alerta
+-- Inserindo alertas (total 5)
 insert into alerta (tipo_alerta, data_hora, fk_registro) values
-('luminosidade', '2025-04-22 11:00:10', 2);
+('luminosidade', '2025-04-28 15:42:00', 1),
+('luminosidade', '2025-04-29 10:15:30', 2),
+('luminosidade', '2025-04-30 08:45:00', 3),
+('luminosidade', '2025-04-30 13:20:10', 4),
+('luminosidade', '2025-04-30 17:05:55', 5);
 
-select dad.luzRegistrada Luz, dad.dataRegistro "data do registro", dad.statusRegistro "status do registro", 
-		sen.idSensor sensor,
-		est.endereco, est.nome, est.tipoMorango,
+select dad.luzRegistrado Luz, dad.dataRegistro "data do registro", dad.statusRegistro "status do registro", 
+		sen.idsensores sensor,
+		est.nome, est.tipoMorango,
         emp.nomeEmpresa Empresa
 from dadosSensor dad
-inner join sensorLum sen on dad.fkSensor = sen.idSensor
+inner join sensoreslum sen on dad.fkSensor = sen.idsensores
 inner join estufa est on sen.fkEstufa = est.idEstufa
-inner join empresas emp on est.fkEmpresa = emp.idEmpresas;
+inner join empresa emp on est.fkEmpresa = emp.idEmpresa;
 
 CREATE USER 'luxberry_api'@'%' IDENTIFIED BY 'Morango@123';
 CREATE USER 'luxberry_admin'@'%' IDENTIFIED BY 'Morango@123';
@@ -146,4 +169,3 @@ SHOW GRANTS FOR 'luxberry_api'@'%';
 flush privileges;
 
 select * from dadosSensor;
-
