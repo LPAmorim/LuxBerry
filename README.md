@@ -19,9 +19,9 @@
 <img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Home.png">
 
 <div>
-<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Cadastro.png">
+<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/login_img.png">
 <div>
-<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/Tela_Dashboard.png">
+<img src="/Documentação/Algoritmo - Prototipação WebSite/Pr.WebSite/dashboard_img.png">
 </div>
 </div>
 </div>
