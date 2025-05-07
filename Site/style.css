@@ -602,6 +602,13 @@
     border-radius: 20px;
 }
 
+.cards-alertas.inicio{
+    color: white;
+    align-items: center;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 .cards-alertas-infos {
     display: flex;
     align-items: center;
