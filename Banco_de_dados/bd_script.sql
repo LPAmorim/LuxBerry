@@ -139,7 +139,11 @@ insert into sensoreslum (fkEstufa) values
 
 -- Inserindo alertas (total 5)
 insert into alerta (tipo_alerta, data_hora, fk_registro) values
-('baixa luminosidade', '2025-04-30 09:53:21', 1);
+('luminosidade', '2025-04-28 15:42:00', 1),
+('luminosidade', '2025-04-29 10:15:30', 2),
+('luminosidade', '2025-04-30 08:45:00', 3),
+('luminosidade', '2025-04-30 13:20:10', 4),
+('luminosidade', '2025-04-30 17:05:55', 5);
 
 select dad.luzRegistrado Luz, dad.dataRegistro "data do registro", dad.statusRegistro "status do registro", 
 		sen.idsensores sensor,
