@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./../css/style.css">
 </head>
 
 <body>
     <div id="header" class="header container fixo-outras">
-        <a href="index.html"><img src="assets/Lux Berry 1.png" alt=""></a>
+        <a href="./index.html"><img src="./../assets/Lux Berry 1.png" alt=""></a>
         <div>
-            <a href="index.html#sobre_div">Sobre nós</a>
-            <a href="calculadora.html">Calculadora</a>
-            <a href="login.html">Login</a>
+            <a href="./index.html#sobre_div">Sobre nós</a>
+            <a href="./calculadora.html">Calculadora</a>
+            <a href="./login.html">Login</a>
         </div>
     </div>
     <div class="login container">
-        <img src="assets/img-login.png" alt="">
+        <img src="./../assets/img-login.png" alt="">
         <div class="login-conteudo">
             <h2>Login</h2>
             <div class="login-conteudo-insert">
@@ -41,7 +41,7 @@
     function autenticar() {
         var usuario = ipt_nome.value
         var senha = ipt_senha.value
-        var usuarioCorreto = "usuario1@sptech"
+        var usuarioCorreto = "fernando@frutiverso.com"
         var senhaCorreta = "1234"
 
         if (tentativas > 0) {
@@ -57,7 +57,7 @@
 
                 // Para mudar de página após 1 segundo
                 setTimeout(() => {
-                    window.location.href = "dashboard.html";
+                    window.location.href = "./../dashboard/dashboard.html";
                 }, 1000);
                 tentativas = 3;
             }
