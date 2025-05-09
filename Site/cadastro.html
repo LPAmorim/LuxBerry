@@ -47,33 +47,9 @@
                         <p>Confirmar senha:</p>
                         <input type="password" name="" id="ipt_Csenha">
                     </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Empresa cadastrada:</p>
-                        <input type="text" name="" id="ipt_emp">
-                    </div>
+                    
                 </div>
-                <div class="cadastro-input-div">
-                    <div class="login-conteudo-inputs-1">
-                        <p>Nome da rua:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Número:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Bairro:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Estado:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Pais:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                </div>
+                
             </div>
             <button onclick="autenticar()">Cadastro</button>
             <div id="div_resp" class="div-sumida"></div>
@@ -88,8 +64,7 @@
         var tel = ipt_tel.value
         var senha = ipt_senha.value
         var ConfirmarSenha = ipt_Csenha.value
-        var emp = ipt_emp.value
-        var cargo = ipt_carg.value
+        
 
         var mensagem = ""
         var erro = false
@@ -109,10 +84,7 @@
             erro = true
         }
 
-        if (emp != "Empresa1" && emp != "Empresa2" && emp != "Empresa3") {
-            mensagem += "Empresa inválida <br>"
-            erro = true
-        }
+        
 
         div_resp.classList.remove("div-sumida", "erro", "validado")
 
