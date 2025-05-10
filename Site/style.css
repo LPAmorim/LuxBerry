@@ -65,7 +65,7 @@
 /* ==== USADO NO INDEX ==== */
 
 .main-section {
-    background-image: url(main.png);
+    background-image: url(../assets/main.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
