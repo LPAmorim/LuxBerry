@@ -24,11 +24,11 @@
             <div class="login-conteudo-insert">
                 <div class="login-conteudo-inputs">
                     <p>Email:</p>
-                    <input type="text" name="" id="ipt_nome">
+                    <input type="text" id="ipt_nome">
                 </div>
                 <div class="login-conteudo-inputs">
                     <p>Senha:</p>
-                    <input type="password" name="" id="ipt_senha">
+                    <input type="password" id="ipt_senha">
                 </div>
             </div>
             <button onclick="autenticar()">Login</button>
@@ -41,8 +41,8 @@
     function autenticar() {
         var usuario = ipt_nome.value
         var senha = ipt_senha.value
-        var usuarioCorreto = "usuario1@sptech"
-        var senhaCorreta = "1234"
+        // var usuarioCorreto = "usuario1@sptech"
+        // var senhaCorreta = "1234"
 
         if (tentativas > 0) {
             if (usuario != usuarioCorreto || senha != senhaCorreta) {
@@ -57,7 +57,7 @@
 
                 // Para mudar de página após 1 segundo
                 setTimeout(() => {
-                    window.location.href = "dashboard.html";
+                    window.location.href = "notificacoes-dash.html";
                 }, 1000);
                 tentativas = 3;
             }

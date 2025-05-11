@@ -10,68 +10,38 @@
 
 <body>
     <div id="header" class="header container fixo-outras">
-        <a href="index.html"><img src="assets/Lux Berry 1.png" alt=""></a>
+        <a href="index.html"><img src="../assets/Lux Berry 1.png" alt=""></a>
         <div>
-            <a href="index.html#sobre_div">Sobre nós</a>
-            <a href="calculadora.html">Calculadora</a>
             <a href="dashboard.html">Dashboard</a>
+            <a href="./suporte.html">suporte</a>
+            <a href="index.html" style="color: red;">Sair</a>
         </div>
     </div>
     <div class="login container">
-        <img src="assets/img-login.png" alt="">
-        <div class="login-conteudo" id="login_conteudo">
+        <img src="../assets/img-login.png" alt="">
+        <div class="login-conteudo">
             <h2>Cadastro</h2>
             <div class="login-conteudo-insert-1">
                 <div class="cadastro-input-div">
                     <div class="login-conteudo-inputs-1">
                         <p>Nome:</p>
-                        <input type="text" name="" id="ipt_nome">
+                        <input type="text" id="ipt_nome">
                     </div>
                     <div class="login-conteudo-inputs-1">
                         <p>Sobrenome:</p>
-                        <input type="text" name="" id="ipt_sobrenome">
+                        <input type="text" id="ipt_sobrenome">
                     </div>
                     <div class="login-conteudo-inputs-1">
                         <p>Email:</p>
-                        <input type="text" name="" id="ipt_email">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Telefone:</p>
-                        <input type="text" name="" id="ipt_tel">
+                        <input type="text" id="ipt_email">
                     </div>
                     <div class="login-conteudo-inputs-1">
                         <p>Senha:</p>
-                        <input type="password" name="" id="ipt_senha">
+                        <input type="password" id="ipt_senha">
                     </div>
                     <div class="login-conteudo-inputs-1">
                         <p>Confirmar senha:</p>
-                        <input type="password" name="" id="ipt_Csenha">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Empresa cadastrada:</p>
-                        <input type="text" name="" id="ipt_emp">
-                    </div>
-                </div>
-                <div class="cadastro-input-div">
-                    <div class="login-conteudo-inputs-1">
-                        <p>Nome da rua:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Número:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Bairro:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Estado:</p>
-                        <input type="text" name="" id="ipt_carg">
-                    </div>
-                    <div class="login-conteudo-inputs-1">
-                        <p>Pais:</p>
-                        <input type="text" name="" id="ipt_carg">
+                        <input type="password" id="ipt_Csenha">
                     </div>
                 </div>
             </div>
@@ -85,11 +55,8 @@
         var nome = ipt_nome.value
         var sobreN = ipt_sobrenome.value
         var email = ipt_email.value
-        var tel = ipt_tel.value
         var senha = ipt_senha.value
         var ConfirmarSenha = ipt_Csenha.value
-        var emp = ipt_emp.value
-        var cargo = ipt_carg.value
 
         var mensagem = ""
         var erro = false
@@ -109,21 +76,19 @@
             erro = true
         }
 
-        if (emp != "Empresa1" && emp != "Empresa2" && emp != "Empresa3") {
-            mensagem += "Empresa inválida <br>"
-            erro = true
-        }
-
         div_resp.classList.remove("div-sumida", "erro", "validado")
 
         if (erro) {
             div_resp.classList.add("erro")
             div_resp.innerHTML = mensagem
         } else {
-            login_conteudo.classList.add("login-conteudo-1")
-            login_conteudo.innerHTML = `<p>Cadastro realizado com sucesso !</p>
-            <p>Ficamos felizes em receber o seu contato!</p>
-            <p>Em breve, um membro da nossa equipe entrará em contato com você para dar prosseguimento ao chamado.</p>`
+            div_resp.classList.remove("div-sumida", "erro")
+            div_resp.classList.add("validado")
+                div_resp.innerHTML = "Cadastro validado"
+
+            setTimeout(() => {
+                    window.location.href = "cadastro.html";
+                }, 1000);
         }
     }
 </script>

@@ -308,11 +308,6 @@
     min-height: 70%;
     padding: 10px;
 }
-.login-conteudo-1 {
-    width: 40%;
-    padding: 40px;
-    align-items: start;
-}
 
 .login-conteudo h2 {
     color: #3B4F3B;
@@ -329,11 +324,11 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: start;
+    align-items: center;
 }
 
 .cadastro-input-div {
-    width: max-content;
+    width: 80%;
 }
 
 .login-conteudo-inputs p {
