@@ -486,6 +486,8 @@
     height: 100vh;
     margin: 0;
 }
+
+
 /* Header dash */
 .header-dash {
     width: max-content;
@@ -499,6 +501,13 @@
     padding: 0 3%;
 }
 
+.header-dash p {
+    color: white;
+}
+
+.header-dash p > span {
+    color: black;
+}
 
 .header-dash div {
     display: flex;
@@ -636,5 +645,6 @@
     overflow-y: auto;
 }
 
-
 /* ==== FIM DO CSS USADO NO DASH ==== */
+
+
