@@ -81,12 +81,9 @@ create table funcionario (
   statusfuncionario bit(1),
   sobrenome varchar(50) not null,
   fkempresa int,
-  fkendereco int,
-  fktelefone int not null unique,
-  foreign key (fkempresa) references empresa(idempresa),
-  foreign key (fkendereco) references endereco(idendereco),
-  foreign key (fktelefone) references telefone(idtelefone)
+  foreign key (fkempresa) references empresa(idempresa)
 );
+
 
 -- Inserindo telefones
 insert into telefone (tipo, numero, prefixo) values
@@ -115,10 +112,10 @@ insert into empresa (nomeempresa, email, cnpj, nomerepresentante, sobrenomerepre
 ('campo vivo', 'contato@campovivo.com', '22334455000166', 'bruna', 'cardoso', 6, 8, null);
 
 -- Inserindo funcionários (total 5) — sem repetir telefone ou endereço das empresas
-insert into funcionario (nome, email, senha, cargo, statusfuncionario, sobrenome, fkempresa, fkendereco, fktelefone) values
-('fernando', 'fernando@frutiverso.com', 'senha789', 'engenheiro', 1, 'lopes', 1, 3, 1),
-('paula', 'paula@docecampo.com', 'senha321', 'assistente', 1, 'gomes', 1, 4, 3),
-('mario', 'mario@solberry.com', 'senha654', 'analista', 1, 'barros', 1, 5, 5);
+insert into funcionario (nome, email, senha, cargo, statusfuncionario, sobrenome, fkempresa) values
+('fernando', 'fernando@frutiverso.com', 'senha789', 'engenheiro', 1, 'lopes', 1),
+('paula', 'paula@docecampo.com', 'senha321', 'assistente', 1, 'gomes', 1),
+('mario', 'mario@solberry.com', 'senha654', 'analista', 1, 'barros', 1);
 
 -- Inserindo estufas (total 5)
 insert into estufa (nome, luminosidademax, luminosidademin, statusestufa, tipomorango, fkempresa) values
@@ -139,11 +136,7 @@ insert into sensoreslum (fkEstufa) values
 
 -- Inserindo alertas (total 5)
 insert into alerta (tipo_alerta, data_hora, fk_registro) values
-('luminosidade', '2025-04-28 15:42:00', 1),
-('luminosidade', '2025-04-29 10:15:30', 2),
-('luminosidade', '2025-04-30 08:45:00', 3),
-('luminosidade', '2025-04-30 13:20:10', 4),
-('luminosidade', '2025-04-30 17:05:55', 5);
+('baixa luminosidade', '2025-04-30 09:53:21', 1);
 
 select dad.luzRegistrado Luz, dad.dataRegistro "data do registro", dad.statusRegistro "status do registro", 
 		sen.idsensores sensor,
