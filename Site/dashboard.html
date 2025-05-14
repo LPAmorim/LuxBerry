@@ -44,7 +44,7 @@
         <div class="div-grafico-canvas2-lum">
           <p>Luminosidade média</p>
           <div class="div-canvas2">
-            <canvas id="grafico2" style="width: 105vh; height: 200px;"></canvas>
+            <canvas id="grafico2" style="width: 100vh; height: 400px !important;"></canvas>
           </div>
         </div>
 
@@ -117,7 +117,7 @@
 
     // Calcula os picos ANTES de criar o objeto
     // Calcula os picos ANTES de criar o objeto
-    const picosEstufa1 = `${buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)}`; 
+    const picosEstufa1 = `${buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)}`;
     const picosEstufa2 = `${buscarMaior(linhaEstufa2)} / ${buscarMenor(linhaEstufa2)}`;
 
     const dadosEstufas = {
@@ -215,7 +215,7 @@
         ]
       },
       options: {
-        responsive: true,
+        responsive: false,
         scales: {
           y: { beginAtZero: true, grid: { display: true } },
           x: { grid: { display: true } }
@@ -223,12 +223,11 @@
       }
     });
 
-    //coloca uma função para "escutar" quando houver mudança, passando o change como parametro para verificar o quando o valor do select muda
-    ipt_estufaSelect.addEventListener('change', () => {
-      //pego o valor do select
-      const valor = ipt_estufaSelect.value;
+    function atualizarDashboard() {
+      const estufa = ipt_estufaSelect.value;
+      const sensor = ipt_sensorSelect.value;
 
-      if (valor === "#" || !dadosEstufas[valor]) {
+      if (estufa === "#" && sensor === "#") {
         grafico1.data.datasets[0].data = [];
         grafico2.data.datasets[0].data = [];
         grafico2.data.datasets[1].data = [];
@@ -242,73 +241,29 @@
         return;
       }
 
-      //crio uma variavel para chamar os valores que ele está setando segundo o select q esta no meu valor
-      const dados = dadosEstufas[valor];
+      let dados;
+      if (sensor !== "#" && dadosSensor[sensor]) {
+        dados = dadosSensor[sensor];
+      } else if (estufa !== "#" && dadosEstufas[estufa]) {
+        dados = dadosEstufas[estufa];
+      }
 
-      //chamando o grafico e os dados para setar os dados da minha array
-      //chamo os dados da linha para o meu grafico
-      //uso o 0 por ser o primeiro dado a entrar no meu grafico1
-      //data.datasets[0].data é apenas o caminho que tem dentro do grafico para setar os dados no grafico igual no grafico quando se seta na mão
-      grafico1.data.datasets[0].data = dados.linha;
-      //chamo os dados da barra para o meu grafico
-      //uso 0 por ser o primeiro dado a entrar no meu grafico 2
-      grafico2.data.datasets[0].data = dados.barras;
-      //chamo os dados da desvios para o meu grafico
-      //uso 1 por ser o segundo dado no meu grafico 2 de barras
-      grafico2.data.datasets[1].data = dados.desvios;
+      if (dados) {
+        grafico1.data.datasets[0].data = dados.linha;
+        grafico2.data.datasets[0].data = dados.barras;
+        grafico2.data.datasets[1].data = dados.desvios;
 
-      //substituo os valores das minhas kpis reescrevendo com os dados do meu sensor 1 setado no array dadosEstufas->dados
-      document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
-      document.getElementById('alertas').innerText = dados.alertas;
-      document.getElementById('picos').innerText = dados.picos;
-
-      //atualizo na pagina
-      grafico1.update();
-      grafico2.update();
-    });
-
-    //coloca uma função para "escutar" quando houver mudança, passando o change como parametro para verificar o quando o valor do select muda
-    ipt_sensorSelect.addEventListener('change', () => {
-      const valor = ipt_sensorSelect.value;
-
-      if (valor === "#" || !dadosSensor[valor]) {
-        grafico1.data.datasets[0].data = [];
-        grafico2.data.datasets[0].data = [];
-        grafico2.data.datasets[1].data = [];
-
-        document.getElementById('tempoIdeal').innerText = '__';
-        document.getElementById('alertas').innerText = '__';
-        document.getElementById('picos').innerText = '__';
+        document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
+        document.getElementById('alertas').innerText = dados.alertas;
+        document.getElementById('picos').innerText = dados.picos;
 
         grafico1.update();
         grafico2.update();
-        return;
       }
-      //crio uma variavel para chamar os valores que ele está setando segundo o select q esta no meu valor
-      const dados = dadosSensor[valor];
+    }
 
-      //chamando o grafico e os dados para setar os dados da minha array
-      //chamo os dados da linha para o meu grafico
-      //uso o 0 por ser o primeiro dado a entrar no meu grafico1
-      //data.datasets[0].data é apenas o caminho que tem dentro do grafico para setar os dados no grafico igual no grafico quando se seta na mão
-      grafico1.data.datasets[0].data = dados.linha;
-      //chamo os dados da barra para o meu grafico
-      //uso 0 por ser o pr'imeiro dado a entrar no meu grafico 2
-      grafico2.data.datasets[0].data = dados.barras;
-      //chamo os dados da desvios para o meu grafico
-      //uso 1 por ser o segundo dado no meu grafico 2 de barras
-      grafico2.data.datasets[1].data = dados.desvios;
-
-      //substituo os valores das minhas kpis reescrevendo com os dados do meu sensor 1 setado no array dadosEstufas->dados
-      document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
-      document.getElementById('alertas').innerText = dados.alertas;
-      document.getElementById('picos').innerText = dados.picos;
-
-      //atualizo na pagina
-      grafico1.update();
-      grafico2.update();
-    });
-
+    ipt_estufaSelect.addEventListener('change', atualizarDashboard);
+    ipt_sensorSelect.addEventListener('change', atualizarDashboard);
   </script>
 </body>
 
