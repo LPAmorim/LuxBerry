@@ -487,7 +487,10 @@
     margin: 0;
 }
 
-
+.btn-dash {
+    border-radius: 20px;
+    background-color: #5e885e;
+}
 /* Header dash */
 .header-dash {
     width: max-content;

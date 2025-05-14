@@ -27,12 +27,12 @@
       <p class="bem-vindo">Olá XXXXX, bem vindo de volta!</p>
       <div class="div-canvas">
         <p>Captura de Luminosidade em intervalo de 1 hora - Estufa</p>
-        <select id="ipt_estufaSelect">
+        <select id="ipt_estufaSelect" class="btn-dash">
           <option value="#">Escolha uma estufa</option>
           <option value="1">Estufa 1</option>
           <option value="2">Estufa 2</option>
         </select>
-        <select id="ipt_sensorSelect">
+        <select id="ipt_sensorSelect" class="btn-dash">
           <option value="#">Escolha um sensor</option>
           <option value="1">Sensor 01</option>
           <option value="2">Sensor 02</option>
@@ -116,8 +116,9 @@
     const linhaEstufa2 = [...dadosSensor['3'].linha, ...dadosSensor['4'].linha];
 
     // Calcula os picos ANTES de criar o objeto
-    const picosEstufa1 = ${ buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)};
-    const picosEstufa2 = ${ buscarMaior(linhaEstufa2)} / ${buscarMenor(linhaEstufa2)};
+    // Calcula os picos ANTES de criar o objeto
+    const picosEstufa1 = `${buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)}`; 
+    const picosEstufa2 = `${buscarMaior(linhaEstufa2)} / ${buscarMenor(linhaEstufa2)}`;
 
     const dadosEstufas = {
       "1": {
