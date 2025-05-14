@@ -26,11 +26,16 @@
     <div class="dashboard container">
       <p class="bem-vindo">Olá XXXXX, bem vindo de volta!</p>
       <div class="div-canvas">
-        <p>Captura de Luminosidade em intervalo de 20min - Estufa</p>
-        <select id="estufaSelect">
+        <p>Captura de Luminosidade em intervalo de 1 hora - Estufa</p>
+        <select id="ipt_estufaSelect">
           <option value="#">Escolha uma estufa</option>
           <option value="1">Estufa 1</option>
           <option value="2">Estufa 2</option>
+        </select>
+        <select id="ipt_sensorSelect">
+          <option value="#">Escolha um sensor</option>
+          <option value="1">Sensor 01</option>
+          <option value="2">Sensor 02</option>
         </select>
         <canvas id="grafico1" style="width: 100vh; height: 200px;"></canvas>
       </div>
@@ -39,14 +44,14 @@
         <div class="div-grafico-canvas2-lum">
           <p>Luminosidade média</p>
           <div class="div-canvas2">
-            <canvas id="grafico2"></canvas>
+            <canvas id="grafico2" style="width: 105vh; height: 200px;"></canvas>
           </div>
         </div>
 
         <div class="div-kpi">
           <div class="div-kpi1">
             <div class="card-kpi">
-              <p class="title-kpi">Tempo na luminosidade ideal</p>
+              <p class="title-kpi">Tempo fora da faixa de segurança</p>
               <p id="tempoIdeal">--</p>
             </div>
             <div class="card-kpi">
@@ -59,42 +64,80 @@
               <p class="title-kpi">Picos de luminosidade<br>(maior / menor)</p>
               <p id="picos">--</p>
             </div>
-            <div class="card-kpi">
-              <p class="title-kpi">Dias monitorados</p>
-              <p id="dias">--</p>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="./script/maior&menor.js"></script>
   <script>
     const ctx = document.getElementById('grafico1').getContext('2d');
     const ctx2 = document.getElementById('grafico2').getContext('2d');
 
-    const estufaSelect = document.getElementById('estufaSelect');
     // faço um array para chumbar os valores das estufas(simulando duas estufas)
-    const dadosEstufas = {
-      "1": {
-        linha: [1014.50, 1368.00, 1058.25, 1237.4, 1200, 750, 1100.2, 1050.52],
-        barras: [1014.5, 1368, 1058.25, 1326.5, 1372.25, 954.25, 1014.5],
+    // faço um array para chumbar os valores dos sensores(simulando dentro de cada estufa)
+    const dadosSensor = {
+      '1': {
+        linha: [1014.50, 1368.00, 1058.25, 1237.4, 900, 1100,],
+        barras: [1014.5, 1368, 1058.25, 1326.5, 1372.25],
         desvios: [176.29, 138.27, 141.08, 55.01, 260.27, 105.20, 176.29],
         tempoIdeal: "01:48:59",
         alertas: 1,
         picos: '1368 / 750',
-        dias: 7
       },
-      "2": {
-        linha: [900, 1100, 980, 1150, 1175, 1020, 1080, 950],
+      '2': {
+        linha: [900, 1100, 1200, 750, 1100.2, 1050.52],
         barras: [950, 1100, 980, 1150, 1175],
         desvios: [100, 90, 85, 110, 95],
         tempoIdeal: '120:24:41',
         alertas: 0,
         picos: '1175 / 900',
-        dias: 5
+      },
+      '3': {
+        linha: [900, 1100, 980, 1150, 1014.50, 1368.00],
+        barras: [950, 1100, 980, 1150, 1175],
+        desvios: [100, 90, 85, 110, 95],
+        tempoIdeal: '120:24:41',
+        alertas: 0,
+        picos: '1175 / 900',
+      },
+      '4': {
+        linha: [1014.50, 1368.00, 1500, 1020, 1700, 950],
+        barras: [950, 1100, 1700, 1150, 1175],
+        desvios: [100, 90, 85, 110, 95],
+        tempoIdeal: '120:24:41',
+        alertas: 2,
+        picos: '1175 / 900',
       }
     };
+    // faço um join nos valores
+    const linhaEstufa1 = [...dadosSensor['1'].linha, ...dadosSensor['2'].linha];
+    const linhaEstufa2 = [...dadosSensor['3'].linha, ...dadosSensor['4'].linha];
+
+    // Calcula os picos ANTES de criar o objeto
+    const picosEstufa1 = ${ buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)};
+    const picosEstufa2 = ${ buscarMaior(linhaEstufa2)} / ${buscarMenor(linhaEstufa2)};
+
+    const dadosEstufas = {
+      "1": {
+        linha: linhaEstufa1,
+        barras: [1014.5, 1368, 1058.25, 1326.5, 1372.25],
+        desvios: [176.29, 138.27, 141.08, 55.01, 260.27, 105.20, 176.29],
+        tempoIdeal: "01:48:59",
+        alertas: 1,
+        picos: picosEstufa1,
+      },
+      "2": {
+        linha: linhaEstufa2,
+        barras: [950, 1100, 980, 1150, 1175],
+        desvios: [100, 90, 85, 110, 95],
+        tempoIdeal: '120:24:41',
+        alertas: 2,
+        picos: picosEstufa2,
+      }
+    };
+
     //crio meu grafico sem dados
     const grafico1 = new Chart(ctx, {
       type: 'line',
@@ -110,7 +153,7 @@
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         scales: {
           y: {
             beginAtZero: true
@@ -179,14 +222,26 @@
       }
     });
 
-
-    //coloca uma função para "escutar" quando houver mudança, passando o change como parametro para verificar o qunado o valor do select muda
-    estufaSelect.addEventListener('change', () => {
+    //coloca uma função para "escutar" quando houver mudança, passando o change como parametro para verificar o quando o valor do select muda
+    ipt_estufaSelect.addEventListener('change', () => {
       //pego o valor do select
-      const valor = estufaSelect.value;
-      if (valor === "#" || !dadosEstufas[valor]) return;
+      const valor = ipt_estufaSelect.value;
 
-      //crio uma variavel para chamar os valores que ele esta setadao segundo o select q esta no meu valor
+      if (valor === "#" || !dadosEstufas[valor]) {
+        grafico1.data.datasets[0].data = [];
+        grafico2.data.datasets[0].data = [];
+        grafico2.data.datasets[1].data = [];
+
+        document.getElementById('tempoIdeal').innerText = '__';
+        document.getElementById('alertas').innerText = '__';
+        document.getElementById('picos').innerText = '__';
+
+        grafico1.update();
+        grafico2.update();
+        return;
+      }
+
+      //crio uma variavel para chamar os valores que ele está setando segundo o select q esta no meu valor
       const dados = dadosEstufas[valor];
 
       //chamando o grafico e os dados para setar os dados da minha array
@@ -205,12 +260,54 @@
       document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
       document.getElementById('alertas').innerText = dados.alertas;
       document.getElementById('picos').innerText = dados.picos;
-      document.getElementById('dias').innerText = dados.dias;
 
       //atualizo na pagina
       grafico1.update();
       grafico2.update();
     });
+
+    //coloca uma função para "escutar" quando houver mudança, passando o change como parametro para verificar o quando o valor do select muda
+    ipt_sensorSelect.addEventListener('change', () => {
+      const valor = ipt_sensorSelect.value;
+
+      if (valor === "#" || !dadosSensor[valor]) {
+        grafico1.data.datasets[0].data = [];
+        grafico2.data.datasets[0].data = [];
+        grafico2.data.datasets[1].data = [];
+
+        document.getElementById('tempoIdeal').innerText = '__';
+        document.getElementById('alertas').innerText = '__';
+        document.getElementById('picos').innerText = '__';
+
+        grafico1.update();
+        grafico2.update();
+        return;
+      }
+      //crio uma variavel para chamar os valores que ele está setando segundo o select q esta no meu valor
+      const dados = dadosSensor[valor];
+
+      //chamando o grafico e os dados para setar os dados da minha array
+      //chamo os dados da linha para o meu grafico
+      //uso o 0 por ser o primeiro dado a entrar no meu grafico1
+      //data.datasets[0].data é apenas o caminho que tem dentro do grafico para setar os dados no grafico igual no grafico quando se seta na mão
+      grafico1.data.datasets[0].data = dados.linha;
+      //chamo os dados da barra para o meu grafico
+      //uso 0 por ser o pr'imeiro dado a entrar no meu grafico 2
+      grafico2.data.datasets[0].data = dados.barras;
+      //chamo os dados da desvios para o meu grafico
+      //uso 1 por ser o segundo dado no meu grafico 2 de barras
+      grafico2.data.datasets[1].data = dados.desvios;
+
+      //substituo os valores das minhas kpis reescrevendo com os dados do meu sensor 1 setado no array dadosEstufas->dados
+      document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
+      document.getElementById('alertas').innerText = dados.alertas;
+      document.getElementById('picos').innerText = dados.picos;
+
+      //atualizo na pagina
+      grafico1.update();
+      grafico2.update();
+    });
+
   </script>
 </body>
 
