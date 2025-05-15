@@ -487,7 +487,6 @@
     margin: 0;
 }
 
-
 /* Header dash */
 .header-dash {
     width: max-content;
@@ -645,6 +644,97 @@
     overflow-y: auto;
 }
 
+/* ==== Página de alertas da dashboard */
+.area-parametros-alerta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px;
+}
+
+.titulo-legenda {
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  padding: 8px 16px;
+  margin-bottom: 10px;
+}
+
+.parametros-alerta {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.item-regua {
+  flex: 1;
+  color: white;
+  text-align: center;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 100px;
+  box-sizing: border-box;
+}
+
+
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card-aquario {
+  width: 200px;
+  height: 200px;
+  background-color: #f9f9f9;
+  border: 2px solid black;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.title-aquario h1 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.temperatura p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.cor-alerta {
+  width: 100%;
+  height: 20px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+.item-regua.perigo-Baixo {
+  background-color: blue;
+}
+
+.item-regua.ideal {
+  background-color: green;
+}
+
+.item-regua.perigo-Alto {
+  background-color: red;
+}
+
 /* ==== FIM DO CSS USADO NO DASH ==== */
-
-

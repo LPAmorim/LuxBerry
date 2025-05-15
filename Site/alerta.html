@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alertas</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+
+<body>
+  <div class="flex-dash">
+    <div id="header" class="header-dash">
+      <img src="../assets/Lux Berry 1.png" alt=""></a>
+      <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="notificacoes-dash.html">Histórico</a>
+        <a href="cadastro.html">Cadastre um funcionário</a>
+        <a href="./suporte.html">suporte</a>
+        <a href="index.html" style="color: red;">Sair</a>
+      </div>
+    </div>
+
+    <div class="container-geral">
+
+  <div class="area-parametros-alerta">
+    <p class="titulo-legenda">
+      Legenda - Parâmetros para Alertas
+    </p>
+    <div class="parametros-alerta">
+      <div class="item-regua perigo-Baixo">
+        <p>Perigo</p>
+        <p> Abaixo de 800 Lux</p>
+      </div>
+      <div class="item-regua ideal">
+        <p>Ideal</p>
+        <p>Entre 800 e 1500 Lux </p>
+      </div>
+      <div class="item-regua perigo-Alto">
+        <p>Perigo</p>
+        <p> Acima de 1500 Lux</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards" id="cardAquarios"></div>
+</div>
+
+</body>
+<script>
+ sessionStorage.AQUARIOS = JSON.stringify([
+  { id: 1, descricao: "Estufa 1", lux: 700 },
+  { id: 2, descricao: "Estufa 2", lux: 1000 },
+  { id: 3, descricao: "Estufa 3", lux: 1600 },
+  { id: 4, descricao: "Estufa 4", lux: 1200 },
+  { id: 5, descricao: "Estufa 5", lux: 100 }
+]);
+
+function exibirAquarios() {
+  const aquarios = JSON.parse(sessionStorage.AQUARIOS);
+  const container = document.getElementById("cardAquarios");
+  container.innerHTML = "";
+
+  aquarios.forEach(item => {
+    let corAlerta = "";
+    if (item.lux < 800) {
+      corAlerta = "blue";
+    } else if (item.lux <= 1500) {
+      corAlerta = "green";
+    } else {
+      corAlerta = "red";
+    }
+
+    container.innerHTML += `
+      <div class="card-aquario">
+        <div class="title-aquario">
+          <h1>${item.descricao}</h1>
+        </div>
+        <div class="desc-aquario">
+          <div class="temperatura">
+            <p id="lux_aquario_${item.id}">${item.lux} Lux</p>
+          </div>
+          <div class="cor-alerta" style="background-color: ${corAlerta};"></div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+exibirAquarios();
+
+</script>
