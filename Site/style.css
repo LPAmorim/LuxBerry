@@ -487,13 +487,12 @@
     margin: 0;
 }
 
-<<<<<<< HEAD
-=======
+
 .btn-dash {
     border-radius: 20px;
     background-color: #5e885e;
 }
->>>>>>> 90450e8e3a666295f642ab20d38f98fbd133c185
+
 /* Header dash */
 .header-dash {
     width: max-content;
