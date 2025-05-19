@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="header" class="header container fixo-outras">
+        <img src="../assets/Lux Berry 1.png" alt=""></a>
+        <div>
+            <a href="dashboard.html">Voltar para Dashboard</a>
+            <a href="index.html" style="color: red;">Sair</a>
+        </div>
+    </div>
+    <div class="login container">
+
+    </div>
+</body>
+<script>
+    function autenticar() {
+        var nome = ipt_nome.value
+        var sobreN = ipt_sobrenome.value
+        var email = ipt_email.value
+        var senha = ipt_senha.value
+        var ConfirmarSenha = ipt_Csenha.value
+
+        var mensagem = ""
+        var erro = false
+
+        if (email.indexOf("@") < 0 ||
+            email.indexOf(" ") >= 0 ||
+            email.indexOf("..") >= 0 ||
+            email.startsWith("-") ||
+            email.endsWith("-") ||
+            !email.endsWith(".com")) {
+            mensagem += "Email inválido. Ex válido: XXX@XXX.com <br>"
+            erro = true
+        }
+
+        if (ConfirmarSenha != senha) {
+            mensagem += "As senhas não coincidem <br>"
+            erro = true
+        }
+
+        div_resp.classList.remove("div-sumida", "erro", "validado")
+
+        if (erro) {
+            div_resp.classList.add("erro")
+            div_resp.innerHTML = mensagem
+        } else {
+            div_resp.classList.remove("div-sumida", "erro")
+            div_resp.classList.add("validado")
+                div_resp.innerHTML = "Cadastro validado"
+
+            setTimeout(() => {
+                    window.location.href = "cadastro.html";
+                }, 1000);
+        }
+    }
+</script>
+
+</html>
