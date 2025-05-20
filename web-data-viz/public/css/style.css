@@ -68,6 +68,7 @@
     background-image: url(../assets/main.png);
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     height: 100vh;
     color: white;
     display: flex;
@@ -307,11 +308,6 @@
     min-height: 70%;
     padding: 10px;
 }
-.login-conteudo-1 {
-    width: 40%;
-    padding: 40px;
-    align-items: start;
-}
 
 .login-conteudo h2 {
     color: #3B4F3B;
@@ -328,11 +324,11 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: start;
+    align-items: center;
 }
 
 .cadastro-input-div {
-    width: max-content;
+    width: 80%;
 }
 
 .login-conteudo-inputs p {
@@ -490,6 +486,13 @@
     height: 100vh;
     margin: 0;
 }
+
+
+.btn-dash {
+    border-radius: 20px;
+    background-color: #5e885e;
+}
+
 /* Header dash */
 .header-dash {
     width: max-content;
@@ -503,6 +506,13 @@
     padding: 0 3%;
 }
 
+.header-dash p {
+    color: white;
+}
+
+.header-dash p > span {
+    color: black;
+}
 
 .header-dash div {
     display: flex;
@@ -639,11 +649,8 @@
     max-height: 500px;
     overflow-y: auto;
 }
-/* ==== FIM DO CSS USADO NO DASH ==== */
+
 /* ==== Página de alertas da dashboard */
-.container-geral {
-    width: 100%;
-}
 .area-parametros-alerta {
   display: flex;
   flex-direction: column;
@@ -725,7 +732,7 @@
 }
 
 .item-regua.perigo-Baixo {
-  background-color: #5353b8;
+  background-color: blue;
 }
 
 .item-regua.ideal {
@@ -733,5 +740,7 @@
 }
 
 .item-regua.perigo-Alto {
-  background-color: #ce0c16;
+  background-color: red;
 }
+
+/* ==== FIM DO CSS USADO NO DASH ==== */
