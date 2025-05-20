@@ -409,7 +409,7 @@
 /* USADO NA CALCULADORA */
 
 .calculadora {
-    background-image: url(assets/calc-fundo.png);
+    background-image: url(../assets/calc-fundo.png);
     width: 100%;
     height: 130vh;
     background-repeat: no-repeat;
