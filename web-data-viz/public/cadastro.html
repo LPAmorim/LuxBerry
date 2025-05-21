@@ -58,11 +58,11 @@
     function cadastrar() {
         var nome = ipt_nome.value
         var sobreN = ipt_sobrenome.value
-        var cargo = ipt_cargo
+        var cargo = ipt_cargo.value
         var email = ipt_email.value
         var senha = ipt_senha.value
         var ConfirmarSenha = ipt_Csenha.value
-        var empresa = sessionStorage.FK_EMPRESA
+        var empresa = Number(sessionStorage.FK_EMPRESA)
 
         var mensagem = ""
         var erro = false
