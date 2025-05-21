@@ -32,6 +32,10 @@
                         <input type="text" id="ipt_sobrenome">
                     </div>
                     <div class="login-conteudo-inputs-1">
+                        <p>Cargo:</p>
+                        <input type="text" id="ipt_cargo">
+                    </div>
+                    <div class="login-conteudo-inputs-1">
                         <p>Email:</p>
                         <input type="text" id="ipt_email">
                     </div>
@@ -51,12 +55,14 @@
     </div>
 </body>
 <script>
-    function autenticar() {
+    function cadastrar() {
         var nome = ipt_nome.value
         var sobreN = ipt_sobrenome.value
+        var cargo = ipt_cargo
         var email = ipt_email.value
         var senha = ipt_senha.value
         var ConfirmarSenha = ipt_Csenha.value
+        var empresa = sessionStorage.FK_EMPRESA
 
         var mensagem = ""
         var erro = false
@@ -90,7 +96,50 @@
                     window.location.href = "cadastro.html";
                 }, 1000);
         }
-    }
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nome,
+        sobreNServer: sobreN,
+        cargoServer: cargo,
+        emailServer: email,
+        senhaServer: senha,
+        idEmpresaVincularServer: empresa
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "2000");
+
+          limparFormulario();
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
 </script>
 
 </html>
