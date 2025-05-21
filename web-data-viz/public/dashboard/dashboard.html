@@ -73,79 +73,15 @@
 
     const ctx = document.getElementById('grafico1').getContext('2d');
     const ctx2 = document.getElementById('grafico2').getContext('2d');
+    let grafico1 = null;
 
-    // faço um array para chumbar os valores das estufas(simulando duas estufas)
-    // faço um array para chumbar os valores dos sensores(simulando dentro de cada estufa)
-    const dadosSensor = {
-      '1': {
-        linha: [1014.50, 1368.00, 1058.25, 1237.4, 900, 1100,],
-        barras: [1014.5, 1368, 1058.25, 1326.5, 1372.25],
-        desvios: [176.29, 138.27, 141.08, 55.01, 260.27, 105.20, 176.29],
-        tempoIdeal: "01:48:59",
-        alertas: 1,
-        picos: '1368 / 750',
-      },
-      '2': {
-        linha: [900, 1100, 1200, 750, 1100.2, 1050.52],
-        barras: [950, 1100, 980, 1150, 1175],
-        desvios: [100, 90, 85, 110, 95],
-        tempoIdeal: '120:24:41',
-        alertas: 0,
-        picos: '1175 / 900',
-      },
-      '3': {
-        linha: [900, 1100, 980, 1150, 1014.50, 1368.00],
-        barras: [950, 1100, 980, 1150, 1175],
-        desvios: [100, 90, 85, 110, 95],
-        tempoIdeal: '120:24:41',
-        alertas: 0,
-        picos: '1175 / 900',
-      },
-      '4': {
-        linha: [1014.50, 1368.00, 1500, 1020, 1700, 950],
-        barras: [950, 1100, 1700, 1150, 1175],
-        desvios: [100, 90, 85, 110, 95],
-        tempoIdeal: '120:24:41',
-        alertas: 2,
-        picos: '1175 / 900',
-      }
-    };
-    // faço um join nos valores
-    const linhaEstufa1 = [...dadosSensor['1'].linha, ...dadosSensor['2'].linha];
-    const linhaEstufa2 = [...dadosSensor['3'].linha, ...dadosSensor['4'].linha];
-
-    // Calcula os picos ANTES de criar o objeto
-    // Calcula os picos ANTES de criar o objeto
-    const picosEstufa1 = `${buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)}`;
-    const picosEstufa2 = `${buscarMaior(linhaEstufa2)} / ${buscarMenor(linhaEstufa2)}`;
-
-    const dadosEstufas = {
-      "1": {
-        linha: linhaEstufa1,
-        barras: [1014.5, 1368, 1058.25, 1326.5, 1372.25],
-        desvios: [176.29, 138.27, 141.08, 55.01, 260.27, 105.20, 176.29],
-        tempoIdeal: "01:48:59",
-        alertas: 1,
-        picos: picosEstufa1,
-      },
-      "2": {
-        linha: linhaEstufa2,
-        barras: [950, 1100, 980, 1150, 1175],
-        desvios: [100, 90, 85, 110, 95],
-        tempoIdeal: '120:24:41',
-        alertas: 2,
-        picos: picosEstufa2,
-      }
-    };
-
-    //crio meu grafico sem dados
-    const grafico1 = new Chart(ctx, {
+    grafico1 = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['8:00:00 - 8:20:00', '8:20:00 - 8:40:00', '8:40:00 - 9:00:00', '9:00:00 - 9:20:00', '9:20:00 - 9:40:00', '9:40:00 - 10:00:00', '10:00:00 - 10:20:00', '10:20:00 - 10:40:00'],
+        labels: [], 
         datasets: [{
           label: 'Lux detectado',
-          data: [],
+          data: [],  
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1
@@ -191,7 +127,7 @@
         }
       }
     });
-    //grafico sem dados
+
     const grafico2 = new Chart(ctx2, {
       type: 'bar',
       data: {
@@ -222,99 +158,103 @@
       }
     });
 
-    function atualizarDashboard() {
-      const estufa = ipt_estufaSelect.value;
-      const sensor = ipt_sensorSelect.value;
-
-      if (estufa === "#" && sensor === "#") {
-        grafico1.data.datasets[0].data = [];
-        grafico2.data.datasets[0].data = [];
-        grafico2.data.datasets[1].data = [];
-
-        document.getElementById('tempoIdeal').innerText = '__';
-        document.getElementById('alertas').innerText = '__';
-        document.getElementById('picos').innerText = '__';
-
-        grafico1.update();
-        grafico2.update();
-        return;
-      }
-
-      let dados;
-      if (sensor !== "#" && dadosSensor[sensor]) {
-        dados = dadosSensor[sensor];
-      } else if (estufa !== "#" && dadosEstufas[estufa]) {
-        dados = dadosEstufas[estufa];
-      }
-
-      if (dados) {
-        grafico1.data.datasets[0].data = dados.linha;
-        grafico2.data.datasets[0].data = dados.barras;
-        grafico2.data.datasets[1].data = dados.desvios;
-
-        document.getElementById('tempoIdeal').innerText = dados.tempoIdeal;
-        document.getElementById('alertas').innerText = dados.alertas;
-        document.getElementById('picos').innerText = dados.picos;
-
-        grafico1.update();
-        grafico2.update();
-      }
-    }
-
-    ipt_estufaSelect.addEventListener('change', atualizarDashboard);
-    ipt_sensorSelect.addEventListener('change', atualizarDashboard);
 
 
     
-   window.onload = () => {
-  const fkempresa = sessionStorage.getItem("FK_EMPRESA");
 
-  fetch(`/dash/estufa/${fkempresa}`)
-    .then(res => res.json())
-    .then(data => {
-      const selectEstufa = document.getElementById("ipt_estufaSelect");
-      if (!selectEstufa) {
-        console.error("Elemento select não encontrado.");
-        return;
-      }
+    window.onload = () => {
+      const fkempresa = sessionStorage.getItem("FK_EMPRESA");
 
-      for (let i = 0; i < data.length; i++) {
-        const estufa = data[i];
-        const option = document.createElement("option");
-        option.value = estufa.idestufa;
-        option.textContent = estufa.nome;
-        selectEstufa.appendChild(option);
-      }
+      fetch(`/dash/estufa/${fkempresa}`)
+        .then(res => res.json())
+        .then(data => {
+          const selectEstufa = document.getElementById("ipt_estufaSelect");
+          if (!selectEstufa) {
+            console.error("Elemento select não encontrado.");
+            return;
+          }
 
-      // Evento quando o usuário muda a estufa selecionada
-      selectEstufa.addEventListener("change", () => {
-        const fkEstufa = selectEstufa.value;
-        buscarSensores(fkEstufa);
-      });
-    })
-    .catch(err => console.error("Erro ao carregar estufas:", err));
-};
+          for (let i = 0; i < data.length; i++) {
+            const estufa = data[i];
+            const option = document.createElement("option");
+            option.value = estufa.idestufa;
+            option.textContent = estufa.nome;
+            selectEstufa.appendChild(option);
+          }
 
-function buscarSensores(fkEstufa) {
-  fetch(`/dash/sensor/${fkEstufa}`)
-    .then(res => res.json())
-    .then(data => {
-      const selectSensor = document.getElementById("ipt_sensorSelect");
-      selectSensor.innerHTML=''
-      selectSensor.innerHTML = "Escolha um sensor"; 
-  
+          selectEstufa.addEventListener("change", () => {
+            const fkEstufa = selectEstufa.value;
+            buscarSensores(fkEstufa);
+          });
+        })
+        .catch(err => console.error("Erro ao carregar estufas:", err));
+    };
 
-      for (let i = 0; i < data.length; i++) {
-        const sensor = data[i];
-        const option = document.createElement("option");
-        option.value = sensor.idsensores;
-        option.textContent = sensor.nome;
-        selectSensor.appendChild(option);
-      }
-    })
-    .catch(err => console.error("Erro ao carregar sensores:", err));
-}
+    function buscarSensores(fkEstufa) {
+      fetch(`/dash/sensor/${fkEstufa}`)
+        .then(res => res.json())
+        .then(data => {
+          const selectSensor = document.getElementById("ipt_sensorSelect");
 
+          selectSensor.innerHTML = '';
+          const defaultOption = document.createElement("option");
+          defaultOption.disabled = true;
+          defaultOption.selected = true;
+          defaultOption.textContent = "Escolha um sensor";
+          selectSensor.appendChild(defaultOption);
+
+          for (let i = 0; i < data.length; i++) {
+            const sensor = data[i];
+            const option = document.createElement("option");
+            option.value = sensor.idsensores;
+            option.textContent = sensor.nome;
+            selectSensor.appendChild(option);
+          }
+
+         
+          selectSensor.onchange = () => {
+            const fksensor = selectSensor.value;
+            plotargrafico1(fksensor);
+          };
+        })
+        .catch(err => console.error("Erro ao carregar sensores:", err));
+    }
+
+    function plotargrafico1(fksensor) {
+      fetch(`/dash/grafico/${fksensor}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(async res => {
+          const text = await res.text();
+          if (!text) {
+            throw new Error("Resposta vazia do servidor");
+          }
+          return JSON.parse(text);
+        })
+        .then(data => {
+          if (data.length === 0) {
+            alert("Não possui dados para a dashboard");
+
+            
+            grafico1.data.labels = [];
+            grafico1.data.datasets[0].data = [];
+            grafico1.update();
+            return;
+          }
+
+          const horario = data.map(item => {
+            const date = new Date(item.dataRegistro);
+            return date.toTimeString().split(' ')[0];
+          });
+          const lux = data.map(i => i.luzRegistrado);
+
+         
+          grafico1.data.labels = horario;
+          grafico1.data.datasets[0].data = lux;
+          grafico1.update();
+        });
+    }
 
   </script>
 </body>

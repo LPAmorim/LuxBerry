@@ -1,5 +1,6 @@
 const { fchown } = require("fs");
-var database = require("../database/config")
+var database = require("../database/config");
+const { plotargrf2 } = require("../controllers/dashEstufaController");
 
 
 function listarEstufas(fkempresa){
@@ -23,8 +24,27 @@ function listarSensores(fkEstufa){
      return database.executar(instrucaoSql);
 
 }
+
+
+function plotargrf1(fksensor){
+    const instrucaoSql=`
+    select luzRegistrado,
+    dataRegistro
+    from dadosSensor
+    where fkSensor = ${fksensor}
+    `
+
+    return database.executar(instrucaoSql);
+}
+
+// function plotargrf2(){
+
+// }
+
 module.exports={
     listarEstufas,
-    listarSensores
+    listarSensores,
+    plotargrf1,
+    plotargrf2
 
 }

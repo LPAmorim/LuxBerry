@@ -34,7 +34,32 @@ function listarSensores(req, res){
         });
 }
 
+
+function plotargrf1(req,res){
+const fksensor= req.params.fksensor;
+
+
+dashEstufaModel.plotargrf1(fksensor)
+    .then(result=>{
+        if (result.length > 0) {
+                res.status(200).json(result);
+            } else {
+                res.status(204).send("Nenhum sensor encontrado.");
+            }
+    })
+    .catch(erro => {
+            console.error("Erro ao buscar sensores:", erro);
+            res.status(500).json(erro);
+        });
+}
+
+function plotargrf2(req,res){
+
+}
+
 module.exports={
     listarEstufas,
-    listarSensores
+    listarSensores,
+    plotargrf1,
+    plotargrf2
 }
