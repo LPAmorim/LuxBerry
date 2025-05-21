@@ -5,62 +5,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
-    <div id="header" class="header container fixo-outras">
-        <img src="../assets/LuxBerry.png" alt=""></a>
-        <div>
-            <a href="dashboard.html">Voltar para Dashboard</a>
-            <a href="../index.html" style="color: red;">Sair</a>
+    <div class="flex-dash">
+        <div id="header" class="header-dash">
+            <img src="../assets/LuxBerry.png" alt=""></a>
+            <div>
+                <a href="dashboard.html">Voltar para Dashboard</a>
+                <a href="../index.html" style="color: red;">Sair</a>
+            </div>
         </div>
-    </div>
-    <div class="login container">
 
+
+        <div id="container" class="container-geral">
+            <div class="container-button-bot" id="containerButton">
+                <div class="button-bot" onclick="abrirBob()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+                        <rect width="24" height="24" fill="none" />
+                        <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M12 8V4H8" />
+                            <rect width="16" height="12" x="4" y="8" rx="2" />
+                            <path d="M2 14h2m16 0h2m-7-1v2m-6-2v2" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="bot" id="bob">
+                <h1>BobIA</h1>
+                <div id="perguntas"></div>
+                <div id="resposta"></div>
+                <div class="bot-escrever">
+                    <textarea id="pergunta" type="text" placeholder="Digite a pergunta..."></textarea>
+                    <div onclick="gerarResposta()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <rect width="24" height="24" fill="none" />
+                            <path fill="#fff"
+                                d="M4.4 19.425q-.5.2-.95-.088T3 18.5V14l8-2l-8-2V5.5q0-.55.45-.837t.95-.088l15.4 6.5q.625.275.625.925t-.625.925z" />
+                        </svg></div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 <script>
-    function autenticar() {
-        var nome = ipt_nome.value
-        var sobreN = ipt_sobrenome.value
-        var email = ipt_email.value
-        var senha = ipt_senha.value
-        var ConfirmarSenha = ipt_Csenha.value
 
-        var mensagem = ""
-        var erro = false
+    function abrirBob() {
+        const bot = document.getElementById('bob');
+        const botButton = document.getElementById('containerButton');
 
-        if (email.indexOf("@") < 0 ||
-            email.indexOf(" ") >= 0 ||
-            email.indexOf("..") >= 0 ||
-            email.startsWith("-") ||
-            email.endsWith("-") ||
-            !email.endsWith(".com")) {
-            mensagem += "Email inválido. Ex válido: XXX@XXX.com <br>"
-            erro = true
-        }
-
-        if (ConfirmarSenha != senha) {
-            mensagem += "As senhas não coincidem <br>"
-            erro = true
-        }
-
-        div_resp.classList.remove("div-sumida", "erro", "validado")
-
-        if (erro) {
-            div_resp.classList.add("erro")
-            div_resp.innerHTML = mensagem
-        } else {
-            div_resp.classList.remove("div-sumida", "erro")
-            div_resp.classList.add("validado")
-                div_resp.innerHTML = "Cadastro validado"
-
-            setTimeout(() => {
-                    window.location.href = "cadastro.html";
-                }, 1000);
-        }
+        botButton.style.display = "none";
+        bot.style.display = "flex";
     }
+
+    async function gerarResposta() {
+        const pergunta = document.getElementById('pergunta').value;
+        const perguntaDiv = document.getElementById('perguntas');
+        
+        perguntaDiv.style.display = "flex";
+        perguntas.innerText = `${pergunta}`
+
+        const response = await fetch('/bob/perguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pergunta })
+        });
+        console.log(JSON.stringify({ pergunta }))
+
+        const data = await response.json();
+
+        resposta.style.display = 'flex';
+        document.getElementById('resposta').innerText = data.resultado;
+    }
+
 </script>
 
 </html>
