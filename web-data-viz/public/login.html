@@ -93,11 +93,11 @@
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.idFuncionarios;
+                    sessionStorage.ID_USUARIO = json.idfuncionarios;
                     sessionStorage.FK_EMPRESA=json.fkempresa
 
                     setTimeout(function () {
-                        window.location = "../dashboard/dashboard.html  ";
+                        window.location = "../dashboard/dashboard.html";
                     }, 1000); // apenas para exibir o loading
 
                 });
