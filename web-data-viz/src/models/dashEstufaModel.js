@@ -20,6 +20,8 @@ function listarSensores(fkEstufa){
     from sensoreslum
     where fkEstufa = ${fkEstufa};
     `
+     return database.executar(instrucaoSql);
+
 }
 module.exports={
     listarEstufas,

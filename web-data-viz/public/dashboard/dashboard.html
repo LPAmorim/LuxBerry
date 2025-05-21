@@ -30,13 +30,10 @@
         <p>Captura de Luminosidade em intervalo de 1 hora - Estufa</p>
         <select id="ipt_estufaSelect" class="btn-dash">
           <option value="#">Escolha uma estufa</option>
-          <option value="1">Estufa 1</option>
-          <option value="2">Estufa 2</option>
+
         </select>
         <select id="ipt_sensorSelect" class="btn-dash">
           <option value="#">Escolha um sensor</option>
-          <option value="1">Sensor 01</option>
-          <option value="2">Sensor 02</option>
         </select>
         <canvas id="grafico1" style="width: 100vh; height: 200px;"></canvas>
       </div>
@@ -269,27 +266,56 @@
 
 
     
-      window.onload=()=>{
+   window.onload = () => {
   const fkempresa = sessionStorage.getItem("FK_EMPRESA");
-      console.log("fkempresa carregada:", fkempresa); // <-- ADICIONE ISSO
 
-        fetch(`/dash/estufa/${fkempresa}`,{ 
-          method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-        }).then(res => res.json())
-        .then(data =>{
-          const selectEstufa = document.getElementById("ipt_estufaSelect");
-          for(let i=0; i<data.length; i++){
-            const estufa=data[i];
-            const option = document.createElement("option");
-            option.value=estufa.idestufa;
-            option.textContent=estufa.nome
-            selectEstufa.appendChild(option)
-          }
-        })
+  fetch(`/dash/estufa/${fkempresa}`)
+    .then(res => res.json())
+    .then(data => {
+      const selectEstufa = document.getElementById("ipt_estufaSelect");
+      if (!selectEstufa) {
+        console.error("Elemento select não encontrado.");
+        return;
       }
+
+      for (let i = 0; i < data.length; i++) {
+        const estufa = data[i];
+        const option = document.createElement("option");
+        option.value = estufa.idestufa;
+        option.textContent = estufa.nome;
+        selectEstufa.appendChild(option);
+      }
+
+      // Evento quando o usuário muda a estufa selecionada
+      selectEstufa.addEventListener("change", () => {
+        const fkEstufa = selectEstufa.value;
+        buscarSensores(fkEstufa);
+      });
+    })
+    .catch(err => console.error("Erro ao carregar estufas:", err));
+};
+
+function buscarSensores(fkEstufa) {
+  fetch(`/dash/sensor/${fkEstufa}`)
+    .then(res => res.json())
+    .then(data => {
+      const selectSensor = document.getElementById("ipt_sensorSelect");
+      selectSensor.innerHTML=''
+      selectSensor.innerHTML = "Escolha um sensor"; 
+  
+
+      for (let i = 0; i < data.length; i++) {
+        const sensor = data[i];
+        const option = document.createElement("option");
+        option.value = sensor.idsensores;
+        option.textContent = sensor.nome;
+        selectSensor.appendChild(option);
+      }
+    })
+    .catch(err => console.error("Erro ao carregar sensores:", err));
+}
+
+
   </script>
 </body>
 

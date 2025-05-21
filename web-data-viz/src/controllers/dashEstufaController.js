@@ -17,8 +17,21 @@ function listarEstufas(req, res) {
         });
 }
 
-function listarSensores(req,res){
+function listarSensores(req, res){
+    const fkEstufa = req.params.fkEstufa;
 
+    dashEstufaModel.listarSensores(fkEstufa)
+        .then(result => {
+            if (result.length > 0) {
+                res.status(200).json(result);
+            } else {
+                res.status(204).send("Nenhum sensor encontrado.");
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar sensores:", erro);
+            res.status(500).json(erro);
+        });
 }
 
 module.exports={
