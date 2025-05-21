@@ -24,14 +24,14 @@
             <div class="login-conteudo-insert">
                 <div class="login-conteudo-inputs">
                     <p>Email:</p>
-                    <input type="text" name="" id="ipt_nome">
+                    <input type="text" name="" id="ipt_email">
                 </div>
                 <div class="login-conteudo-inputs">
                     <p>Senha:</p>
                     <input type="password" name="" id="ipt_senha">
                 </div>
             </div>
-            <button onclick="autenticar()">Login</button>
+            <button onclick="entrar()">Login</button>
             <div id="div_resp" class="div-sumida"></div>
         </div>
     </div>
@@ -55,37 +55,101 @@
     </div>
 </body>
 <script>
-    var tentativas = 2;
-    function autenticar() {
-        var usuario = ipt_nome.value
-        var senha = ipt_senha.value
-        var usuarioCorreto = "fernando@frutiverso.com"
-        var senhaCorreta = "1234"
 
-        if (tentativas > 0) {
-            if (usuario != usuarioCorreto || senha != senhaCorreta) {
-                div_resp.classList.remove("div-sumida", "validado")
-                div_resp.classList.add("erro")
-                div_resp.innerHTML = `Usuário ou senha inválidos! <br> ${tentativas} tentativas restantes`
-                tentativas--
-            } else {
-                div_resp.classList.remove("div-sumida", "erro")
-                div_resp.classList.add("validado")
-                div_resp.innerHTML = "Login validado"
+    function entrar() {
 
-                // Para mudar de página após 1 segundo
-                setTimeout(() => {
-                    window.location.href = "dashboard/dashboard.html";
-                }, 1000);
-                tentativas = 3;
-            }
-        } else {
-            div_resp.classList.remove("div-sumida", "validado")
-                div_resp.classList.add("erro")
-                div_resp.innerHTML = "Limite de tentativas atingido"
-                return;
+        var emailVar = ipt_email.value;
+        var senhaVar = ipt_senha.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            finalizarAguardar();
+            return false;
         }
+        else {
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.idFuncionarios;
+                    sessionStorage.FK_EMPRESA=json.fkempresa
+
+                    setTimeout(function () {
+                        window.location = "../dashboard/dashboard.html  ";
+                    }, 1000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
     }
+
+    // var tentativas = 2;
+    // function autenticar() {
+    //     var usuario = ipt_nome.value
+    //     var senha = ipt_senha.value
+    //     var usuarioCorreto = "fernando@frutiverso.com"
+    //     var senhaCorreta = "1234"
+
+    //     if (tentativas > 0) {
+    //         if (usuario != usuarioCorreto || senha != senhaCorreta) {
+    //             div_resp.classList.remove("div-sumida", "validado")
+    //             div_resp.classList.add("erro")
+    //             div_resp.innerHTML = `Usuário ou senha inválidos! <br> ${tentativas} tentativas restantes`
+    //             tentativas--
+    //         } else {
+    //             div_resp.classList.remove("div-sumida", "erro")
+    //             div_resp.classList.add("validado")
+    //             div_resp.innerHTML = "Login validado"
+
+    //             // Para mudar de página após 1 segundo
+    //             setTimeout(() => {
+    //                 window.location.href = "dashboard/dashboard.html";
+    //             }, 1000);
+    //             tentativas = 3;
+    //         }
+    //     } else {
+    //         div_resp.classList.remove("div-sumida", "validado")
+    //             div_resp.classList.add("erro")
+    //             div_resp.innerHTML = "Limite de tentativas atingido"
+    //             return;
+    //     }
+    // }
 </script>
 
 </html>

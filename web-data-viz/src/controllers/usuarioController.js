@@ -20,10 +20,11 @@ function autenticar(req, res) {
                         console.log(resultadoAutenticar);
 
                         res.json({
-                            id: resultadoAutenticar[0].id,
+                            idFuncionarios: resultadoAutenticar[0].idFuncionarios,
                             email: resultadoAutenticar[0].email,
                             nome: resultadoAutenticar[0].nome,
-                            senha: resultadoAutenticar[0].senha
+                            senha: resultadoAutenticar[0].senha,
+                            fkempresa: resultadoAutenticar[0].fkempresa
                         });
 
                     } else if (resultadoAutenticar.length == 0) {
@@ -49,7 +50,6 @@ function cadastrar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var fkEmpresa = req.body.idEmpresaVincularServer;
-    var cpf = req.body.cpfServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
