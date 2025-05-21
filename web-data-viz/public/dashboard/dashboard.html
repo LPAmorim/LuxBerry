@@ -73,6 +73,7 @@
 
   <script src="../script/maior&menor.js"></script>
   <script>
+
     const ctx = document.getElementById('grafico1').getContext('2d');
     const ctx2 = document.getElementById('grafico2').getContext('2d');
 
@@ -265,6 +266,30 @@
 
     ipt_estufaSelect.addEventListener('change', atualizarDashboard);
     ipt_sensorSelect.addEventListener('change', atualizarDashboard);
+
+
+    
+      window.onload=()=>{
+  const fkempresa = sessionStorage.getItem("FK_EMPRESA");
+      console.log("fkempresa carregada:", fkempresa); // <-- ADICIONE ISSO
+
+        fetch(`/dash/estufa/${fkempresa}`,{ 
+          method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+        }).then(res => res.json())
+        .then(data =>{
+          const selectEstufa = document.getElementById("ipt_estufaSelect");
+          for(let i=0; i<data.length; i++){
+            const estufa=data[i];
+            const option = document.createElement("option");
+            option.value=estufa.idestufa;
+            option.textContent=estufa.nome
+            selectEstufa.appendChild(option)
+          }
+        })
+      }
   </script>
 </body>
 

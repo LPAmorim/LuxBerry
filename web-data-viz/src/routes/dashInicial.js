@@ -8,4 +8,5 @@ router.post("/buscarInfoDash", function (req, res) {
     dashInicialController.buscarInfoDash(req, res);
 })
 
+
 module.exports = router;
