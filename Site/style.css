@@ -16,6 +16,7 @@
     width: 90%; /* Para ocupar até 90% da largura disponível */
     margin: 0 auto;
     padding: 0 5%;
+    
 }
 
 /* ==== USADO NO HEADER ==== */
@@ -485,6 +486,7 @@
     width: 100%;
     height: 100vh;
     margin: 0;
+
 }
 
 
@@ -504,6 +506,7 @@
     transition: 0.3s;
     flex-direction: column;
     padding: 0 3%;
+    
 }
 
 .header-dash p {
@@ -696,6 +699,8 @@
   padding: 40px;
   max-width: 1000px;
   margin: 0 auto;
+  overflow-y: scroll;
+  height: 70vh;
 }
 
 .card-aquario {
@@ -710,7 +715,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
 }
 
 .title-aquario h1 {
