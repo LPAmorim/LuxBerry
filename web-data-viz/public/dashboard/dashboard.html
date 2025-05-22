@@ -127,8 +127,8 @@
         }
       }
     });
-
-    const grafico2 = new Chart(ctx2, {
+let grafico2=null
+   grafico2 = new Chart(ctx2, {
       type: 'bar',
       data: {
         labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
@@ -213,9 +213,17 @@
 
          
           selectSensor.onchange = () => {
-            const fksensor = selectSensor.value;
-            plotargrafico1(fksensor);
-          };
+  const fksensor = selectSensor.value;
+
+  fetch(`/dash/grafico/${fksensor}`)
+    .then(res => res.json())
+    .then(data => {
+      plotargrafico1(fksensor);      
+      calcularEstatisticasGrafico2(data); 
+    })
+    .catch(err => console.error("Erro ao buscar dados para gráfico 2:", err));
+};
+
         })
         .catch(err => console.error("Erro ao carregar sensores:", err));
     }
@@ -265,10 +273,51 @@ function plotargrafico1(fksensor) {
         grafico1.data.datasets[0].data.push(lux);
         tempoGrafico1[fksensor]++;
         grafico1.update();
-         setInterval(() => plotargrafico1(fksensor), 3000); 
       }
+               setInterval(() => plotargrafico1(fksensor), 30000); 
+
     })
     .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
+}
+
+function calcularEstatisticasGrafico2(dados) {
+  const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const mapaDias = [[], [], [], [], [], [], []];
+
+  dados.forEach(item => {
+    const data = new Date(item.dataRegistro);
+    const diaSemana = data.getDay();
+    mapaDias[diaSemana].push(parseFloat(item.luzRegistrado)); 
+  });
+
+  const medias = [];
+  const desvios = [];
+
+  for (let i = 0; i < 7; i++) {
+    const valores = mapaDias[i];
+    if (valores.length === 0) {
+      medias.push(0);
+      desvios.push(0);
+      continue;
+    }
+
+    const media = valores.reduce((acc, val) => acc + val, 0) / valores.length;
+    const variancia = valores.reduce((acc, val) => acc + Math.pow(val - media, 2), 0) / valores.length;
+    const desvio = Math.sqrt(variancia);
+
+    medias.push(media.toFixed(2));
+    desvios.push(desvio.toFixed(2));
+  }
+
+  console.log("Médias calculadas:", medias);
+  console.log("Desvios calculados:", desvios);
+
+  grafico2.data.datasets[0].data = medias;
+  grafico2.data.datasets[1].data = desvios;
+  grafico2.update();
+
+    setInterval(() => calcularEstatisticasGrafico2(data), 30000); 
+
 }
 
 

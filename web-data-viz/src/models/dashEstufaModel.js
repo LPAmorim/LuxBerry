@@ -1,4 +1,3 @@
-const { fchown } = require("fs");
 var database = require("../database/config");
 const { plotargrf2 } = require("../controllers/dashEstufaController");
 
