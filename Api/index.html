@@ -72,39 +72,61 @@
         var paginacao = {};
         var tempo = {};
 
-        function obterDados(grafico, endpoint) {
-            fetch('http://localhost:3300/sensores/' + endpoint)
-                .then(response => response.json())
-                .then(valores => {
-                    if (paginacao[endpoint] == null) {
-                        paginacao[endpoint] = 0;
-                    }
-                    if (tempo[endpoint] == null) {
-                        tempo[endpoint] = 0;
-                    }
+       let paginacaoGrafico1 = 0;
+let tempoGrafico1 = 0;
 
-                    var ultimaPaginacao = paginacao[endpoint];
-                    paginacao[endpoint] = valores.length;
-                    valores = valores.slice(ultimaPaginacao);
+function plotargrafico1(fksensor) {
+  fetch(`/dash/grafico/${fksensor}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+    .then(async res => {
+      const text = await res.text();
+      if (!text) {
+        throw new Error("Resposta vazia do servidor");
+      }
+      return JSON.parse(text);
+    })
+    .then(data => {
+      if (data.length === 0) {
+        alert("Não possui dados para a dashboard");
+        grafico1.data.labels = [];
+        grafico1.data.datasets[0].data = [];
+        grafico1.update();
+        return;
+      }
 
-                    valores.forEach((valor) => {
-                        if (grafico.data.labels.length == 10 && grafico.data.datasets[0].data.length == 10) {
-                            grafico.data.labels.shift();
-                            grafico.data.datasets[0].data.shift();
-                        }
+      // pega os novos dados desde a última atualização
+      let novosValores = data.slice(paginacaoGrafico1);
+      paginacaoGrafico1 = data.length;
 
-                        grafico.data.labels.push(tempo[endpoint]++);
-                        grafico.data.datasets[0].data.push(parseFloat(valor));
-                        grafico.update();
-                    });
-                })
-                .catch(error => console.error('Erro ao obter dados:', error));
+      for (let i = 0; i < novosValores.length; i++) {
+        let item = novosValores[i];
+        let horario = new Date(item.dataRegistro).toTimeString().split(' ')[0];
+        let lux = parseFloat(item.luzRegistrado);
+
+        // mantém somente os últimos 10 valores
+        if (grafico1.data.labels.length >= 10) {
+          grafico1.data.labels.shift();
+          grafico1.data.datasets[0].data.shift();
         }
 
-        setInterval(() => {
-            obterDados(sensorAnalogico, 'analogico');
-            obterDados(sensorDigital, 'digital');
-        }, 3000);
+        grafico1.data.labels.push(horario);
+        grafico1.data.datasets[0].data.push(lux);
+      }
+
+      grafico1.update();
+    })
+    .catch(error => {
+      console.error("Erro ao obter dados do gráfico:", error);
+    });
+}
+
+// Corrigido: inicia o gráfico e atualiza a cada 1 segundo
+function iniciarGrafico1(fksensor) {
+  plotargrafico1(fksensor); // executa de imediato
+  setInterval(() => plotargrafico1(fksensor), 1000); // atualiza a cada segundo
+}
 
     </script>
 </body>
