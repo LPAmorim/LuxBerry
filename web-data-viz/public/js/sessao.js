@@ -4,14 +4,11 @@ function validarSessao() {
     //eu salvo temporariamente os dados de email e nome do meu usuario para validar a sessão dele 
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
+    console.log(email)
 
-    var b_usuario = document.getElementById("b_usuario");
-
-    if (email != null && nome != null) {
-        //escrevo o nome do usuario logado na tela 
-        b_usuario.innerHTML = nome;
-    } else {
+    if (email == null && nome == null) {
         window.location = "../login.html";
+        return
     }
 }
 

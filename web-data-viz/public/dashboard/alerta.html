@@ -50,8 +50,14 @@
     </div>
 
 </body>
+<script src="../js/sessao.js"></script>
 <script>
-  window.onload = buscarInfoDash
+  window.onload = () => {
+    validarSessao();
+    buscarInfoDash();
+    validarHeaderDash();
+};
+
   function buscarInfoDash() {
     var fkEmpresa = Number(sessionStorage.ID_USUARIO);
 
