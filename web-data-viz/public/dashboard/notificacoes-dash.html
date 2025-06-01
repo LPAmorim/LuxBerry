@@ -19,7 +19,7 @@
         <a href="dashboard.html">Dashboard</a>
         <a href="../cadastro.html">Cadastre um funcionário</a>
         <a href="suporte.html">Suporte</a>
-        <a href="../index.html" style="color: red;">Sair</a>
+        <a href="../index.html" style="color: red;" onclick="limparSessao()">Sair</a>
       </div>
     </div>
 
@@ -27,33 +27,128 @@
       <p class="bem-vindo">Alertas</p>
 
       <div class="div-canvas3">
-        <div class="cards-alertas">
-            <p>1</p>
-            <p>Alerta de baixa luminosidade</p>
-            <div class="cards-alertas-infos">
-              <div class="cards-alertas-infos">
-                <div class="card-bloco">
-                  <p>estufa 1</p>
-                </div>
-                <div class="traco"></div>
-                <div class="card-bloco">
-                  <p>sensor 1</p>
-                </div>
-                <div class="traco"></div>
-                <div class="card-bloco1">
-                  <p>24/04/2025 09:53:21</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <h5>Escolha uma estufa específica para visualizar seus alertas</h5>
+        <select id="ipt_estufaSelect" class="btn-dash" style="width: 200px;">
+          <option value="#" selected>Escolha uma estufa</option>
 
+        </select>
+        <div id="alerta"></div>
 
       </div>
       </div>
     </div>
-  </div>
 </body>
 </html>
+<script src="../js/sessao.js"></script>
 <script>
   user_logado.innerHTML = "xxxx"
+
+// formatação da data para exibição
+  function formatarData(dataISO) {
+  const data = new Date(dataISO);
+
+  const dia = data.getDate().toString().padStart(2, '0');
+  const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
+  const ano = data.getFullYear();
+  const hora = data.getHours().toString().padStart(2, '0');
+  const minuto = data.getMinutes().toString().padStart(2, '0');
+  const segundo = data.getSeconds().toString().padStart(2, '0');
+
+  return `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
+}
+
+ function exibirAlertas(listaAlertas) {
+ alerta.innerHTML = ""; // limpa os alertas antes
+
+  if (!listaAlertas || listaAlertas.length === 0) {
+    alerta.innerHTML = "<p>Sem alertas encontrados.</p>";  // mensagem quando não tem alertas
+    return;
+  }
+
+      listaAlertas.forEach(a => {
+        const dataFormatada = formatarData(a.data_hora);
+        alerta.innerHTML += ` 
+          <div class="cards-alertas">
+            <p>Alerta de ${a.tipo_alerta}</p>
+            <div class="cards-alertas-infos">
+              <div class="cards-alertas-infos">
+                <div class="card-bloco">
+                  <p>${a.nome}</p>
+                </div>
+                <div class="traco"></div>
+                <div class="card-bloco">
+                  <p>Sensor ${a.idsensores}</p>
+                </div>
+                <div class="traco"></div>
+                <div class="card-bloco1">
+                  <p>${dataFormatada}</p>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      });
+    };
+
+
+
+  window.onload = () => {
+    validarSessao();
+    const fkempresa = sessionStorage.getItem("FK_EMPRESA");
+    const alerta = document.getElementById("alerta");
+    // Função para mostrar os alertas no HTML
+    fetch(`/historico/estufa/${fkempresa}`)
+      .then(res => res.json())
+      .then(data => {
+        const selectEstufa = document.getElementById("ipt_estufaSelect");
+        if (!selectEstufa) {
+          console.error("Elemento select não encontrado.");
+          return;
+        }
+
+        for (let i = 0; i < data.length; i++) {
+          const estufa = data[i];
+          const option = document.createElement("option");
+          option.value = estufa.idestufa;
+          option.textContent = estufa.nome;
+          selectEstufa.appendChild(option);
+        }
+
+        selectEstufa.addEventListener("change", () => {
+          const fkEstufa = selectEstufa.value;
+            if (fkEstufa === "#") {
+                puxarHistoricoInteiro(fkempresa);
+            } else {
+                puxarHistoricoPorEstufa(fkEstufa);
+            }
+        });
+      })
+      .catch(err => console.error("Erro ao carregar estufas:", err));
+
+    puxarHistoricoInteiro(fkempresa);
+  }
+
+    // Funções de puxar histórico
+    function puxarHistoricoInteiro(fkempresa) {
+      fetch(`/historico/alertas/empresa/${fkempresa}`)
+        .then(res => res.json())
+        .then(data => {
+          exibirAlertas(data);
+        })
+        .catch(err => console.error("Erro ao carregar alertas:", err));
+    }
+    
+    function puxarHistoricoPorEstufa(fkEstufa) {
+        fetch(`/historico/alertas/estufa/${fkEstufa}`)
+          .then(res => {
+              if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
+              return res.status === 204 ? [] : res.json();
+          })
+          .then(data => {
+            exibirAlertas(data);
+          })
+          .catch(err => {
+            console.error("Erro ao filtrar alertas:", err);
+            alerta.innerHTML = "<p>Erro ao carregar alertas.</p>";
+          });
+    }
 </script>
