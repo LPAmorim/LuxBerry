@@ -626,12 +626,13 @@ html {
 
 .cards-alertas {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     background-color: #9E0209;
     color: white;
     align-items: center;
     padding: 10px;
     border-radius: 20px;
+    margin-bottom: 6px;
 }
 
 .cards-alertas-infos {
