@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Histórico de Alertas</title>
   <link rel="stylesheet" href="../css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
@@ -48,7 +48,7 @@
   const data = new Date(dataISO);
 
   const dia = data.getDate().toString().padStart(2, '0');
-  const mes = (data.getMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
+  const mes = (data.getMonth() + 1).toString().padStart(2, '0');
   const ano = data.getFullYear();
   const hora = data.getHours().toString().padStart(2, '0');
   const minuto = data.getMinutes().toString().padStart(2, '0');
@@ -58,12 +58,12 @@
 }
 
  function exibirAlertas(listaAlertas) {
- alerta.innerHTML = ""; // limpa os alertas antes
+    alerta.innerHTML = ""; 
 
-  if (!listaAlertas || listaAlertas.length === 0) {
-    alerta.innerHTML = "<p>Sem alertas encontrados.</p>";  // mensagem quando não tem alertas
-    return;
-  }
+    if (!listaAlertas || listaAlertas.length === 0) {
+      alerta.innerHTML = "<p>Sem alertas encontrados.</p>";  // mensagem quando não tem alertas
+      return;
+    }
 
       listaAlertas.forEach(a => {
         const dataFormatada = formatarData(a.data_hora);
@@ -115,10 +115,10 @@
 
         selectEstufa.addEventListener("change", () => {
           const fkEstufa = selectEstufa.value;
-            if (fkEstufa === "#") {
-                puxarHistoricoInteiro(fkempresa);
+            if (fkEstufa == "#") {
+              puxarHistoricoInteiro(fkempresa);
             } else {
-                puxarHistoricoPorEstufa(fkEstufa);
+              puxarHistoricoPorEstufa(fkEstufa);
             }
         });
       })
@@ -136,12 +136,12 @@
         })
         .catch(err => console.error("Erro ao carregar alertas:", err));
     }
-    
+
     function puxarHistoricoPorEstufa(fkEstufa) {
         fetch(`/historico/alertas/estufa/${fkEstufa}`)
           .then(res => {
-              if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
-              return res.status === 204 ? [] : res.json();
+            if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
+            return res.status === 204 ? [] : res.json();
           })
           .then(data => {
             exibirAlertas(data);
