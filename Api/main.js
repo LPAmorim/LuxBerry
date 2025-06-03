@@ -56,9 +56,9 @@ const serial = async (
         // const sensorDigital = parseInt(valores[0]);
         const sensorAnalogico = parseFloat(valores[0]);
         var limites = "";
-        if(sensorAnalogico < 750) {
+        if (sensorAnalogico < 800) {
             limites = "Abaixo do limite"
-        } else if (sensorAnalogico >= 750 && sensorAnalogico <= 1300) {
+        } else if (sensorAnalogico >= 800 && sensorAnalogico <= 1500) {
             limites = "Dentro do limite"
         } else {
             limites = "Acima do limite"
@@ -70,16 +70,30 @@ const serial = async (
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
+            try {
+                // insere na tabela dadosSensor
+                const resultadoInsert = await poolBancoDados.execute(
+                    'INSERT INTO dadosSensor (luzRegistrado, statusRegistro, fkSensor) VALUES (?, ?, 1)',
+                    [sensorAnalogico, limites]
+                );
 
-            // este insert irá inserir os dados na tabela "medida"
-            await poolBancoDados.execute(
-                'INSERT INTO dadosSensor (luzRegistrado, statusRegistro, fkSensor) VALUES (?, ?, 1)',
-                [sensorAnalogico, limites]
-            );
-            console.log("valores inseridos no banco: ", sensorAnalogico);
-            // console.log("valores inseridos no banco: ", sensorAnalogico + ", " + sensorDigital);
+                console.log(resultadoInsert)
 
+                const idDadoSensor = resultadoInsert[0].insertId;
+
+                if (sensorAnalogico < 800 || sensorAnalogico > 1500) {
+                    await poolBancoDados.execute(
+                        'INSERT INTO alerta (tipo_alerta, fk_registro) VALUES (?, ?)',
+                        [limites, idDadoSensor]
+                    );
+                    console.log("Alerta registrado!");
+                }
+
+            } catch (erro) {
+                console.error("Erro ao inserir no banco:", erro);
+            }
         }
+
 
     });
 
