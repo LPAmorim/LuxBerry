@@ -13,6 +13,8 @@ function validarSessao() {
 }
 
 function validarHeaderDash() {
+    var nome = sessionStorage.NOME_USUARIO;
+
     var cargo = sessionStorage.CARGO_USUARIO;
     console.log(cargo)
 
@@ -20,8 +22,12 @@ function validarHeaderDash() {
         headerDash = document.getElementById("header")
         headerDash.innerHTML = `
         <img src="../assets/LuxBerry.png" alt=""></a>
+        <div>
+            <p>Usuario: <span class="user-logado" id="user_logado">${nome}</span></p>
+        </div>
       <div>
-        <a href="alerta.html">Alertas</a>
+        <a href="alerta.html">Visão Geral</a>
+        <a href="dashboard.html">Dashboard</a>
             <a href="notificacoes-dash.html">Histórico</a>
             <a href="../cadastro.html">Cadastre um funcionário</a>
             <a href="suporte.html">Suporte</a>
@@ -32,8 +38,12 @@ function validarHeaderDash() {
         headerDash = document.getElementById("header")
         headerDash.innerHTML = `
         <img src="../assets/LuxBerry.png" alt=""></a>
+        <div>
+            <p>Usuario: <span class="user-logado" id="user_logado">${nome}</span></p>
+        </div>
       <div>
-            <a href="alerta.html">Alertas</a>
+            <a href="alerta.html">Visão Geral</a>
+        <a href="dashboard.html">Dashboard</a>
             <a href="notificacoes-dash.html">Histórico</a>
             <a href="../cadastro.html">Cadastre um funcionário</a>
             <a href="https://luxberrymonitoramento.atlassian.net/servicedesk/customer/portal/1">FQA</a>

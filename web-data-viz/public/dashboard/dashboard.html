@@ -18,7 +18,6 @@
     </div>
 
     <div class="dashboard container">
-      <p class="bem-vindo">Olá XXXXX, bem vindo de volta!</p>
       <div class="div-canvas">
         <p>Captura de Luminosidade em intervalo de 1 hora - Estufa</p>
         <select id="ipt_estufaSelect" class="btn-dash">
@@ -239,12 +238,12 @@
       .then(data => {
         if (data.length === 0) {
           alert("Não possui dados para a dashboard");
-
           grafico1.data.labels = [];
           grafico1.data.datasets[0].data = [];
           grafico1.update();
           return;
         }
+        tempo(data)
 
         if (paginacaoGrafico1[fksensor] == null) paginacaoGrafico1[fksensor] = 0;
         if (tempoGrafico1[fksensor] == null) tempoGrafico1[fksensor] = 0;
@@ -311,9 +310,53 @@
     grafico2.data.datasets[1].data = desvios;
     grafico2.update();
 
-    setInterval(() => calcularEstatisticasGrafico2(data), 30000);
+    setInterval(() => calcularEstatisticasGrafico2(data), 20000);
 
   }
+
+  let ultimoIndiceProcessado = 0;
+  let foraFaixaDesde = null;
+  let tempoForaTotal = 0;
+
+  function formatarTempo(ms) {
+    const s = Math.floor(ms / 1000);
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const ss = s % 60;
+    return h + ":" + m + ":" + ss;
+  }
+
+  function tempo(resultado) {
+    for (let i = ultimoIndiceProcessado; i < resultado.length; i++) {
+      const luz = Number(resultado[i].luzRegistrado);
+      const dataMs = new Date(resultado[i].dataRegistro).getTime();
+
+      if (luz < 800 || luz > 1500) {
+        if (foraFaixaDesde === null) {
+          foraFaixaDesde = dataMs;
+        }
+      } else {
+        if (foraFaixaDesde !== null) {
+          const tempoFora = dataMs - foraFaixaDesde;
+          tempoForaTotal += tempoFora;
+          tempoIdeal.innerText = "00:00:00";
+          foraFaixaDesde = null;
+        }
+      }
+      ultimoIndiceProcessado = i + 1;
+    }
+
+    if (foraFaixaDesde !== null) {
+      const agora = new Date(resultado[resultado.length - 1].dataRegistro).getTime();
+      const tempoForaAtual = agora - foraFaixaDesde;
+
+      tempoIdeal.innerText = formatarTempo(tempoForaAtual);
+
+    }
+
+  }
+
+
 
 </script>
 

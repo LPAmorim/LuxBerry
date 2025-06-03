@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Histórico de Alertas</title>
   <link rel="stylesheet" href="../css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0/dist/chartjs-plugin-annotation.min.js"></script>
 </head>
 
 <body>
@@ -35,39 +37,37 @@
         <div id="alerta"></div>
 
       </div>
-      </div>
     </div>
+  </div>
 </body>
+
 </html>
 <script src="../js/sessao.js"></script>
 <script>
-  user_logado.innerHTML = "xxxx"
-
-// formatação da data para exibição
   function formatarData(dataISO) {
-  const data = new Date(dataISO);
+    const data = new Date(dataISO);
 
-  const dia = data.getDate().toString().padStart(2, '0');
-  const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-  const ano = data.getFullYear();
-  const hora = data.getHours().toString().padStart(2, '0');
-  const minuto = data.getMinutes().toString().padStart(2, '0');
-  const segundo = data.getSeconds().toString().padStart(2, '0');
+    const dia = data.getDate().toString().padStart(2, '0');
+    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    const ano = data.getFullYear();
+    const hora = data.getHours().toString().padStart(2, '0');
+    const minuto = data.getMinutes().toString().padStart(2, '0');
+    const segundo = data.getSeconds().toString().padStart(2, '0');
 
-  return `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
-}
+    return `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
+  }
 
- function exibirAlertas(listaAlertas) {
-    alerta.innerHTML = ""; 
+  function exibirAlertas(listaAlertas) {
+    alerta.innerHTML = "";
 
     if (!listaAlertas || listaAlertas.length === 0) {
       alerta.innerHTML = "<p>Sem alertas encontrados.</p>";  // mensagem quando não tem alertas
       return;
     }
 
-      listaAlertas.forEach(a => {
-        const dataFormatada = formatarData(a.data_hora);
-        alerta.innerHTML += ` 
+    listaAlertas.forEach(a => {
+      const dataFormatada = formatarData(a.data_hora);
+      alerta.innerHTML += ` 
           <div class="cards-alertas">
             <p>Alerta de ${a.tipo_alerta}</p>
             <div class="cards-alertas-infos">
@@ -86,13 +86,14 @@
               </div>
             </div>
           </div>`;
-      });
-    };
+    });
+  };
 
 
 
   window.onload = () => {
     validarSessao();
+    validarHeaderDash();
     const fkempresa = sessionStorage.getItem("FK_EMPRESA");
     const alerta = document.getElementById("alerta");
     // Função para mostrar os alertas no HTML
@@ -115,11 +116,11 @@
 
         selectEstufa.addEventListener("change", () => {
           const fkEstufa = selectEstufa.value;
-            if (fkEstufa == "#") {
-              puxarHistoricoInteiro(fkempresa);
-            } else {
-              puxarHistoricoPorEstufa(fkEstufa);
-            }
+          if (fkEstufa == "#") {
+            puxarHistoricoInteiro(fkempresa);
+          } else {
+            puxarHistoricoPorEstufa(fkEstufa);
+          }
         });
       })
       .catch(err => console.error("Erro ao carregar estufas:", err));
@@ -127,28 +128,28 @@
     puxarHistoricoInteiro(fkempresa);
   }
 
-    // Funções de puxar histórico
-    function puxarHistoricoInteiro(fkempresa) {
-      fetch(`/historico/alertas/empresa/${fkempresa}`)
-        .then(res => res.json())
-        .then(data => {
-          exibirAlertas(data);
-        })
-        .catch(err => console.error("Erro ao carregar alertas:", err));
-    }
+  // Funções de puxar histórico
+  function puxarHistoricoInteiro(fkempresa) {
+    fetch(`/historico/alertas/empresa/${fkempresa}`)
+      .then(res => res.json())
+      .then(data => {
+        exibirAlertas(data);
+      })
+      .catch(err => console.error("Erro ao carregar alertas:", err));
+  }
 
-    function puxarHistoricoPorEstufa(fkEstufa) {
-        fetch(`/historico/alertas/estufa/${fkEstufa}`)
-          .then(res => {
-            if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
-            return res.status === 204 ? [] : res.json();
-          })
-          .then(data => {
-            exibirAlertas(data);
-          })
-          .catch(err => {
-            console.error("Erro ao filtrar alertas:", err);
-            alerta.innerHTML = "<p>Erro ao carregar alertas.</p>";
-          });
-    }
+  function puxarHistoricoPorEstufa(fkEstufa) {
+    fetch(`/historico/alertas/estufa/${fkEstufa}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`);
+        return res.status === 204 ? [] : res.json();
+      })
+      .then(data => {
+        exibirAlertas(data);
+      })
+      .catch(err => {
+        console.error("Erro ao filtrar alertas:", err);
+        alerta.innerHTML = "<p>Erro ao carregar alertas.</p>";
+      });
+  }
 </script>

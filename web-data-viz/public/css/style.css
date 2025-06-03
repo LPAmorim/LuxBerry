@@ -515,7 +515,7 @@ html {
 
 /* Header dash */
 .header-dash {
-    width: max-content;
+    width: min-content;
     height: 100vh;
     background-color: #3B4F3B;
     display: flex;
