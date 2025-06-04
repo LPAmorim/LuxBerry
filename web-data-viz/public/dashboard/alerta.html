@@ -47,16 +47,20 @@
       </div>
 
       <div class="cards" id="cardAquarios"></div>
+
+      <div id="alertas"></div>
     </div>
 
 </body>
 <script src="../js/sessao.js"></script>
+<script src="../js/alerta.js"></script>
 <script>
   window.onload = () => {
     validarSessao();
     buscarInfoDash();
     validarHeaderDash();
-};
+  };
+  setInterval(obterdados, 1000);
 
   function buscarInfoDash() {
     var fkEmpresa = Number(sessionStorage.ID_USUARIO);

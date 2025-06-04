@@ -868,3 +868,41 @@ html {
     background-color: #77ae2f;
     width: max-content;
 }
+
+#alertas {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 10px;
+    right: 10px;
+    width: 30vw;
+    max-height: 100vh;
+    gap: 0.5rem;
+}
+
+.alerta {
+    display: flex;
+    flex-direction: column;
+    bottom: 10px;
+    right: 10px;
+    width: 30vw;
+    height: 15vh;
+    background-color: #f5f5ea;
+    border: 5px solid red;
+    border-radius: 10px;
+    z-index: 10000;
+    justify-content: center;
+    text-align: center;
+    align-content: center;
+    position: relative;
+}
+.alerta:hover {
+    cursor: pointer;
+}
+.alerta div {
+    font-weight: bolder;
+}
+.alerta svg {
+    position: absolute;
+    top: 0;
+}
