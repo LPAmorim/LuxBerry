@@ -314,9 +314,10 @@
 
   }
 
-  let ultimoIndiceProcessado = 0;
-  let foraFaixaDesde = null;
-  let tempoForaTotal = 0;
+  var indice = 0
+    var tempoForaAtual = 0
+    var horaUltima = 0
+    var InicioFora = null
 
   function formatarTempo(ms) {
     const s = Math.floor(ms / 1000);
@@ -327,34 +328,28 @@
   }
 
   function tempo(resultado) {
-    for (let i = ultimoIndiceProcessado; i < resultado.length; i++) {
-      const luz = Number(resultado[i].luzRegistrado);
-      const dataMs = new Date(resultado[i].dataRegistro).getTime();
+        for (let i = indice + 1; i < resultado.length; i++) {
+            if (resultado[i].luzRegistrado > 800 && resultado[i].luzRegistrado < 1500) {
+                indice = i
+                tempoForaAtual = 0
+                InicioFora = null
+            }
+            if (InicioFora == null) {
+                if (resultado[i].luzRegistrado < 800 || resultado[i].luzRegistrado > 1500) {
+                    InicioFora = new Date(resultado[i].dataRegistro).getTime()
+                    indice = i
+                }
+            } else {
+                if (resultado[i].luzRegistrado < 800 || resultado[i].luzRegistrado > 1500) {
+                    var diferençaH = (new Date(resultado[i].dataRegistro).getTime()) - InicioFora
+                    tempoForaAtual = diferençaH
+                    indice = i
+                }
+            }
 
-      if (luz < 800 || luz > 1500) {
-        if (foraFaixaDesde === null) {
-          foraFaixaDesde = dataMs;
+            tempoIdeal.innerText = formatarTempo(tempoForaAtual)
         }
-      } else {
-        if (foraFaixaDesde !== null) {
-          const tempoFora = dataMs - foraFaixaDesde;
-          tempoForaTotal += tempoFora;
-          tempoIdeal.innerText = "00:00:00";
-          foraFaixaDesde = null;
-        }
-      }
-      ultimoIndiceProcessado = i + 1;
     }
-
-    if (foraFaixaDesde !== null) {
-      const agora = new Date(resultado[resultado.length - 1].dataRegistro).getTime();
-      const tempoForaAtual = agora - foraFaixaDesde;
-
-      tempoIdeal.innerText = formatarTempo(tempoForaAtual);
-
-    }
-
-  }
 
 
 
