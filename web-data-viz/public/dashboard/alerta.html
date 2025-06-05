@@ -71,7 +71,7 @@
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        fkEmpServer: 1
+        fkEmpServer: fkEmpresa
       })
     })
       .then(res => {
@@ -97,19 +97,18 @@
     let sensorCountPorEstufa = {};
 
 
-    estufas.forEach(item => {
-
-      if (!sensorCountPorEstufa[item.idEstufa]) {
-        sensorCountPorEstufa[item.idEstufa] = 1;
+    for(let i = 0; i < estufas.length; i++) {
+      if (!sensorCountPorEstufa[estufas[i].idEstufa]) {
+        sensorCountPorEstufa[estufas[i].idEstufa] = 1;
       } else {
-        sensorCountPorEstufa[item.idEstufa]++;
+        sensorCountPorEstufa[estufas[i].idEstufa]++;
       }
 
-      const sensorNum = sensorCountPorEstufa[item.idEstufa];
+      const sensorNum = sensorCountPorEstufa[estufas[i].idEstufa];
       let corAlerta = "";
-      if (item.lux < 800) {
+      if (estufas[i].lux < 800) {
         corAlerta = "#5353b8";
-      } else if (item.lux <= 1500) {
+      } else if (estufas[i].lux <= 1500) {
         corAlerta = "green";
       } else {
         corAlerta = "#ce0c16";
@@ -118,17 +117,17 @@
       container.innerHTML += `
       <div class="card-aquario">
         <div class="title-aquario">
-          <h1>${item.nome} - Sensor ${sensorNum}</h1>
+          <h1>${estufas[i].nome} - Sensor ${sensorNum}</h1>
         </div>
         <div class="desc-aquario">
           <div class="temperatura">
-            <p id="lux_aquario_${item.idEstufa}">${item.lux} Lux</p>
+            <p id="lux_aquario_${estufas[i].idEstufa}">${estufas[i].lux} Lux</p>
           </div>
           <div class="cor-alerta" style="background-color: ${corAlerta};"></div>
         </div>
       </div>
     `;
-    });
+    }
   }
 
   setInterval(buscarInfoDash, 10000)

@@ -51,7 +51,7 @@
     window.onload = () => {
         validarSessao();
         validarHeaderDash()
-    } 
+    }
 
     function abrirBob() {
         const bot = document.getElementById('bob');
@@ -64,7 +64,7 @@
     async function gerarResposta() {
         const pergunta = document.getElementById('pergunta').value;
         const perguntaDiv = document.getElementById('perguntas');
-        
+
         perguntaDiv.style.display = "flex";
         perguntas.innerText = `${pergunta}`
 
@@ -82,6 +82,7 @@
         resposta.style.display = 'flex';
         document.getElementById('resposta').innerText = data.resultado;
     }
+
 </script>
 
 </html>
