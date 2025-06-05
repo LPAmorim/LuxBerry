@@ -2,35 +2,36 @@ var database = require("../database/config");
 const { plotargrf2 } = require("../controllers/dashEstufaController");
 
 
-function listarEstufas(fkempresa){
-    const instrucaoSql=`
+function listarEstufas(fkempresa) {
+    const instrucaoSql = `
     select idestufa,
     nome
     from estufa
     where fkempresa = ${fkempresa};
     `
-     return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-function listarSensores(fkEstufa){
-    const instrucaoSql=`
+function listarSensores(fkEstufa) {
+    const instrucaoSql = `
     select 
     idsensores,
     nome
     from sensoreslum
     where fkEstufa = ${fkEstufa};
     `
-     return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql);
 
 }
 
 function sensorMinMax(fkSensor) {
     var instrucaoSql = `
-        SELECT 
+         SELECT 
             MAX(luzRegistrado) AS maior,
             MIN(luzRegistrado) AS menor
         FROM dadosSensor
-        WHERE fkSensor = ?;
+        WHERE fkSensor = ${fkSensor}
+          AND DATE(dataRegistro) = CURDATE();
     `;
 
     return database.executar(instrucaoSql, [fkSensor]);
@@ -39,8 +40,8 @@ function sensorMinMax(fkSensor) {
 
 
 
-function plotargrf1(fksensor){
-    const instrucaoSql=`
+function plotargrf1(fksensor) {
+    const instrucaoSql = `
     select luzRegistrado,
     dataRegistro
     from dadosSensor
@@ -54,7 +55,7 @@ function plotargrf1(fksensor){
 
 // }
 
-module.exports={
+module.exports = {
     listarEstufas,
     listarSensores,
     sensorMinMax,

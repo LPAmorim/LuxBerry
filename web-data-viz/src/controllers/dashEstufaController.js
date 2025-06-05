@@ -35,9 +35,10 @@ function listarSensores(req, res){
 }
 
 function sensorMinMax(req, res) {
-    var fkSensor = req.body.fkSensor; 
+    var fkSensor = req.params.fksensor; 
 
-    dashInicialModel.sensorMinMax(fkSensor).then((resultado) => {
+    dashEstufaModel.sensorMinMax(fkSensor)
+    .then((resultado) => {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

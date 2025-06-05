@@ -572,6 +572,7 @@ html {
     display: flex;
     justify-content: space-between;
     width: 100% !important;
+    gap: 1rem;
 }
 
 .div-grafico-canvas2-lum {
@@ -590,18 +591,26 @@ html {
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .div-kpi1 {
     display: flex;
-    flex-direction: column;
     gap: 16px;
+}
+.div-kpi1-2 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    
 }
 
 .card-kpi {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-content: center;
     align-items: center;
     background-color: #e3f0d2;
     height: 125px;
@@ -619,9 +628,12 @@ html {
 }
 
 .card-kpi p {
+    display: flex;
     font-size: 20px;
     font-weight: bolder;
     color: #77ae2f;
+    align-self: center;
+    text-align: center;
 }
 
 .cards-alertas {
@@ -772,6 +784,11 @@ html {
     background-color: #ce0c16;
 }
 
+#picos {
+    display: flex;
+    width: 100%;
+    
+}
 /* ==== FIM DO CSS USADO NO DASH ==== */
 
 /* BOB */
