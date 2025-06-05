@@ -24,6 +24,20 @@ function listarSensores(fkEstufa){
 
 }
 
+function sensorMinMax(fkSensor) {
+    var instrucaoSql = `
+        SELECT 
+            MAX(luzRegistrado) AS maior,
+            MIN(luzRegistrado) AS menor
+        FROM dadosSensor
+        WHERE fkSensor = ?;
+    `;
+
+    return database.executar(instrucaoSql, [fkSensor]);
+}
+
+
+
 
 function plotargrf1(fksensor){
     const instrucaoSql=`
@@ -43,6 +57,7 @@ function plotargrf1(fksensor){
 module.exports={
     listarEstufas,
     listarSensores,
+    sensorMinMax,
     plotargrf1,
     plotargrf2
 

@@ -16,6 +16,8 @@ function buscarInfoDash(req, res) {
     });
 }
 
+
+
 module.exports = {
     buscarInfoDash
 }

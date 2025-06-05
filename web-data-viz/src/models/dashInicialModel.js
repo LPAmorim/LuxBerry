@@ -14,5 +14,5 @@ having max(dataRegistro) = (select max(dataRegistro) from dadosSensor where fkSe
 }
 
 module.exports = {
-    buscarInfoDash
+    buscarInfoDash,
 };

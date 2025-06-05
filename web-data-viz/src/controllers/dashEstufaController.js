@@ -34,6 +34,22 @@ function listarSensores(req, res){
         });
 }
 
+function sensorMinMax(req, res) {
+    var fkSensor = req.body.fkSensor; 
+
+    dashInicialModel.sensorMinMax(fkSensor).then((resultado) => {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(200).json([]);
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os dados do sensor: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 
 function plotargrf1(req,res){
 const fksensor= req.params.fksensor;
@@ -57,9 +73,11 @@ function plotargrf2(req,res){
 
 }
 
+
 module.exports={
     listarEstufas,
     listarSensores,
+    sensorMinMax,
     plotargrf1,
     plotargrf2
 }

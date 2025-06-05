@@ -76,8 +76,51 @@
     const ctx = document.getElementById('grafico1').getContext('2d');
     const ctx2 = document.getElementById('grafico2').getContext('2d');
 
-    // faço um array para chumbar os valores das estufas(simulando duas estufas)
-    // faço um array para chumbar os valores dos sensores(simulando dentro de cada estufa)
+function buscarMaior(arr) {
+  if (!arr || arr.length == 0) 
+  return "--";
+  let maior = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > maior) maior = arr[i];
+  }
+  return maior;
+}
+
+function buscarMenor(arr) {
+  if (!arr || arr.length == 0)
+   return "--";
+  let menor = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < menor) menor = arr[i];
+  }
+  return menor;
+}
+
+function calcularPicos(linha) {
+  if (!linha || linha.length == 0) 
+  return "-- / --";
+  return `${buscarMaior(linha)} / ${buscarMenor(linha)}`;
+}
+
+fetch("/dashEstufa/sensorMinMax", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ fkSensor: 1 })
+})
+.then(res => res.json())
+.then(data => {
+  const linhaEstufa1API = (data.estufa1 && data.estufa1.linha) || [];
+  const linhaEstufa2API = (data.estufa2 && data.estufa2.linha) || [];
+
+  dadosEstufas["1"].linha = linhaEstufa1API;
+  dadosEstufas["2"].linha = linhaEstufa2API;
+
+  dadosEstufas["1"].picos = calcularPicos(linhaEstufa1API);
+  dadosEstufas["2"].picos = calcularPicos(linhaEstufa2API);
+
+  atualizarDashboard();
+});
+
     const dadosSensor = {
       '1': {
         linha: [1014.50, 1368.00, 1058.25, 1237.4, 900, 1100,],
@@ -116,8 +159,6 @@
     const linhaEstufa1 = [...dadosSensor['1'].linha, ...dadosSensor['2'].linha];
     const linhaEstufa2 = [...dadosSensor['3'].linha, ...dadosSensor['4'].linha];
 
-    // Calcula os picos ANTES de criar o objeto
-    // Calcula os picos ANTES de criar o objeto
     const picosEstufa1 = `${buscarMaior(linhaEstufa1)} / ${buscarMenor(linhaEstufa1)}`;
     const picosEstufa2 = `${buscarMaior(linhaEstufa2)} / ${buscarMenor(linhaEstufa2)}`;
 
