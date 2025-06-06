@@ -37,7 +37,16 @@ function sensorMinMax(fkSensor) {
     return database.executar(instrucaoSql, [fkSensor]);
 }
 
-
+function contarAlertas(fkSensor) {
+    const instrucaoSql = `
+        select count(*) as total_alertas
+        from alerta a
+        join dadosSensor d ON a.fk_registro = d.iddadossensor
+        where d.fkSensor = ${fkSensor}
+          and DATE(a.data_hora) = CURDATE();
+    `;
+   return database.executar(instrucaoSql, [fkSensor]);
+}
 
 
 function plotargrf1(fksensor) {
@@ -59,6 +68,7 @@ module.exports = {
     listarEstufas,
     listarSensores,
     sensorMinMax,
+    contarAlertas,
     plotargrf1,
     plotargrf2
 
