@@ -17,7 +17,7 @@
                 <a href="../index.html" style="color: red;">Sair</a>
             </div>
         </div>
-        <div id="container" class="container-geral">
+        <div id="container" class="container-geral" style="display: flex; flex-direction: column; justify-content: space-between;">
             <div class="container-button-bot" id="containerButton">
                 <div class="button-bot" onclick="abrirBob()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
@@ -29,6 +29,9 @@
                         </g>
                     </svg>
                 </div>
+            </div>
+            <div style="justify-content: center; display: flex; width: 100%;">
+                <a href=#" class="button-suporte">Acessar a central de suporte</a>
             </div>
             <div class="bot" id="bob">
                 <h1>BobIA</h1>
@@ -47,10 +50,11 @@
         </div>
     </div>
 </body>
+<script src="../js/sessao.js"></script>
 <script>
     window.onload = () => {
         validarSessao();
-        validarHeaderDash()
+        validarHeaderDash();
     }
 
     function abrirBob() {

@@ -57,9 +57,9 @@ function contarAlertas(req, res) {
     dashEstufaModel.contarAlertas(fkSensor)
     .then((resultado) => {
         if (resultado.length > 0) {
-            res.status(200).json(resultado[0]);
+            res.status(200).json(resultado);
         } else {
-            res.status(200).json({ total_alertas: 0 });
+            res.status(200).json([]);
         }
     }).catch(function (erro) {
         console.log(erro);

@@ -39,11 +39,11 @@ function sensorMinMax(fkSensor) {
 
 function contarAlertas(fkSensor) {
     const instrucaoSql = `
-        select count(*) as total_alertas
+        select count(*) as totalAlertas
         from alerta a
         join dadosSensor d ON a.fk_registro = d.iddadossensor
         where d.fkSensor = ${fkSensor}
-          and DATE(a.data_hora) = CURDATE();
+        and DATE(a.data_hora) = CURDATE();
     `;
    return database.executar(instrucaoSql, [fkSensor]);
 }

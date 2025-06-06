@@ -15,10 +15,10 @@ function validarSessao() {
 function validarHeaderDash() {
     var nome = sessionStorage.NOME_USUARIO;
 
-    var cargo = sessionStorage.CARGO_USUARIO;
+    var cargo = sessionStorage.CARGO_USUARIO.toLowerCase();
     console.log(cargo)
 
-    if (cargo == "SuporteN3") {
+    if (cargo == "suporten3") {
         headerDash = document.getElementById("header")
         headerDash.innerHTML = `
         <img src="../assets/LuxBerry.png" alt=""></a>
@@ -26,11 +26,6 @@ function validarHeaderDash() {
             <p>Usuario: <span class="user-logado" id="user_logado">${nome}</span></p>
         </div>
       <div>
-        <a href="alerta.html">Visão Geral</a>
-        <a href="dashboard.html">Dashboard</a>
-            <a href="notificacoes-dash.html">Histórico</a>
-            <a href="../cadastro.html">Cadastre um funcionário</a>
-            <a href="suporte.html">Suporte</a>
             <a href="#" onclick="limparSessao()" style="color: red;">Sair</a>
       </div>
         `;

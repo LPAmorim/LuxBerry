@@ -603,7 +603,7 @@ html {
     width: 100%;
     justify-content: center;
     text-align: center;
-    
+    align-items: center;
 }
 
 .card-kpi {
@@ -783,12 +783,6 @@ html {
 .item-regua.perigo-Alto {
     background-color: #ce0c16;
 }
-
-#picos {
-    display: flex;
-    width: 100%;
-    
-}
 /* ==== FIM DO CSS USADO NO DASH ==== */
 
 /* BOB */
@@ -885,6 +879,27 @@ html {
     background-color: #77ae2f;
     width: max-content;
 }
+
+.button-suporte {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 50%;
+    height: 25vh;
+    border: 1px solid #1F3B2D;
+    border-radius: 60px;
+    background-color: #82ac4b;
+    color: white;
+    font-size: 20px;
+    transition: 0.2s;
+}
+.button-suporte:hover {
+    background-color: #608c26;
+    cursor: pointer;
+}
+
+/* Alertas card */
 
 #alertas {
     position: absolute;

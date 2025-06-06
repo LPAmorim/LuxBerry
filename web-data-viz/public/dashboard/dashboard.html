@@ -39,19 +39,19 @@
         </div>
 
         <div class="div-kpi">
-            <div class="div-kpi1">
-              <div class="card-kpi">
-                <p class="title-kpi">Tempo fora da faixa de segurança</p>
-                <p id="tempoIdeal">--</p>
-              </div>
-              <div class="card-kpi">
-                <p class="title-kpi">Alertas de luminosidade</p>
-                <p id="alertas">--</p>
-              </div>
+          <div class="div-kpi1">
+            <div class="card-kpi">
+              <p class="title-kpi">Tempo fora da faixa de segurança</p>
+              <p id="tempoIdeal">--</p>
             </div>
+            <div class="card-kpi">
+              <p class="title-kpi">Alertas de luminosidade (diariamente)</p>
+              <p id="countAlerta">--</p>
+            </div>
+          </div>
           <div class="div-kpi1-2">
             <div class="card-kpi" style="width: 100%;">
-              <p class="title-kpi">Picos de luminosidade<br>(maior / menor)</p>
+              <p class="title-kpi">Picos de luminosidade diario<br>(maior / menor)</p>
               <p id="picos">--</p>
             </div>
           </div>
@@ -205,7 +205,8 @@
           selectSensor.appendChild(option);
         }
 
- let intervaloMaxMin;
+        let intervaloMaxMin;
+        let intervaloContarAlertas;
         selectSensor.onchange = () => {
           const fksensor = selectSensor.value;
           console.log(fksensor)
@@ -216,6 +217,11 @@
 
               if (intervaloMaxMin) clearInterval(intervaloMaxMin);
               intervaloMaxMin = setInterval(() => maxMin(fksensor), 15000);
+
+              obterAlertas(fksensor)
+              if (intervaloContarAlertas) clearInterval(intervaloContarAlertas);
+              intervaloContarAlertas = setInterval(() => obterAlertas(fksensor), 15000);
+
               plotargrafico1(fksensor);
               calcularEstatisticasGrafico2(data);
             })
@@ -371,8 +377,35 @@
           alert("Não possui dados para a kpi");
           return;
         }
-        picos.innerText = `${data[0].maior}/${data[0].menor}`
+
+        if (data[0].maior == null || data[0].menor == null) {
+          picos.innerText = `Nenhum dado registrado hoje.`
+          return;
+        } else {
+          picos.innerText = `${data[0].maior}/${data[0].menor}`
+        }
         console.log(data)
+      })
+      .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
+  }
+
+  function obterAlertas(fksensor) {
+    fetch(`/dash/contarAlertas/${fksensor}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(async res => {
+        const text = await res.text();
+        if (!text) throw new Error("Resposta vazia do servidor");
+        return JSON.parse(text);
+      })
+      .then(resultado => {
+        if (resultado.length === 0) {
+          alert("Não possui dados para a kpi");
+          return;
+        }
+        countAlerta.innerText = `${resultado[0].totalAlertas}`
+        console.log(resultado)
       })
       .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
   }
