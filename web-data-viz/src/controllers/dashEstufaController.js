@@ -35,7 +35,7 @@ function listarSensores(req, res){
 }
 
 function sensorMinMax(req, res) {
-    var fkSensor = req.params.fksensor; 
+    const fkSensor = req.params.fksensor; 
 
     dashEstufaModel.sensorMinMax(fkSensor)
     .then((resultado) => {
@@ -47,6 +47,23 @@ function sensorMinMax(req, res) {
     }).catch(function (erro) {
         console.log(erro);
         console.log("Houve um erro ao buscar os dados do sensor: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+function contarAlertas(req, res) {
+    const fkSensor = req.params.fksensor;
+
+    dashEstufaModel.contarAlertas(fkSensor)
+    .then((resultado) => {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado[0]);
+        } else {
+            res.status(200).json({ total_alertas: 0 });
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao contar os alertas: ", erro.sqlMessage);
         res.status(500).json(erro.sqlMessage);
     });
 }
@@ -79,6 +96,7 @@ module.exports={
     listarEstufas,
     listarSensores,
     sensorMinMax,
+    contarAlertas,
     plotargrf1,
     plotargrf2
 }
