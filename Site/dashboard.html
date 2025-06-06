@@ -14,7 +14,7 @@
 <body>
   <div class="flex-dash">
     <div id="header" class="header-dash">
-      <img src="../assets/Lux Berry 1.png" alt=""></a>
+      <a><img src="../assets/Lux Berry 1.png" alt=""></a>
       <div>
         <a href="alerta.html">Alertas</a>
         <a href="notificacoes-dash.html">Histórico</a>
@@ -102,24 +102,41 @@ function calcularPicos(linha) {
   return `${buscarMaior(linha)} / ${buscarMenor(linha)}`;
 }
 
-fetch("/dashEstufa/sensorMinMax", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ fkSensor: 1 })
-})
-.then(res => res.json())
-.then(data => {
-  const linhaEstufa1API = (data.estufa1 && data.estufa1.linha) || [];
-  const linhaEstufa2API = (data.estufa2 && data.estufa2.linha) || [];
 
-  dadosEstufas["1"].linha = linhaEstufa1API;
-  dadosEstufas["2"].linha = linhaEstufa2API;
+  fetch(`/dashEstufa/contarAlertas`,{
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fkSensor: 1 })
+  })
+    .then(res => res.json())
+    .then(dados => {
+      const total = dados.total_alertas || 0;
+      document.getElementById("alertas").innerText = total;
+    })
+    .catch(err => {
+      console.error("Erro ao buscar alertas:", err);
+      document.getElementById("alertas").innerText = "--";
+      atualizarDashboard();
+    });
 
-  dadosEstufas["1"].picos = calcularPicos(linhaEstufa1API);
-  dadosEstufas["2"].picos = calcularPicos(linhaEstufa2API);
+    fetch("/dashEstufa/sensorMinMax", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fkSensor: 1 })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const linhaEstufa1API = (data.estufa1 && data.estufa1.linha) || [];
+      const linhaEstufa2API = (data.estufa2 && data.estufa2.linha) || [];
 
-  atualizarDashboard();
-});
+      dadosEstufas["1"].linha = linhaEstufa1API;
+      dadosEstufas["2"].linha = linhaEstufa2API;
+
+      dadosEstufas["1"].picos = calcularPicos(linhaEstufa1API);
+      dadosEstufas["2"].picos = calcularPicos(linhaEstufa2API);
+
+      atualizarDashboard();
+    });
 
     const dadosSensor = {
       '1': {
@@ -290,6 +307,7 @@ fetch("/dashEstufa/sensorMinMax", {
         dados = dadosEstufas[estufa];
       }
 
+
       if (dados) {
         grafico1.data.datasets[0].data = dados.linha;
         grafico2.data.datasets[0].data = dados.barras;
@@ -303,6 +321,7 @@ fetch("/dashEstufa/sensorMinMax", {
         grafico2.update();
       }
     }
+
 
     ipt_estufaSelect.addEventListener('change', atualizarDashboard);
     ipt_sensorSelect.addEventListener('change', atualizarDashboard);
