@@ -14,7 +14,7 @@ router.get("/grafico/:fksensor",function(req,res) {
     dashEstufaController.plotargrf1(req,res)
 })
 
-router.get("/graficoMedia", function(req,res){
+router.get("/graficoMedia/:fksensor", function(req,res){
     dashEstufaController.plotargrf2(req,res)
 })
 
@@ -25,5 +25,6 @@ router.get("/sensorMinMax/:fksensor", function(req,res){
 router.get("/contarAlertas/:fksensor", function(req,res){
     dashEstufaController.contarAlertas(req,res);
 })
+
 
 module.exports = router;

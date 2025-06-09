@@ -88,7 +88,20 @@ dashEstufaModel.plotargrf1(fksensor)
 }
 
 function plotargrf2(req,res){
+    const fkSensor=req.params.fksensor;
 
+    dashEstufaModel.plotargrf2(fkSensor)
+     .then(result=>{
+        if (result.length > 0) {
+                res.status(200).json(result);
+            } else {
+                res.status(204).send("Nenhum sensor encontrado.");
+            }
+    })
+    .catch(erro => {
+            console.error("Erro ao buscar sensores:", erro);
+            res.status(500).json(erro);
+        });
 }
 
 

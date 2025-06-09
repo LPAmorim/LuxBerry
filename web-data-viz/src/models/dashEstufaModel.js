@@ -1,5 +1,4 @@
 var database = require("../database/config");
-const { plotargrf2 } = require("../controllers/dashEstufaController");
 
 
 function listarEstufas(fkempresa) {
@@ -55,14 +54,25 @@ function plotargrf1(fksensor) {
     dataRegistro
     from dadosSensor
     where fkSensor = ${fksensor}
+    order by dataRegistro desc
+    LIMIT 10
     `
 
     return database.executar(instrucaoSql);
+};
+
+function plotargrf2(fkSensor){
+const instrucaoSql=`
+select DATE(dataRegistro) as dia,
+round(avg(luzRegistrado),2) as media,
+round(STDDEV(luzRegistrado),2) as desvioPadrao 
+from dadosSensor where fkSensor = ${fkSensor}  group by dia 
+order by dia
+LIMIT 10;
+`
+return database.executar(instrucaoSql);
+
 }
-
-// function plotargrf2(){
-
-// }
 
 module.exports = {
     listarEstufas,

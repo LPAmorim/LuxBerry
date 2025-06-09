@@ -123,7 +123,7 @@
   grafico2 = new Chart(ctx2, {
     type: 'bar',
     data: {
-labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+      labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
       datasets: [
         {
           label: 'Luminosidade média',
@@ -184,6 +184,7 @@ labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
       .catch(err => console.error("Erro ao carregar estufas:", err));
   };
 
+  let data2 = [];
   function buscarSensores(fkEstufa) {
     fetch(`/dash/sensor/${fkEstufa}`)
       .then(res => res.json())
@@ -207,6 +208,7 @@ labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
 
         let intervaloMaxMin;
         let intervaloContarAlertas;
+        
         selectSensor.onchange = () => {
           const fksensor = selectSensor.value;
           console.log(fksensor)
@@ -223,83 +225,83 @@ labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
               intervaloContarAlertas = setInterval(() => obterAlertas(fksensor), 15000);
 
               plotargrafico1(fksensor);
-              calcularEstatisticasGrafico2(data);
+              calcularEstatisticasGrafico2(fksensor); 
+
+             
             })
-            .catch(err => console.error("Erro ao buscar dados para gráfico 2:", err));
-        };
 
-      })
-      .catch(err => console.error("Erro ao carregar sensores:", err));
+  }})
+      .catch (err => console.error("Erro ao carregar sensores:", err));
   }
 
-  var paginacaoGrafico1 = {};
-  var tempoGrafico1 = {};
-  let intervaloGrafico1;
+ var intervaloGrafico1;
+var historicoDados = [];
+var ultimoTimestamp = null;
 
-  function plotargrafico1(fksensor) {
-    fetch(`/dash/grafico/${fksensor}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
+function plotargrafico1(fksensor) {
+  fetch(`/dash/grafico/${fksensor}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+    .then(async res => {
+      const text = await res.text();
+      if (!text) throw new Error("Resposta vazia do servidor");
+      return JSON.parse(text);
     })
-      .then(async res => {
-        const text = await res.text();
-        if (!text) throw new Error("Resposta vazia do servidor");
-        return JSON.parse(text);
-      })
-      .then(data => {
-        if (data.length === 0) {
-          alert("Não possui dados para a dashboard");
-          grafico1.data.labels = [];
-          grafico1.data.datasets[0].data = [];
-          grafico1.update();
-          return;
+    .then(data => {
+      if (data.length === 0) {
+        alert("Não possui dados para a dashboard");
+        grafico1.data.labels = [];
+        grafico1.data.datasets[0].data = [];
+        grafico1.update();
+        return;
+      }
+
+      data.reverse(); 
+
+      for (let item of data) {
+        let timestamp = new Date(item.dataRegistro).getTime();
+        if (!historicoDados.some(d => new Date(d.dataRegistro).getTime() === timestamp)) {
+          historicoDados.push(item);
         }
-        tempo(data)
+      }
 
-        if (paginacaoGrafico1[fksensor] == null) paginacaoGrafico1[fksensor] = 0;
-        if (tempoGrafico1[fksensor] == null) tempoGrafico1[fksensor] = 0;
+      const ultimos10 = historicoDados.slice(-10);
 
-        let ultimaPaginacao = paginacaoGrafico1[fksensor];
-        paginacaoGrafico1[fksensor] = data.length;
+      grafico1.data.labels = ultimos10.map(d => new Date(d.dataRegistro).toLocaleTimeString());
+      grafico1.data.datasets[0].data = ultimos10.map(d => parseFloat(d.luzRegistrado));
+      grafico1.update();
 
-        let novosDados = data.slice(ultimaPaginacao);
+      tempo(historicoDados);
 
-        for (let i = 0; i < novosDados.length; i++) {
-          let item = novosDados[i];
-          let horario = new Date(item.dataRegistro).toTimeString().split(' ')[0];
-          let lux = parseFloat(item.luzRegistrado);
+      if (intervaloGrafico1) clearInterval(intervaloGrafico1);
+      intervaloGrafico1 = setInterval(() => plotargrafico1(fksensor), 20000);
+    })
+    .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
+}
 
-          if (grafico1.data.labels.length === 10 && grafico1.data.datasets[0].data.length === 10) {
-            grafico1.data.labels.shift();
-            grafico1.data.datasets[0].data.shift();
-          }
-
-          grafico1.data.labels.push(horario);
-          grafico1.data.datasets[0].data.push(lux);
-          tempoGrafico1[fksensor]++;
-          grafico1.update();
-        }
-
-        if (intervaloGrafico1) clearInterval(intervaloGrafico1);
-        intervaloGrafico1 = setInterval(() => plotargrafico1(fksensor), 20000);
-
-      })
-      .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
-  }
-
-
-  function calcularEstatisticasGrafico2(dados) {
+let grafico2dados;
+function calcularEstatisticasGrafico2(fksensor) {
+  fetch(`/dash/graficoMedia/${fksensor}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.json())
+  .then(dados => {
     const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     const mapaDias = [[], [], [], [], [], [], []];
 
     for (let i = 0; i < dados.length; i++) {
       const item = dados[i];
-      const data = new Date(item.dataRegistro);
-      const diaSemana = data.getDay();
-      mapaDias[diaSemana].push(parseFloat(item.luzRegistrado));
+      const data = new Date(item.dia);
+      const diaSemana = data.getDay(); 
+      mapaDias[diaSemana].push({
+        media: parseFloat(item.media),
+        desvio: parseFloat(item.desvioPadrao)
+      });
     }
 
-    const medias = [];
+    const medias = [];  
     const desvios = [];
 
     for (let i = 0; i < 7; i++) {
@@ -307,27 +309,31 @@ labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
       if (valores.length === 0) {
         medias.push(0);
         desvios.push(0);
-        continue;
+      } else {
+        const somaMedia = valores.reduce((acumulador, valorAtual) => acumulador + valorAtual.media, 0);
+        const somaDesvio = valores.reduce((acumulador, valorAtual) => acumulador + valorAtual.desvio, 0);
+        medias.push((somaMedia / valores.length).toFixed(2));
+        desvios.push((somaDesvio / valores.length).toFixed(2));
       }
-
-      const media = valores.reduce((acc, val) => acc + val, 0) / valores.length;
-      const variancia = valores.reduce((acc, val) => acc + Math.pow(val - media, 2), 0) / valores.length;
-      const desvio = Math.sqrt(variancia);
-
-      medias.push(media.toFixed(2));
-      desvios.push(desvio.toFixed(2));
     }
 
     console.log("Médias calculadas:", medias);
     console.log("Desvios calculados:", desvios);
 
+    grafico2.data.labels = dias;
     grafico2.data.datasets[0].data = medias;
     grafico2.data.datasets[1].data = desvios;
     grafico2.update();
 
+    if (grafico2dados) clearInterval(grafico2dados);
+        grafico2dados = setInterval(() => calcularEstatisticasGrafico2(fksensor), 20000);
 
-  }
-  setInterval(() => calcularEstatisticasGrafico2(data), 20000);
+  })
+  .catch(err => {
+    console.error("Erro ao calcular estatísticas:", err);
+  });
+}
+
 
 
   var indice = 0
