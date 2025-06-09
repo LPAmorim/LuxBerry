@@ -123,7 +123,7 @@
   grafico2 = new Chart(ctx2, {
     type: 'bar',
     data: {
-      labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+labels: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
       datasets: [
         {
           label: 'Luminosidade média',
@@ -286,17 +286,18 @@
       })
       .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
   }
-  
+
 
   function calcularEstatisticasGrafico2(dados) {
     const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     const mapaDias = [[], [], [], [], [], [], []];
 
-    dados.forEach(item => {
+    for (let i = 0; i < dados.length; i++) {
+      const item = dados[i];
       const data = new Date(item.dataRegistro);
       const diaSemana = data.getDay();
       mapaDias[diaSemana].push(parseFloat(item.luzRegistrado));
-    });
+    }
 
     const medias = [];
     const desvios = [];
@@ -324,9 +325,10 @@
     grafico2.data.datasets[1].data = desvios;
     grafico2.update();
 
-    setInterval(() => calcularEstatisticasGrafico2(data), 20000);
 
   }
+  setInterval(() => calcularEstatisticasGrafico2(data), 20000);
+
 
   var indice = 0
   var tempoForaAtual = 0
