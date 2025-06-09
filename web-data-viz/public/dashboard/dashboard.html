@@ -234,6 +234,7 @@
 
   var paginacaoGrafico1 = {};
   var tempoGrafico1 = {};
+  let intervaloGrafico1;
 
   function plotargrafico1(fksensor) {
     fetch(`/dash/grafico/${fksensor}`, {
@@ -278,11 +279,14 @@
           tempoGrafico1[fksensor]++;
           grafico1.update();
         }
-        setInterval(() => plotargrafico1(fksensor), 20000);
+
+        if (intervaloGrafico1) clearInterval(intervaloGrafico1);
+        intervaloGrafico1 = setInterval(() => plotargrafico1(fksensor), 20000);
 
       })
       .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
   }
+  
 
   function calcularEstatisticasGrafico2(dados) {
     const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -409,9 +413,6 @@
       })
       .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
   }
-
-  setInterval(obterdados, 1000);
-
 
 </script>
 
