@@ -531,7 +531,8 @@ html {
 }
 
 .header-dash p>span {
-    color: black;
+    color: white;
+    font-weight: bolder;
 }
 
 .header-dash div {
@@ -598,6 +599,7 @@ html {
     display: flex;
     gap: 16px;
 }
+
 .div-kpi1-2 {
     display: flex;
     width: 100%;
@@ -742,8 +744,8 @@ html {
 .card-aquario {
     width: 200px;
     height: 200px;
-    background-color: #f9f9f9;
-    border: 2px solid black;
+    background-color: #f5f4f4;
+    border: 1.5px solid black;
     border-radius: 12px;
     padding: 16px;
     text-align: center;
@@ -773,16 +775,21 @@ html {
 }
 
 .item-regua.perigo-Baixo {
-    background-color: #5353b8;
+    background-color: #ce0c16;
+    border-radius: 20px;
 }
 
 .item-regua.ideal {
     background-color: green;
+    border-radius: 20px;
+
 }
 
 .item-regua.perigo-Alto {
     background-color: #ce0c16;
+    border-radius: 20px;
 }
+
 /* ==== FIM DO CSS USADO NO DASH ==== */
 
 /* BOB */
@@ -894,6 +901,7 @@ html {
     font-size: 20px;
     transition: 0.2s;
 }
+
 .button-suporte:hover {
     background-color: #608c26;
     cursor: pointer;
@@ -928,12 +936,15 @@ html {
     align-content: center;
     position: relative;
 }
+
 .alerta:hover {
     cursor: pointer;
 }
+
 .alerta div {
     font-weight: bolder;
 }
+
 .alerta svg {
     position: absolute;
     top: 0;
