@@ -2,13 +2,13 @@ var database = require("../database/config")
 
 function buscarAlertas(fkEmp) {
 
-    var instrucaoSql = `select idalerta, tipo_alerta, data_hora, fksensor, estufa.nome from alerta
-        inner join dadosSensor on fk_registro = iddadossensor
-        inner join sensoreslum on fkEstufa = fksensor
-        inner join estufa on fkEstufa = idEstufa
-        where fkempresa = 1
+    var instrucaoSql = `select a.idalerta, a.tipo_alerta, date_format(a.data_hora, '%d/%m/%Y' ' %H:%i:%s') as dataFormatada, d.fksensor, e.nome from alerta a
+        inner join dadosSensor d on fk_registro = iddadossensor
+        inner join sensoreslum s on d.fkSensor = s.idsensores
+        inner join estufa e on fkEstufa = idEstufa
+        where fkempresa = ${fkEmp}
         order by data_hora desc
-        limit 1`;
+        limit 1;`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

@@ -56,6 +56,7 @@
           </div>
         </div>
       </div>
+      <div id="alertas"></div>
     </div>
   </div>
 </body>
@@ -151,12 +152,9 @@
   });
 
 
-
-
-
+  const fkempresa = sessionStorage.getItem("FK_EMPRESA");
   window.onload = () => {
     validarSessao();
-    const fkempresa = sessionStorage.getItem("FK_EMPRESA");
     validarHeaderDash()
 
     fetch(`/dash/estufa/${fkempresa}`)
@@ -179,10 +177,33 @@
         selectEstufa.addEventListener("change", () => {
           const fkEstufa = selectEstufa.value;
           buscarSensores(fkEstufa);
+
+          historicoDados = [];
+          indice = 0;
+          tempoForaAtual = 0;
+          InicioFora = null;
+
+          grafico1.data.labels = [];
+          grafico1.data.datasets[0].data = [];
+          grafico1.update();
+
+          grafico2.data.datasets[0].data = [];
+          grafico2.data.datasets[1].data = [];
+          grafico2.update();
+
+          if (intervaloGrafico1) {
+            clearInterval(intervaloGrafico1);
+            intervaloGrafico1 = null;
+          }
+          if (grafico2dados) {
+            clearInterval(grafico2dados);
+            grafico2dados = null;
+          }
         });
       })
       .catch(err => console.error("Erro ao carregar estufas:", err));
   };
+
 
   let data2 = [];
   function buscarSensores(fkEstufa) {
@@ -211,6 +232,29 @@
 
         selectSensor.onchange = () => {
           const fksensor = selectSensor.value;
+
+          historicoDados = [];
+          indice = 0;
+          tempoForaAtual = 0;
+          InicioFora = null;
+
+          grafico1.data.labels = [];
+          grafico1.data.datasets[0].data = [];
+          grafico1.update();
+
+          grafico2.data.datasets[0].data = [];
+          grafico2.data.datasets[1].data = [];
+          grafico2.update();
+
+          if (intervaloGrafico1) {
+            clearInterval(intervaloGrafico1);
+            intervaloGrafico1 = null;
+          }
+          if (grafico2dados) {
+            clearInterval(grafico2dados);
+            grafico2dados = null;
+          }
+
           console.log(fksensor)
           fetch(`/dash/grafico/${fksensor}`)
             .then(res => res.json())
@@ -423,7 +467,7 @@
       .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
   }
 
-  setInterval(obterdados, 1000);
+setInterval(() => obterdados(fkempresa), 1000);
 
 </script>
 

@@ -21,7 +21,7 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.32.150',
+            host: 'localhost',
             user: 'luxberry_api',
             password: 'Morango@123',
             database: 'luxberry',
@@ -73,7 +73,7 @@ const serial = async (
             try {
                 // insere na tabela dadosSensor
                 const resultadoInsert = await poolBancoDados.execute(
-                    'INSERT INTO dadosSensor (luzRegistrado, statusRegistro, fkSensor) VALUES (?, ?, 1)',
+                    'INSERT INTO dadosSensor (luzRegistrado, statusRegistro, fkSensor) VALUES (?, ?, 61)',
                     [sensorAnalogico, limites]
                 );
 

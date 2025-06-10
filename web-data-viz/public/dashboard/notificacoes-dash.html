@@ -38,6 +38,8 @@
 
       </div>
     </div>
+    <div id="alertas"></div>
+
   </div>
 </body>
 
@@ -57,9 +59,9 @@
       return;
     }
 
-      listaAlertas.forEach(a => {
-        
-        alerta.innerHTML += ` 
+    listaAlertas.forEach(a => {
+
+      alerta.innerHTML += ` 
           <div class="cards-alertas">
             <p>Alerta de ${a.tipo_alerta}</p>
             <div class="cards-alertas-infos">
@@ -83,10 +85,10 @@
 
 
 
+  const fkempresa = sessionStorage.getItem("FK_EMPRESA");
   window.onload = () => {
     validarSessao();
     validarHeaderDash();
-    const fkempresa = sessionStorage.getItem("FK_EMPRESA");
     const alerta = document.getElementById("alerta");
     // Função para mostrar os alertas no HTML
     fetch(`/historico/estufa/${fkempresa}`)
@@ -145,6 +147,7 @@
       });
   }
 
-    setInterval(obterdados, 1000);
+  setInterval(() => obterdados(fkempresa), 1000);
+  setInterval(() => puxarHistoricoInteiro(fkempresa), 15000);
 
 </script>
