@@ -702,11 +702,12 @@ html {
 }
 
 .titulo-legenda {
-    background-color: black;
+    background-color: #3B4F3B;
     color: white;
     font-weight: 600;
     padding: 8px 16px;
     margin-bottom: 10px;
+    border-radius: 10px;
 }
 
 .parametros-alerta {
@@ -776,18 +777,18 @@ html {
 
 .item-regua.perigo-Baixo {
     background-color: #ce0c16;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .item-regua.ideal {
-    background-color: green;
-    border-radius: 20px;
+    background-color: #77ae2f;
+    border-radius: 10px;
 
 }
 
 .item-regua.perigo-Alto {
     background-color: #ce0c16;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /* ==== FIM DO CSS USADO NO DASH ==== */
