@@ -45,6 +45,12 @@
 <script src="../js/sessao.js"></script>
 <script src="../js/alerta.js"></script>
 <script>
+<<<<<<< HEAD
+  user_logado.innerHTML = "xxxx"
+
+ function exibirAlertas(listaAlertas) {
+    alerta.innerHTML = ""; 
+=======
   function formatarData(dataISO) {
     const data = new Date(dataISO);
 
@@ -60,15 +66,22 @@
 
   function exibirAlertas(listaAlertas) {
     alerta.innerHTML = "";
+>>>>>>> eba0c20420e722e1a1934d6558f320949a6f0378
 
     if (!listaAlertas || listaAlertas.length === 0) {
       alerta.innerHTML = "<p>Sem alertas encontrados.</p>";  // mensagem quando não tem alertas
       return;
     }
 
+<<<<<<< HEAD
+      listaAlertas.forEach(a => {
+        
+        alerta.innerHTML += ` 
+=======
     listaAlertas.forEach(a => {
       const dataFormatada = formatarData(a.data_hora);
       alerta.innerHTML += ` 
+>>>>>>> eba0c20420e722e1a1934d6558f320949a6f0378
           <div class="cards-alertas">
             <p>Alerta de ${a.tipo_alerta}</p>
             <div class="cards-alertas-infos">
@@ -82,7 +95,7 @@
                 </div>
                 <div class="traco"></div>
                 <div class="card-bloco1">
-                  <p>${dataFormatada}</p>
+                  <p>${a.dataFormatada}</p>
                 </div>
               </div>
             </div>
