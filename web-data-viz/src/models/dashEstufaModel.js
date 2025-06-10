@@ -55,7 +55,6 @@ function plotargrf1(fksensor) {
     from dadosSensor
     where fkSensor = ${fksensor}
     order by dataRegistro desc
-    LIMIT 10
     `
 
     return database.executar(instrucaoSql);

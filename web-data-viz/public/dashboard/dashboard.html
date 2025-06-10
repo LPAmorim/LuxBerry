@@ -317,6 +317,7 @@
         grafico1.data.datasets[0].data = ultimos10.map(d => parseFloat(d.luzRegistrado));
         grafico1.update();
 
+        console.log("interação da função tempo")
         tempo(historicoDados);
 
         if (intervaloGrafico1) clearInterval(intervaloGrafico1);
@@ -395,7 +396,8 @@
   }
 
   function tempo(resultado) {
-    for (let i = indice + 1; i < resultado.length; i++) {
+    console.log(indice)
+    for (let i = indice; i < resultado.length; i++) {
       if (resultado[i].luzRegistrado > 800 && resultado[i].luzRegistrado < 1500) {
         indice = i
         tempoForaAtual = 0
@@ -413,7 +415,8 @@
           indice = i
         }
       }
-
+      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+      const tempoIdeal = document.getElementById('tempoIdeal')
       tempoIdeal.innerText = formatarTempo(tempoForaAtual)
     }
   }
@@ -467,7 +470,7 @@
       .catch(err => console.error("Erro ao carregar dados do gráfico:", err));
   }
 
-setInterval(() => obterdados(fkempresa), 1000);
+  setInterval(() => obterdados(fkempresa), 1000);
 
 </script>
 
