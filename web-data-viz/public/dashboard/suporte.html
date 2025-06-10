@@ -17,7 +17,8 @@
                 <a href="../index.html" style="color: red;">Sair</a>
             </div>
         </div>
-        <div id="container" class="container-geral" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div id="container" class="container-geral"
+            style="display: flex; flex-direction: column; justify-content: space-between;">
             <div class="container-button-bot" id="containerButton">
                 <div class="button-bot" onclick="abrirBob()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
@@ -51,6 +52,7 @@
     </div>
 </body>
 <script src="../js/sessao.js"></script>
+<script src="../js/alerta.js"></script>
 <script>
     window.onload = () => {
         validarSessao();
@@ -86,6 +88,8 @@
         resposta.style.display = 'flex';
         document.getElementById('resposta').innerText = data.resultado;
     }
+
+    setInterval(obterdados, 1000);
 
 </script>
 
