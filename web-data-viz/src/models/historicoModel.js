@@ -17,7 +17,7 @@ function puxarHistoricoInteiro(fkempresa){
     select a.tipo_alerta,
         est.nome,
         sen.idsensores,
-        a.data_hora
+        date_format(a.data_hora, '%d/%m/%Y' ' %H:%i:%s') as dataFormatada
     from alerta a
     join dadosSensor ds on a.fk_registro = ds.iddadossensor
     join sensoreslum sen on ds.fkSensor = sen.idsensores
@@ -34,7 +34,7 @@ function puxarHistoricoPorEstufa(fkEstufa){
     select a.tipo_alerta,
         est.nome,
         sen.idsensores,
-        a.data_hora
+        date_format(a.data_hora, '%d/%m/%Y' ' %H:%i:%s') as dataFormatada
     from alerta a
     join dadosSensor ds on a.fk_registro = ds.iddadossensor
     join sensoreslum sen on ds.fkSensor = sen.idsensores
