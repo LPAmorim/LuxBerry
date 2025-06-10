@@ -45,43 +45,21 @@
 <script src="../js/sessao.js"></script>
 <script src="../js/alerta.js"></script>
 <script>
-<<<<<<< HEAD
+
   user_logado.innerHTML = "xxxx"
 
- function exibirAlertas(listaAlertas) {
-    alerta.innerHTML = ""; 
-=======
-  function formatarData(dataISO) {
-    const data = new Date(dataISO);
-
-    const dia = data.getDate().toString().padStart(2, '0');
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-    const ano = data.getFullYear();
-    const hora = data.getHours().toString().padStart(2, '0');
-    const minuto = data.getMinutes().toString().padStart(2, '0');
-    const segundo = data.getSeconds().toString().padStart(2, '0');
-
-    return `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
-  }
 
   function exibirAlertas(listaAlertas) {
     alerta.innerHTML = "";
->>>>>>> eba0c20420e722e1a1934d6558f320949a6f0378
 
     if (!listaAlertas || listaAlertas.length === 0) {
       alerta.innerHTML = "<p>Sem alertas encontrados.</p>";  // mensagem quando não tem alertas
       return;
     }
 
-<<<<<<< HEAD
       listaAlertas.forEach(a => {
         
         alerta.innerHTML += ` 
-=======
-    listaAlertas.forEach(a => {
-      const dataFormatada = formatarData(a.data_hora);
-      alerta.innerHTML += ` 
->>>>>>> eba0c20420e722e1a1934d6558f320949a6f0378
           <div class="cards-alertas">
             <p>Alerta de ${a.tipo_alerta}</p>
             <div class="cards-alertas-infos">
