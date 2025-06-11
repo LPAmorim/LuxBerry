@@ -2,7 +2,7 @@ var database = require("../database/config")
 
 function buscarInfoDash(fkEmp) {
 
-    var instrucaoSql = `select fkSensor as sensor, luzRegistrado lux, idEstufa, estufa.nome, max(dataRegistro) from sensoreslum
+    var instrucaoSql = `select sensoreslum.nome as nomeSens, fkSensor as sensor, luzRegistrado lux, idEstufa, estufa.nome, max(dataRegistro) from sensoreslum
 inner join dadosSensor on fkSensor = idsensores
 inner join estufa on fkEstufa = idEstufa
 where fkEmpresa = ${fkEmp}

@@ -98,11 +98,6 @@
 
 
     for (let i = 0; i < estufas.length; i++) {
-      if (!sensorCountPorEstufa[estufas[i].idEstufa]) {
-        sensorCountPorEstufa[estufas[i].idEstufa] = 1;
-      } else {
-        sensorCountPorEstufa[estufas[i].idEstufa]++;
-      }
 
       const sensorNum = sensorCountPorEstufa[estufas[i].idEstufa];
       let corAlerta = "";
@@ -117,7 +112,7 @@
       container.innerHTML += `
       <div class="card-aquario">
         <div class="title-aquario">
-          <h1>${estufas[i].nome} - Sensor ${sensorNum}</h1>
+          <h1>${estufas[i].nome} - ${estufas[i].nomeSens}</h1>
         </div>
         <div class="desc-aquario">
           <div class="temperatura">

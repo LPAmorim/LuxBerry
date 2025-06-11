@@ -227,9 +227,6 @@
           selectSensor.appendChild(option);
         }
 
-        let intervaloMaxMin;
-        let intervaloContarAlertas;
-
         selectSensor.onchange = () => {
           const fksensor = selectSensor.value;
 
@@ -282,6 +279,8 @@
   var intervaloGrafico1;
   var historicoDados = [];
   var ultimoTimestamp = null;
+  let intervaloMaxMin;
+  let intervaloContarAlertas;
 
   function plotargrafico1(fksensor) {
     fetch(`/dash/grafico/${fksensor}`, {
@@ -335,36 +334,16 @@
       .then(res => res.json())
       .then(dados => {
         const dias = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-        const mapaDias = [[], [], [], [], [], [], []];
+        const medias = [0, 0, 0, 0, 0, 0, 0];
+        const desvios = [0, 0, 0, 0, 0, 0, 0];
 
         for (let i = 0; i < dados.length; i++) {
           const item = dados[i];
           const data = new Date(item.dia);
           const diaSemana = data.getDay();
-          mapaDias[diaSemana].push({
-            media: parseFloat(item.media),
-            desvio: parseFloat(item.desvioPadrao)
-          });
+          medias[diaSemana] = parseFloat(item.media);
+          desvios[diaSemana] = parseFloat(item.desvioPadrao);
         }
-
-        const medias = [];
-        const desvios = [];
-
-        for (let i = 0; i < 7; i++) {
-          const valores = mapaDias[i];
-          if (valores.length === 0) {
-            medias.push(0);
-            desvios.push(0);
-          } else {
-            const somaMedia = valores.reduce((acumulador, valorAtual) => acumulador + valorAtual.media, 0);
-            const somaDesvio = valores.reduce((acumulador, valorAtual) => acumulador + valorAtual.desvio, 0);
-            medias.push((somaMedia / valores.length).toFixed(2));
-            desvios.push((somaDesvio / valores.length).toFixed(2));
-          }
-        }
-
-        console.log("Médias calculadas:", medias);
-        console.log("Desvios calculados:", desvios);
 
         grafico2.data.labels = dias;
         grafico2.data.datasets[0].data = medias;
@@ -373,14 +352,11 @@
 
         if (grafico2dados) clearInterval(grafico2dados);
         grafico2dados = setInterval(() => calcularEstatisticasGrafico2(fksensor), 20000);
-
       })
       .catch(err => {
         console.error("Erro ao calcular estatísticas:", err);
       });
   }
-
-
 
   var indice = 0
   var tempoForaAtual = 0
@@ -415,7 +391,6 @@
           indice = i
         }
       }
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
       const tempoIdeal = document.getElementById('tempoIdeal')
       tempoIdeal.innerText = formatarTempo(tempoForaAtual)
     }

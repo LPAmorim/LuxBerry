@@ -44,7 +44,7 @@ function contarAlertas(fkSensor) {
         where d.fkSensor = ${fkSensor}
         and DATE(a.data_hora) = CURDATE();
     `;
-   return database.executar(instrucaoSql, [fkSensor]);
+    return database.executar(instrucaoSql, [fkSensor]);
 }
 
 
@@ -60,16 +60,17 @@ function plotargrf1(fksensor) {
     return database.executar(instrucaoSql);
 };
 
-function plotargrf2(fkSensor){
-const instrucaoSql=`
+function plotargrf2(fkSensor) {
+    const instrucaoSql = `
 select DATE(dataRegistro) as dia,
 round(avg(luzRegistrado),2) as media,
 round(STDDEV(luzRegistrado),2) as desvioPadrao 
-from dadosSensor where fkSensor = ${fkSensor}  group by dia 
-order by dia
-LIMIT 10;
+from dadosSensor where fkSensor = ${fkSensor} 
+  AND YEARWEEK(dataRegistro, 1) = YEARWEEK(CURDATE(), 1)  -- filtra semana atual
+group by dia 
+order by dia;
 `
-return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql);
 
 }
 
