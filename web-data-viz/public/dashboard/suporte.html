@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div style="justify-content: center; display: flex; width: 100%;">
-                <a href=#" class="button-suporte">Acessar a central de suporte</a>
+                <a href="https://id.atlassian.com/login?continue=https%3A%2F%2Fhome.atlassian.com%2F&application=atlas" class="button-suporte">Acessar a central de suporte</a>
             </div>
             <div class="bot" id="bob">
                 <h1>BobIA</h1>
@@ -52,7 +52,6 @@
     </div>
 </body>
 <script src="../js/sessao.js"></script>
-<script src="../js/alerta.js"></script>
 <script>
     window.onload = () => {
         validarSessao();
@@ -88,8 +87,6 @@
         resposta.style.display = 'flex';
         document.getElementById('resposta').innerText = data.resultado;
     }
-
-    setInterval(obterdados, 1000);
 
 </script>
 

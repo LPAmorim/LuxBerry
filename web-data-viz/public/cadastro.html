@@ -54,7 +54,13 @@
         </div>
     </div>
 </body>
+<script src="../js/sessao.js"></script>
 <script>
+    window.onload = () => {
+        validarSessao();
+        validarHeaderDash();
+    }
+  
     function cadastrar() {
         var nome = ipt_nome.value
         var sobreN = ipt_sobrenome.value
